@@ -10,6 +10,7 @@ import { HBox, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { formatScientific } from "../../common/model/formatting.js";
 import type { Particle } from "../../common/model/particleCatalog.js";
 import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
+import { richSymbol } from "../../common/view/richSymbol.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
@@ -50,7 +51,10 @@ export class HadronResultPanel extends ParticleZooPanel {
       return new HBox({
         spacing: 14,
         children: [
-          new Text(particle.symbol, { font: "bold 40px serif", fill: ParticleZooColors.highlightProperty }),
+          new RichText(richSymbol(particle.symbol), {
+            font: "bold 40px serif",
+            fill: ParticleZooColors.highlightProperty,
+          }),
           new VBox({
             align: "left",
             spacing: 2,

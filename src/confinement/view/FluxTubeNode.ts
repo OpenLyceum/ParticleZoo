@@ -58,7 +58,9 @@ export class FluxTubeNode extends Node {
       const [qFlavor, aqFlavor] = PRESET_CONTENT[preset];
       quarkBall.dispose();
       antiquarkBall.interruptSubtreeInput();
-      antiquarkBall.removeInputListener(dragListener);
+      if (antiquarkBall.hasInputListener(dragListener)) {
+        antiquarkBall.removeInputListener(dragListener);
+      }
       antiquarkBall.dispose();
       quarkBall = ball(quark(qFlavor));
       antiquarkBall = ball(quark(aqFlavor, true));

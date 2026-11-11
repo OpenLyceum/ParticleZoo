@@ -5,7 +5,7 @@
  * bottom left, field-energy bar on the right, and the break report.
  */
 
-import { DerivedProperty, NumberProperty, PatternStringProperty } from "scenerystack/axon";
+import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
 import { Dimension2 } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Node, RichText, Text, VBox } from "scenerystack/scenery";
@@ -95,19 +95,9 @@ export class ConfinementScreenView extends ScreenView {
     });
 
     // ── separation slider (keyboard access to the drag) ──
-    const sliderProperty = new NumberProperty(model.separationProperty.value, { range: SEPARATION_RANGE });
-    let syncing = false;
-    sliderProperty.lazyLink((r) => {
-      if (!syncing) {
-        model.pull(r);
-      }
-    });
-    model.separationProperty.link((r) => {
-      syncing = true;
-      sliderProperty.value = r;
-      syncing = false;
-    });
-    const slider = new HSlider(sliderProperty, SEPARATION_RANGE, {
+    const slider = new HSlider(model.separationProperty, SEPARATION_RANGE, {
+      // Only the stretch before the break is reachable.
+      enabledRangeProperty: model.separationProperty.rangeProperty,
       ...PARTICLE_ZOO_SLIDER_OPTIONS,
       trackSize: new Dimension2(260, PARTICLE_ZOO_SLIDER_OPTIONS.trackSize.height),
       keyboardStep: 0.05,

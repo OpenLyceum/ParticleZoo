@@ -172,8 +172,21 @@ export const PARTICLES: readonly Particle[] = [
 
 const BY_ID = new Map(PARTICLES.map((p) => [p.id, p]));
 
+/** Readable aliases for antiparticles that have their own everyday names. */
+const ALIASES: Readonly<Record<string, string>> = {
+  "pi-": "anti-pi+",
+  "K-": "anti-K+",
+  "rho-": "anti-rho+",
+  "D-": "anti-D+",
+  "B-": "anti-B+",
+  "W-": "anti-W+",
+  "e+": "anti-e-",
+  "mu+": "anti-mu-",
+  "tau+": "anti-tau-",
+};
+
 export function particleById(id: string): Particle {
-  const particle = BY_ID.get(id);
+  const particle = BY_ID.get(ALIASES[id] ?? id);
   if (!particle) {
     throw new Error(`particleById: unknown particle ${id}`);
   }

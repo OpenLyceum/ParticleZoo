@@ -37,7 +37,8 @@ export class PredictionPanel extends ParticleZooPanel {
     // ── quark pickers ──
     const pickers = ([0, 1, 2] as const).map((slot) => {
       const flavor = new DerivedProperty([model.predictedQuarksProperty], (q) => q[slot]);
-      const holder = new Node();
+      // Filled before the button is built: an empty content node has no size.
+      const holder = new Node({ children: [new QuarkNode(quark(flavor.value), { radius: 18 })] });
       const button = new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         xMargin: 4,

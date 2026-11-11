@@ -98,21 +98,24 @@ export class ConfinementModel implements TModel {
       return mesonFor([quark(q), quark(aq, true)]);
     });
     this.presetProperty.lazyLink(() => this.rejoin());
-    this.coulombProperty.lazyLink(() => this.rejoin());
+    // The separation can never pass the breaking point: reaching it snaps the string.
+    this.coulombProperty.link((coulomb) => {
+      this.rejoin();
+      this.separationProperty.rangeProperty.value = new Range(SEPARATION_RANGE.min, breakingSeparation(coulomb));
+    });
+    this.separationProperty.lazyLink((r) => {
+      if (this.phaseProperty.value === "bound" && r >= this.separationProperty.range.max - 1e-9) {
+        this.snap();
+      }
+    });
   }
 
-  /** The student drags the antiquark: sets r, and snaps the string past threshold. */
+  /** The student drags the antiquark: sets r, clamped at the breaking point (which snaps the string). */
   public pull(separation: number): void {
     if (this.phaseProperty.value === "broken") {
       return;
     }
-    const breakAt = breakingSeparation(this.coulombProperty.value);
-    if (separation >= breakAt) {
-      this.separationProperty.value = Math.min(breakAt, SEPARATION_RANGE.max);
-      this.snap();
-    } else {
-      this.separationProperty.value = SEPARATION_RANGE.constrainValue(separation);
-    }
+    this.separationProperty.value = this.separationProperty.range.constrainValue(separation);
   }
 
   private snap(): void {

@@ -161,6 +161,11 @@ export class StringManager {
     return stringProperties.confinement;
   }
 
+  /** Visible strings for the Reaction Court screen. */
+  public getReactionCourtStrings() {
+    return stringProperties.reactionCourt;
+  }
+
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */

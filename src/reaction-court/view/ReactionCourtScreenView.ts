@@ -1,160 +1,218 @@
 /**
  * ReactionCourtScreenView.ts
  *
- * The top-level view for the simulation screen.
- *
- * All visual nodes are added here. Follow these conventions:
- *   - Use this.layoutBounds for positioning (never magic pixel values)
- *   - Keep a ResetAllButton that calls model.reset() and this.reset()
- *   - Override step(dt) for frame-by-frame animation
- *
- * ── Adding content ────────────────────────────────────────────────────────────
- * 1. Create Node subclasses in separate files (e.g. ParticleZooControlPanel.ts)
- * 2. Instantiate them here and call this.addChild(...)
- * 3. Link them to model properties:
- *      model.isRunningProperty.link( isRunning => { ... } );
- *
- * ── Layout bounds ─────────────────────────────────────────────────────────────
- * SceneryStack uses a virtual 1024×618 coordinate space by default.
- * this.layoutBounds gives you the full rectangle; use it for alignment:
- *   center, minX, maxX, minY, maxY, width, height
+ * Left: case menu, side switch, the reaction, and the palette (or the quark
+ * diagram). Right: the ledger and the verdict.
  */
 
+import { Property } from "scenerystack/axon";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
-import { Node, Rectangle, Text } from "scenerystack/scenery";
+import { HBox, Node, Text, VBox } from "scenerystack/scenery";
 import { ResetAllButton } from "scenerystack/scenery-phet";
 import { ScreenView, type ScreenViewOptions } from "scenerystack/sim";
-import { FLAT_RESET_ALL_BUTTON_OPTIONS } from "../../common/ParticleZooButtonOptions.js";
+import { AquaRadioButtonGroup, ComboBox, RectangularPushButton } from "scenerystack/sun";
+import {
+  FLAT_PANEL_PUSH_BUTTON_OPTIONS,
+  FLAT_RESET_ALL_BUTTON_OPTIONS,
+  LIGHT_SURFACE_TEXT_FILL,
+  PARTICLE_ZOO_COMBO_BOX_OPTIONS,
+} from "../../common/ParticleZooButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
 import { SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
-import type { ReactionCourtModel } from "../model/ReactionCourtModel.js";
+import { PRESETS, type ReactionCourtModel } from "../model/ReactionCourtModel.js";
+import { LedgerPanel } from "./LedgerPanel.js";
+import { ParticlePaletteNode } from "./ParticlePaletteNode.js";
 import { ReactionCourtScreenSummaryContent } from "./ReactionCourtScreenSummaryContent.js";
+import { ReactionEquationNode } from "./ReactionEquationNode.js";
+import { VerdictPanel } from "./VerdictPanel.js";
+import { VertexDiagramNode } from "./VertexDiagramNode.js";
+
+const RIGHT_WIDTH = 360;
+const FONT = "14px sans-serif";
 
 export type ReactionCourtScreenViewOptions = ScreenViewOptions;
 
 export class ReactionCourtScreenView extends ScreenView {
   public constructor(model: ReactionCourtModel, providedOptions?: ReactionCourtScreenViewOptions) {
-    // ── Accessibility: screen summary ───────────────────────────────────────────
-    // The screen summary is the first thing a screen-reader user encounters. It
-    // is registered here, in the ScreenView's super() options, so every sim wires
-    // it the same way. See ReactionCourtScreenSummaryContent for the four content regions.
     const options = optionize<ReactionCourtScreenViewOptions, EmptySelfOptions, ScreenViewOptions>()(
-      {
-        screenSummaryContent: new ReactionCourtScreenSummaryContent(model),
-      },
+      { screenSummaryContent: new ReactionCourtScreenSummaryContent(model) },
       providedOptions,
     );
     super(options);
+    const strings = StringManager.getInstance().getReactionCourtStrings();
+    const a11y = StringManager.getInstance().getReactionCourtA11yStrings();
+    const presetNames = strings.presetNames as unknown as Record<string, typeof strings.beforeStringProperty>;
+    const label = (s: typeof strings.beforeStringProperty) =>
+      new Text(s, { font: FONT, fill: ParticleZooColors.textColorProperty, maxWidth: 160 });
+    const left = this.layoutBounds.minX + SCREEN_VIEW_MARGIN;
 
-    // ── Background ────────────────────────────────────────────────────────────
-    // A full-screen rectangle that follows the active color profile.
-    // Replace or remove once you add real content.
-    const backgroundRect = new Rectangle(0, 0, this.layoutBounds.width, this.layoutBounds.height, {
-      fill: ParticleZooColors.backgroundColorProperty,
+    // ── top row: presets, side, clear ──
+    const presetChoice = new Property<string>("none");
+    const listParent = new Node();
+    const presetBox = new ComboBox(
+      presetChoice,
+      [
+        {
+          value: "none",
+          createNode: () => new Text(strings.choosePresetStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+        },
+        ...PRESETS.map((preset) => ({
+          value: preset.id,
+          createNode: () =>
+            new Text(presetNames[`${preset.id}StringProperty`] ?? preset.id, {
+              font: FONT,
+              fill: LIGHT_SURFACE_TEXT_FILL,
+              maxWidth: 220,
+            }),
+        })),
+      ],
+      listParent,
+      { ...PARTICLE_ZOO_COMBO_BOX_OPTIONS, accessibleName: a11y.controls.presetsStringProperty },
+    );
+    // The menu and the reaction update each other; this flag breaks the loop.
+    let syncingMenu = false;
+    presetChoice.lazyLink((id) => {
+      const preset = PRESETS.find((p) => p.id === id);
+      if (preset && !syncingMenu) {
+        syncingMenu = true;
+        model.loadPreset(preset);
+        syncingMenu = false;
+      }
     });
-    this.addChild(backgroundRect);
+    // Editing the reaction by hand returns the menu to its prompt.
+    const syncPreset = () => {
+      if (syncingMenu) {
+        return;
+      }
+      const key = (ids: readonly string[]) => ids.join(",");
+      const before = key(model.beforeProperty.value.map((p) => p.id));
+      const after = key(model.afterProperty.value.map((p) => p.id));
+      const current = PRESETS.find(
+        (p) => key(p.before.map(normalize)) === before && key(p.after.map(normalize)) === after,
+      );
+      syncingMenu = true;
+      presetChoice.value = current?.id ?? "none";
+      syncingMenu = false;
+    };
+    model.beforeProperty.lazyLink(syncPreset);
+    model.afterProperty.lazyLink(syncPreset);
 
-    // ── Placeholder label ─────────────────────────────────────────────────────
-    // Replace this with your actual simulation content.
-    const placeholderText = new Text(StringManager.getInstance().getScreenNames().reactionCourtStringProperty, {
-      font: "bold 36px sans-serif",
-      fill: ParticleZooColors.textColorProperty,
-      center: this.layoutBounds.center,
+    const sideGroup = new AquaRadioButtonGroup(
+      model.sideProperty,
+      [
+        {
+          value: "before",
+          createNode: () => label(strings.beforeStringProperty),
+          options: { accessibleName: strings.beforeStringProperty },
+        },
+        {
+          value: "after",
+          createNode: () => label(strings.afterStringProperty),
+          options: { accessibleName: strings.afterStringProperty },
+        },
+      ] as const,
+      {
+        orientation: "horizontal",
+        spacing: 12,
+        radioButtonOptions: { radius: 7 },
+        accessibleName: a11y.controls.sideStringProperty,
+      },
+    );
+    const clearButton = new RectangularPushButton({
+      ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
+      content: new Text(strings.clearStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+      listener: () => model.clear(),
+      accessibleName: a11y.controls.clearStringProperty,
     });
-    this.addChild(placeholderText);
+    const topRow = new HBox({
+      spacing: 16,
+      children: [
+        presetBox,
+        new HBox({ spacing: 8, children: [label(strings.addToStringProperty), sideGroup] }),
+        clearButton,
+      ],
+      left,
+      top: this.layoutBounds.minY + SCREEN_VIEW_MARGIN,
+    });
 
-    // ── Accessibility: per-control names ────────────────────────────────────────
-    // EVERY interactive node must carry an `accessibleName` (and an
-    // `accessibleHelpText` where useful), sourced from the StringManager `a11y`
-    // string group — never a hard-coded English literal. Sun/scenery-phet controls
-    // (NumberControl, Checkbox, ComboBox, AquaRadioButtonGroup, …) accept it as an
-    // option; a draggable plain Node needs `tagName: "div", focusable: true` too.
-    // Example (uncomment and adapt when you add a real control):
-    //
-    //   const a11y = StringManager.getInstance().getReactionCourtA11yStrings();
-    //   const exampleButton = new RectangularPushButton({
-    //     ...FLAT_RECTANGULAR_BUTTON_OPTIONS, // flat appearance, not SceneryStack's default 3-D look
-    //     content: someIcon,
-    //     listener: () => model.doSomething(),
-    //     accessibleName: a11y.controls.exampleControlStringProperty,
-    //   });
-    //   this.addChild(exampleButton);
+    // ── reaction ──
+    const equation = new ReactionEquationNode(model);
+    equation.boundsProperty.link(() => {
+      equation.left = left + 6;
+      equation.top = topRow.bottom + 18;
+    });
 
-    // ── Reset All button ──────────────────────────────────────────────────────
-    // Always position at bottom-right (PhET convention).
+    // ── palette / diagram ──
+    const palette = new ParticlePaletteNode(model);
+    palette.left = left;
+    palette.top = topRow.bottom + 80;
+    const diagramWidth = this.layoutBounds.width - RIGHT_WIDTH - 3 * SCREEN_VIEW_MARGIN;
+    const diagram = new VertexDiagramNode(
+      model,
+      diagramWidth,
+      this.layoutBounds.maxY - palette.top - SCREEN_VIEW_MARGIN,
+    );
+    diagram.left = left;
+    diagram.top = palette.top;
+
+    const diagramButtonLabel = new Text("", { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 260 });
+    const diagramButton = new RectangularPushButton({
+      ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
+      content: diagramButtonLabel,
+      listener: () => model.showDiagramProperty.toggle(),
+      accessibleName: a11y.controls.diagramStringProperty,
+    });
+    model.showDiagramProperty.link((show) => {
+      palette.visible = !show;
+      diagram.visible = show;
+      diagramButtonLabel.string = show
+        ? strings.hideDiagramStringProperty.value
+        : strings.showDiagramStringProperty.value;
+    });
+    model.diagramProperty.link((template) => {
+      diagramButton.visible = template !== null;
+    });
+
+    // ── right column ──
+    const ledger = new LedgerPanel(model, RIGHT_WIDTH);
+    const verdict = new VerdictPanel(model, RIGHT_WIDTH);
+    const rightColumn = new VBox({ spacing: 10, align: "left", children: [ledger, verdict, diagramButton] });
+    rightColumn.boundsProperty.link(() => {
+      rightColumn.right = this.layoutBounds.maxX - SCREEN_VIEW_MARGIN;
+      rightColumn.top = this.layoutBounds.minY + SCREEN_VIEW_MARGIN;
+    });
+
     const resetAllButton = new ResetAllButton({
       ...FLAT_RESET_ALL_BUTTON_OPTIONS,
       listener: () => {
         model.reset();
-        this.reset();
+        presetChoice.value = "none";
       },
       right: this.layoutBounds.maxX - SCREEN_VIEW_MARGIN,
       bottom: this.layoutBounds.maxY - SCREEN_VIEW_MARGIN,
     });
-    this.addChild(resetAllButton);
 
-    // ── Accessibility: keyboard / reading traversal order ───────────────────────
-    // Make the parallel DOM (Tab order and screen-reader reading order)
-    // deterministic and independent of child z-order. ScreenView throws if you
-    // set pdomOrder on itself, so add a lightweight wrapper Node that "borrows"
-    // the interactive nodes in the order a user should reach them — Reset All
-    // last. Non-interactive decoration (background, placeholder) is omitted.
+    this.children = [topRow, equation, palette, diagram, rightColumn, resetAllButton, listParent];
     this.addChild(
       new Node({
         pdomOrder: [
-          // TODO: add the sim's interactive nodes here, in traversal order
+          presetBox,
+          sideGroup,
+          clearButton,
+          equation,
+          ...palette.buttons,
+          diagram.blanks,
+          diagramButton,
           resetAllButton,
         ],
       }),
     );
   }
+}
 
-  /**
-   * Resets view-side state (animations, panel visibility, etc.).
-   * Called by the Reset All button listener.
-   */
-  public reset(): void {
-    // TODO: reset any view-side state here
-  }
-
-  /**
-   * Steps the view forward by dt seconds for animation.
-   * @param _dt - elapsed time in seconds
-   */
-  public override step(_dt: number): void {
-    // TODO: implement animation updates here
-  }
-
-  // ── Accessibility / listeners: dispose ─────────────────────────────────────
-  // ScreenView is `isDisposable: false` and lives for the whole sim, so this
-  // class rarely needs dispose(). Child Nodes (and a live currentDetails
-  // DerivedProperty you own on a short-lived object) do. When you add
-  // DerivedProperty / Multilink / Property.link against model state, keep the
-  // references and tear them down — forks copy what they see. Pattern:
-  //
-  // private readonly disposeReactionCourtScreenView: () => void;
-  //
-  // // in the constructor, after creating the listeners:
-  // const statusMultilink = Multilink.multilink(
-  //   [model.someProperty, model.otherProperty],
-  //   (a, b) => { /* update view from model */ },
-  // );
-  // const detailsProperty = new DerivedProperty(
-  //   [model.stateProperty],
-  //   (state) => `State: ${state}`,
-  // ); // → pass as currentDetailsContent in ReactionCourtScreenSummaryContent
-  // const onExternal = (v: number) => { /* … */ };
-  // model.externalProperty.link(onExternal); // Property you do NOT own
-  //
-  // this.disposeReactionCourtScreenView = () => {
-  //   statusMultilink.dispose();                 // Multilink you created
-  //   detailsProperty.dispose();                 // DerivedProperty you created
-  //   model.externalProperty.unlink(onExternal); // undo external link
-  // };
-  //
-  // public override dispose(): void {
-  //   this.disposeReactionCourtScreenView();
-  //   super.dispose();
-  // }
+/** Preset ids use readable aliases; the model stores catalog ids. */
+function normalize(id: string): string {
+  const aliases: Record<string, string> = { "pi-": "anti-pi+", "K-": "anti-K+", "e+": "anti-e-", "mu+": "anti-mu-" };
+  return aliases[id] ?? id;
 }
