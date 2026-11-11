@@ -21,24 +21,41 @@ import "./brand.js";
 
 import { onReadyToLaunch, PreferencesModel, Sim } from "scenerystack/sim";
 import { Tandem } from "scenerystack/tandem";
+import { ConfinementScreen } from "./confinement/ConfinementScreen.js";
+import { EightfoldWayScreen } from "./eightfold-way/EightfoldWayScreen.js";
+import { HadronBuilderScreen } from "./hadron-builder/HadronBuilderScreen.js";
 import { StringManager } from "./i18n/StringManager.js";
-import { SimPreferencesModel } from "./preferences/SimPreferencesModel.js";
-import { SimPreferencesNode } from "./preferences/SimPreferencesNode.js";
-import SimColors from "./SimColors.js";
-import { SimScreen } from "./sim-screen/SimScreen.js";
+import ParticleZooColors from "./ParticleZooColors.js";
+import { ParticleZooPreferencesModel } from "./preferences/ParticleZooPreferencesModel.js";
+import { ParticleZooPreferencesNode } from "./preferences/ParticleZooPreferencesNode.js";
+import { ReactionCourtScreen } from "./reaction-court/ReactionCourtScreen.js";
 
 onReadyToLaunch(() => {
   const stringManager = StringManager.getInstance();
 
-  // Simulation-specific preferences; initial values come from simQueryParameters.
-  const simPreferences = new SimPreferencesModel(Tandem.ROOT.createTandem("preferences"));
+  // Simulation-specific preferences; initial values come from particleZooQueryParameters.
+  const simPreferences = new ParticleZooPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
   const screens = [
-    new SimScreen({
-      // The screen name Property updates automatically when the locale changes
-      name: stringManager.getScreenNames().simStringProperty,
-      tandem: Tandem.ROOT.createTandem("simScreen"),
-      backgroundColorProperty: SimColors.backgroundColorProperty,
+    new HadronBuilderScreen({
+      name: stringManager.getScreenNames().hadronBuilderStringProperty,
+      tandem: Tandem.ROOT.createTandem("hadronBuilderScreen"),
+      backgroundColorProperty: ParticleZooColors.backgroundColorProperty,
+    }),
+    new EightfoldWayScreen({
+      name: stringManager.getScreenNames().eightfoldWayStringProperty,
+      tandem: Tandem.ROOT.createTandem("eightfoldWayScreen"),
+      backgroundColorProperty: ParticleZooColors.backgroundColorProperty,
+    }),
+    new ConfinementScreen({
+      name: stringManager.getScreenNames().confinementStringProperty,
+      tandem: Tandem.ROOT.createTandem("confinementScreen"),
+      backgroundColorProperty: ParticleZooColors.backgroundColorProperty,
+    }),
+    new ReactionCourtScreen({
+      name: stringManager.getScreenNames().reactionCourtStringProperty,
+      tandem: Tandem.ROOT.createTandem("reactionCourtScreen"),
+      backgroundColorProperty: ParticleZooColors.backgroundColorProperty,
     }),
   ];
 
@@ -53,7 +70,7 @@ onReadyToLaunch(() => {
       simulationOptions: {
         customPreferences: [
           {
-            createContent: (tandem: Tandem) => new SimPreferencesNode(simPreferences, tandem),
+            createContent: (tandem: Tandem) => new ParticleZooPreferencesNode(simPreferences, tandem),
           },
         ],
       },

@@ -1,21 +1,133 @@
 {
-  "title": "Plantilla de Simulación",
+  "title": "Particle Zoo",
   "screens": {
-    "sim": "Simulación"
+    "hadronBuilder": "Hadron Builder",
+    "eightfoldWay": "Eightfold Way",
+    "confinement": "Confinement",
+    "reactionCourt": "Reaction Court"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "El área de juego muestra el contenido principal de la simulación.",
-      "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-      "interactionHint": "Explora la simulación interactuando con sus controles."
+    "hadronBuilder": {
+      "screenSummary": {
+        "playArea": "El área de juego tiene una paleta de quarks y antiquarks y una bolsa que admite hasta tres. Los indicadores muestran la carga, el número bariónico, la extrañeza, el espín y el color de la bolsa, y nombran el hadrón que se forma.",
+        "controlArea": "Los botones vacían la bolsa y eligen el espín. Restablecer todo vuelve a empezar.",
+        "interactionHint": "Ponga un quark arriba y un antiquark extraño en la bolsa para construir un kaon."
+      },
+      "currentDetailsPattern": "La bolsa contiene {{contents}}. {{result}}",
+      "emptyBag": "nada",
+      "controls": {
+        "addQuarkPattern": "Añadir el quark {{quark}} a la bolsa",
+        "spin": "Espín total",
+        "clear": "Vaciar la bolsa"
+      }
     },
-    "currentDetails": "La simulación está en su estado inicial.",
-    "controls": {
-      "exampleControl": "Control de ejemplo"
+    "eightfoldWay": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra el contenido principal de la simulación.",
+        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
+        "interactionHint": "Explora la simulación interactuando con sus controles."
+      },
+      "currentDetails": "La simulación está en su estado inicial.",
+      "controls": {
+        "exampleControl": "Control de ejemplo"
+      }
+    },
+    "confinement": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra el contenido principal de la simulación.",
+        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
+        "interactionHint": "Explora la simulación interactuando con sus controles."
+      },
+      "currentDetails": "La simulación está en su estado inicial.",
+      "controls": {
+        "exampleControl": "Control de ejemplo"
+      }
+    },
+    "reactionCourt": {
+      "screenSummary": {
+        "playArea": "El área de juego muestra el contenido principal de la simulación.",
+        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
+        "interactionHint": "Explora la simulación interactuando con sus controles."
+      },
+      "currentDetails": "La simulación está en su estado inicial.",
+      "controls": {
+        "exampleControl": "Control de ejemplo"
+      }
     }
   },
   "preferences": {
     "title": "Simulación",
     "exampleToggle": "Ejemplo de alternancia"
+  },
+  "particles": {
+    "electron": "electrón",
+    "muon": "muon",
+    "tau": "tau",
+    "electronNeutrino": "neutrino electrónico",
+    "muonNeutrino": "neutrino muónico",
+    "tauNeutrino": "neutrino tauónico",
+    "photon": "fotón",
+    "wBoson": "bosón W",
+    "zBoson": "bosón Z",
+    "pion": "pion",
+    "kaon": "kaon",
+    "eta": "eta",
+    "etaPrime": "eta prima",
+    "dMeson": "mesón D",
+    "dsMeson": "mesón D_s",
+    "etaC": "eta-c",
+    "bMeson": "mesón B",
+    "rho": "rho",
+    "omegaMeson": "mesón omega",
+    "kStar": "K estrella",
+    "phiMeson": "phi",
+    "jpsi": "J/psi",
+    "upsilon": "ípsilon",
+    "proton": "protón",
+    "neutron": "neutrón",
+    "lambdaBaryon": "lambda",
+    "sigma": "sigma",
+    "xi": "xi (cascada)",
+    "lambdaC": "lambda encantado",
+    "delta": "delta",
+    "sigmaStar": "sigma estrella",
+    "xiStar": "xi estrella",
+    "omegaBaryon": "barión omega"
+  },
+  "common": {
+    "meson": "mesón",
+    "baryon": "barión",
+    "antibaryon": "antibarión",
+    "lepton": "leptón",
+    "boson": "bosón",
+    "stable": "estable",
+    "massPattern": "{{value}} MeV/c²",
+    "lifetimePattern": "τ = {{value}} s",
+    "up": "arriba",
+    "down": "abajo",
+    "strange": "extraño",
+    "charm": "encanto",
+    "bottom": "fondo"
+  },
+  "hadronBuilder": {
+    "quarks": "Quarks",
+    "antiquarks": "Antiquarks",
+    "bagHint": "Arrastre o haga clic en los quarks para meterlos en la bolsa (hasta 3).",
+    "clear": "Vaciar bolsa",
+    "charge": "Carga Q",
+    "baryonNumber": "Número bariónico B",
+    "strangeness": "Extrañeza S",
+    "charmNumber": "Encanto C",
+    "beautyNumber": "Belleza B̃",
+    "spin": "Espín",
+    "colorNeutral": "Neutro en color",
+    "yes": "sí",
+    "no": "no",
+    "empty": "Añada quarks para construir un hadrón.",
+    "netColor": "Carga de color neta: esto no puede existir solo. Un hadrón necesita qqq, q̄q̄q̄ o qq̄.",
+    "unknown": "Neutro en color, pero ningún hadrón conocido tiene este contenido y espín.",
+    "tryOtherSpin": "Pruebe el otro espín.",
+    "ambiguousNote": "Mismos quarks, distinta disposición interna: ambas partículas existen.",
+    "removeQuarkPattern": "Quitar {{quark}} de la bolsa"
   }
 }

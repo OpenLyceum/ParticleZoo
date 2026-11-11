@@ -1,21 +1,133 @@
 {
-  "title": "Modèle de Simulation",
+  "title": "Particle Zoo",
   "screens": {
-    "sim": "Simulation"
+    "hadronBuilder": "Hadron Builder",
+    "eightfoldWay": "Eightfold Way",
+    "confinement": "Confinement",
+    "reactionCourt": "Reaction Court"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-      "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-      "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+    "hadronBuilder": {
+      "screenSummary": {
+        "playArea": "La zone de jeu contient une palette de quarks et d’antiquarks et un sac qui en accepte trois au plus. Des affichages donnent la charge, le nombre baryonique, l’étrangeté, le spin et la couleur du sac, et nomment le hadron obtenu.",
+        "controlArea": "Des boutons vident le sac et choisissent le spin. Tout réinitialiser recommence.",
+        "interactionHint": "Mettez un quark up et un antiquark étrange dans le sac pour construire un kaon."
+      },
+      "currentDetailsPattern": "Le sac contient {{contents}}. {{result}}",
+      "emptyBag": "rien",
+      "controls": {
+        "addQuarkPattern": "Ajouter le quark {{quark}} au sac",
+        "spin": "Spin total",
+        "clear": "Vider le sac"
+      }
     },
-    "currentDetails": "La simulation est dans son état initial.",
-    "controls": {
-      "exampleControl": "Contrôle d'exemple"
+    "eightfoldWay": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
+    },
+    "confinement": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
+    },
+    "reactionCourt": {
+      "screenSummary": {
+        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
+        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
+        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+      },
+      "currentDetails": "La simulation est dans son état initial.",
+      "controls": {
+        "exampleControl": "Contrôle d'exemple"
+      }
     }
   },
   "preferences": {
     "title": "Simulation",
     "exampleToggle": "Exemple de bascule"
+  },
+  "particles": {
+    "electron": "électron",
+    "muon": "muon",
+    "tau": "tau",
+    "electronNeutrino": "neutrino électronique",
+    "muonNeutrino": "neutrino muonique",
+    "tauNeutrino": "neutrino tauique",
+    "photon": "photon",
+    "wBoson": "boson W",
+    "zBoson": "boson Z",
+    "pion": "pion",
+    "kaon": "kaon",
+    "eta": "êta",
+    "etaPrime": "êta prime",
+    "dMeson": "méson D",
+    "dsMeson": "méson D_s",
+    "etaC": "êta-c",
+    "bMeson": "méson B",
+    "rho": "rhô",
+    "omegaMeson": "méson oméga",
+    "kStar": "K étoile",
+    "phiMeson": "phi",
+    "jpsi": "J/psi",
+    "upsilon": "upsilon",
+    "proton": "proton",
+    "neutron": "neutron",
+    "lambdaBaryon": "lambda",
+    "sigma": "sigma",
+    "xi": "xi (cascade)",
+    "lambdaC": "lambda charmé",
+    "delta": "delta",
+    "sigmaStar": "sigma étoile",
+    "xiStar": "xi étoile",
+    "omegaBaryon": "baryon oméga"
+  },
+  "common": {
+    "meson": "méson",
+    "baryon": "baryon",
+    "antibaryon": "antibaryon",
+    "lepton": "lepton",
+    "boson": "boson",
+    "stable": "stable",
+    "massPattern": "{{value}} MeV/c²",
+    "lifetimePattern": "τ = {{value}} s",
+    "up": "up",
+    "down": "down",
+    "strange": "étrange",
+    "charm": "charme",
+    "bottom": "beauté"
+  },
+  "hadronBuilder": {
+    "quarks": "Quarks",
+    "antiquarks": "Antiquarks",
+    "bagHint": "Glissez ou cliquez des quarks dans le sac (3 au plus).",
+    "clear": "Vider le sac",
+    "charge": "Charge Q",
+    "baryonNumber": "Nombre baryonique B",
+    "strangeness": "Étrangeté S",
+    "charmNumber": "Charme C",
+    "beautyNumber": "Beauté B̃",
+    "spin": "Spin",
+    "colorNeutral": "Neutre en couleur",
+    "yes": "oui",
+    "no": "non",
+    "empty": "Ajoutez des quarks pour construire un hadron.",
+    "netColor": "Charge de couleur nette : cela ne peut exister seul. Un hadron demande qqq, q̄q̄q̄ ou qq̄.",
+    "unknown": "Neutre en couleur, mais aucun hadron connu n’a ce contenu et ce spin.",
+    "tryOtherSpin": "Essayez l’autre spin.",
+    "ambiguousNote": "Mêmes quarks, arrangement interne différent : les deux particules existent.",
+    "removeQuarkPattern": "Retirer {{quark}} du sac"
   }
 }

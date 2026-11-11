@@ -1,21 +1,133 @@
 {
-  "title": "SceneryStack Template",
+  "title": "Particle Zoo",
   "screens": {
-    "sim": "Sim"
+    "hadronBuilder": "Hadron Builder",
+    "eightfoldWay": "Eightfold Way",
+    "confinement": "Confinement",
+    "reactionCourt": "Reaction Court"
   },
   "a11y": {
-    "screenSummary": {
-      "playArea": "The play area shows the main simulation content.",
-      "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-      "interactionHint": "Explore the simulation by interacting with its controls."
+    "hadronBuilder": {
+      "screenSummary": {
+        "playArea": "The play area has a palette of quarks and antiquarks and a bag that holds up to three of them. Readouts show the bag's charge, baryon number, strangeness, spin and colour, and name the hadron it makes.",
+        "controlArea": "Buttons empty the bag and choose the spin. Reset All starts over.",
+        "interactionHint": "Put an up quark and an anti-strange quark in the bag to build a kaon."
+      },
+      "currentDetailsPattern": "The bag holds {{contents}}. {{result}}",
+      "emptyBag": "nothing",
+      "controls": {
+        "addQuarkPattern": "Add {{quark}} quark to the bag",
+        "spin": "Total spin",
+        "clear": "Empty the bag"
+      }
     },
-    "currentDetails": "The simulation is in its initial state.",
-    "controls": {
-      "exampleControl": "Example control"
+    "eightfoldWay": {
+      "screenSummary": {
+        "playArea": "The play area shows the main simulation content.",
+        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
+        "interactionHint": "Explore the simulation by interacting with its controls."
+      },
+      "currentDetails": "The simulation is in its initial state.",
+      "controls": {
+        "exampleControl": "Example control"
+      }
+    },
+    "confinement": {
+      "screenSummary": {
+        "playArea": "The play area shows the main simulation content.",
+        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
+        "interactionHint": "Explore the simulation by interacting with its controls."
+      },
+      "currentDetails": "The simulation is in its initial state.",
+      "controls": {
+        "exampleControl": "Example control"
+      }
+    },
+    "reactionCourt": {
+      "screenSummary": {
+        "playArea": "The play area shows the main simulation content.",
+        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
+        "interactionHint": "Explore the simulation by interacting with its controls."
+      },
+      "currentDetails": "The simulation is in its initial state.",
+      "controls": {
+        "exampleControl": "Example control"
+      }
     }
   },
   "preferences": {
     "title": "Simulation",
     "exampleToggle": "Example Toggle"
+  },
+  "particles": {
+    "electron": "electron",
+    "muon": "muon",
+    "tau": "tau",
+    "electronNeutrino": "electron neutrino",
+    "muonNeutrino": "muon neutrino",
+    "tauNeutrino": "tau neutrino",
+    "photon": "photon",
+    "wBoson": "W boson",
+    "zBoson": "Z boson",
+    "pion": "pion",
+    "kaon": "kaon",
+    "eta": "eta",
+    "etaPrime": "eta prime",
+    "dMeson": "D meson",
+    "dsMeson": "D-sub-s meson",
+    "etaC": "eta-c",
+    "bMeson": "B meson",
+    "rho": "rho",
+    "omegaMeson": "omega meson",
+    "kStar": "K-star",
+    "phiMeson": "phi",
+    "jpsi": "J/psi",
+    "upsilon": "upsilon",
+    "proton": "proton",
+    "neutron": "neutron",
+    "lambdaBaryon": "lambda",
+    "sigma": "sigma",
+    "xi": "xi (cascade)",
+    "lambdaC": "charmed lambda",
+    "delta": "delta",
+    "sigmaStar": "sigma-star",
+    "xiStar": "xi-star",
+    "omegaBaryon": "omega baryon"
+  },
+  "common": {
+    "meson": "meson",
+    "baryon": "baryon",
+    "antibaryon": "antibaryon",
+    "lepton": "lepton",
+    "boson": "boson",
+    "stable": "stable",
+    "massPattern": "{{value}} MeV/c²",
+    "lifetimePattern": "τ = {{value}} s",
+    "up": "up",
+    "down": "down",
+    "strange": "strange",
+    "charm": "charm",
+    "bottom": "bottom"
+  },
+  "hadronBuilder": {
+    "quarks": "Quarks",
+    "antiquarks": "Antiquarks",
+    "bagHint": "Drag or click quarks into the bag (up to 3).",
+    "clear": "Empty bag",
+    "charge": "Charge Q",
+    "baryonNumber": "Baryon number B",
+    "strangeness": "Strangeness S",
+    "charmNumber": "Charm C",
+    "beautyNumber": "Beauty B̃",
+    "spin": "Spin",
+    "colorNeutral": "Colour neutral",
+    "yes": "yes",
+    "no": "no",
+    "empty": "Add quarks to build a hadron.",
+    "netColor": "Net colour charge: this cannot exist alone. A hadron needs qqq, q̄q̄q̄ or qq̄.",
+    "unknown": "Colour neutral, but no known hadron has this content and spin.",
+    "tryOtherSpin": "Try the other spin.",
+    "ambiguousNote": "Same quarks, different internal arrangement: both are real particles.",
+    "removeQuarkPattern": "Remove {{quark}} from the bag"
   }
 }

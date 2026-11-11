@@ -50,7 +50,7 @@ const stringProperties = LocalizedString.getNestedStringProperties({
  * Keep this in sync with the `a11y` key in `strings_en.json` — a locale key
  * rename that is not mirrored here fails at the getter return (not silently).
  */
-export type SimA11yStrings = {
+export type ParticleZooA11yStrings = {
   readonly screenSummary: {
     readonly playAreaStringProperty: ReadOnlyProperty<string>;
     readonly controlAreaStringProperty: ReadOnlyProperty<string>;
@@ -64,9 +64,9 @@ export type SimA11yStrings = {
 
 /**
  * Explicit Preferences → Simulation labels from {@link StringManager.getPreferences}.
- * Same sync rule as {@link SimA11yStrings}.
+ * Same sync rule as {@link ParticleZooA11yStrings}.
  */
-export type SimPreferenceStrings = {
+export type ParticleZooPreferenceStrings = {
   readonly titleStringProperty: ReadOnlyProperty<string>;
   readonly exampleToggleStringProperty: ReadOnlyProperty<string>;
 };
@@ -103,34 +103,58 @@ export class StringManager {
    * Each property updates automatically when the locale changes.
    */
   public getScreenNames(): {
-    readonly simStringProperty: ReadOnlyProperty<string>;
+    readonly hadronBuilderStringProperty: ReadOnlyProperty<string>;
+    readonly eightfoldWayStringProperty: ReadOnlyProperty<string>;
+    readonly confinementStringProperty: ReadOnlyProperty<string>;
+    readonly reactionCourtStringProperty: ReadOnlyProperty<string>;
   } {
     return {
-      simStringProperty: stringProperties.screens.simStringProperty,
+      hadronBuilderStringProperty: stringProperties.screens.hadronBuilderStringProperty,
+      eightfoldWayStringProperty: stringProperties.screens.eightfoldWayStringProperty,
+      confinementStringProperty: stringProperties.screens.confinementStringProperty,
+      reactionCourtStringProperty: stringProperties.screens.reactionCourtStringProperty,
     };
   }
 
-  /**
-   * Accessibility (Interactive Description) StringProperties.
-   *
-   * Returns the reactive `a11y` string tree used by the parallel DOM:
-   *   - `screenSummary.*` — play-area / control-area overview and an interaction
-   *     hint, read by `SimScreenSummaryContent`.
-   *   - `currentDetails` — a paragraph describing the simulation's current state.
-   *     In a real sim, derive a live version from model Properties (see
-   *     LunarLander's ScreenSummaryContent for the canonical pattern).
-   *
-   * Add `accessibleName` / `accessibleHelpText` strings for individual controls
-   * to the `a11y` group too, then read them through this same nested tree.
-   */
-  public getA11yStrings(): SimA11yStrings {
-    return stringProperties.a11y;
+  /** Accessibility strings for the Hadron Builder screen. */
+  public getHadronBuilderA11yStrings() {
+    return stringProperties.a11y.hadronBuilder;
+  }
+
+  /** Accessibility strings for the Eightfold Way screen. */
+  public getEightfoldWayA11yStrings() {
+    return stringProperties.a11y.eightfoldWay;
+  }
+
+  /** Accessibility strings for the Confinement screen. */
+  public getConfinementA11yStrings() {
+    return stringProperties.a11y.confinement;
+  }
+
+  /** Accessibility strings for the Reaction Court screen. */
+  public getReactionCourtA11yStrings() {
+    return stringProperties.a11y.reactionCourt;
+  }
+
+  /** Particle names, keyed by Particle.nameKey. */
+  public getParticleNames() {
+    return stringProperties.particles;
+  }
+
+  /** Strings shared by several screens. */
+  public getCommonStrings() {
+    return stringProperties.common;
+  }
+
+  /** Visible strings for the Hadron Builder screen. */
+  public getHadronBuilderStrings() {
+    return stringProperties.hadronBuilder;
   }
 
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */
-  public getPreferences(): SimPreferenceStrings {
+  public getPreferences() {
     return stringProperties.preferences;
   }
 }
