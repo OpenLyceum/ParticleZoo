@@ -17,6 +17,7 @@ const V_MIN = -400;
 const V_MAX = 1600;
 
 export class PotentialPlotNode extends Node {
+  private readonly multilinks: { dispose(): void }[] = [];
   public constructor(model: ConfinementModel, width: number, height: number) {
     super();
     const strings = StringManager.getInstance().getConfinementStrings();
@@ -96,6 +97,18 @@ export class PotentialPlotNode extends Node {
       );
       plot.children = children;
     };
-    Multilink.multilink([model.separationProperty, model.coulombProperty, strings.plotTitleStringProperty], draw);
+    this.multilinks.push(
+      Multilink.multilink([model.separationProperty, model.coulombProperty, strings.plotTitleStringProperty], draw),
+    );
+  }
+
+  public override dispose(): void {
+    for (const multilink of this.multilinks) {
+      multilink.dispose();
+    }
+    for (const child of [...this.children]) {
+      child.disposeSubtree();
+    }
+    super.dispose();
   }
 }

@@ -26,7 +26,7 @@ import { EightfoldWayScreen } from "./eightfold-way/EightfoldWayScreen.js";
 import { HadronBuilderScreen } from "./hadron-builder/HadronBuilderScreen.js";
 import { StringManager } from "./i18n/StringManager.js";
 import ParticleZooColors from "./ParticleZooColors.js";
-import { ParticleZooPreferencesModel } from "./preferences/ParticleZooPreferencesModel.js";
+import { particleZooPreferences } from "./preferences/ParticleZooPreferencesModel.js";
 import { ParticleZooPreferencesNode } from "./preferences/ParticleZooPreferencesNode.js";
 import { ReactionCourtScreen } from "./reaction-court/ReactionCourtScreen.js";
 
@@ -34,7 +34,7 @@ onReadyToLaunch(() => {
   const stringManager = StringManager.getInstance();
 
   // Simulation-specific preferences; initial values come from particleZooQueryParameters.
-  const simPreferences = new ParticleZooPreferencesModel(Tandem.ROOT.createTandem("preferences"));
+  const simPreferences = particleZooPreferences;
 
   const screens = [
     new HadronBuilderScreen({

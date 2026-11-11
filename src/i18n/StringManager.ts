@@ -57,9 +57,6 @@ export type ParticleZooA11yStrings = {
     readonly interactionHintStringProperty: ReadOnlyProperty<string>;
   };
   readonly currentDetailsStringProperty: ReadOnlyProperty<string>;
-  readonly controls: {
-    readonly exampleControlStringProperty: ReadOnlyProperty<string>;
-  };
 };
 
 /**
@@ -68,7 +65,7 @@ export type ParticleZooA11yStrings = {
  */
 export type ParticleZooPreferenceStrings = {
   readonly titleStringProperty: ReadOnlyProperty<string>;
-  readonly exampleToggleStringProperty: ReadOnlyProperty<string>;
+  readonly animateColorChargeStringProperty: ReadOnlyProperty<string>;
 };
 
 /**

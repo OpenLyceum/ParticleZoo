@@ -72,7 +72,7 @@
   },
   "preferences": {
     "title": "Simulation",
-    "exampleToggle": "Exemple de bascule"
+    "animateColorCharge": "Animer la charge de couleur (échange de gluons)"
   },
   "particles": {
     "electron": "électron",

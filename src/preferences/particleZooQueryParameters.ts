@@ -11,7 +11,7 @@
  * 2. If it should also be user-editable at runtime, surface it as a preference
  *    in ParticleZooPreferencesModel (initialize that Property from this query parameter).
  *
- * Usage: append e.g. `?exampleToggle=true` to the sim URL.
+ * Usage: append e.g. `?animateColorCharge=false` to the sim URL.
  */
 
 import { logGlobal } from "scenerystack/phet-core";
@@ -20,12 +20,11 @@ import ParticleZooNamespace from "../ParticleZooNamespace.js";
 
 const particleZooQueryParameters = QueryStringMachine.getAll({
   /**
-   * Example public boolean parameter. Replace with real sim-specific parameters,
-   * or remove if the sim has none.
+   * Cycle the colour charges of the quarks in the Hadron Builder bag (gluon exchange). Turn off for reduced motion.
    */
-  exampleToggle: {
+  animateColorCharge: {
     type: "boolean",
-    defaultValue: false,
+    defaultValue: true,
     public: true,
   },
 });

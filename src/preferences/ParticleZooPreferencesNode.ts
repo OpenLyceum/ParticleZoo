@@ -27,9 +27,9 @@ export class ParticleZooPreferencesNode extends VBox {
       fill: ParticleZooColors.controlSurfaceTextColorProperty,
     });
 
-    const exampleToggleCheckbox = new Checkbox(
-      preferencesModel.exampleToggleProperty,
-      new Text(prefStrings.exampleToggleStringProperty, {
+    const animateColorChargeCheckbox = new Checkbox(
+      preferencesModel.animateColorChargeProperty,
+      new Text(prefStrings.animateColorChargeStringProperty, {
         font: new PhetFont(14),
         fill: ParticleZooColors.controlSurfaceTextColorProperty,
       }),
@@ -37,14 +37,14 @@ export class ParticleZooPreferencesNode extends VBox {
         checkboxColor: ParticleZooColors.controlSurfaceTextColorProperty,
         checkboxColorBackground: ParticleZooColors.controlSurfaceColorProperty,
         spacing: 8,
-        ...(tandem && { tandem: tandem.createTandem("exampleToggleCheckbox") }),
+        ...(tandem && { tandem: tandem.createTandem("animateColorChargeCheckbox") }),
       },
     );
 
     super({
       align: "left",
       spacing: 12,
-      children: [header, exampleToggleCheckbox],
+      children: [header, animateColorChargeCheckbox],
     });
   }
 }

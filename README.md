@@ -2,23 +2,49 @@
 
 [![CI](../../actions/workflows/ci.yml/badge.svg)](../../actions/workflows/ci.yml)
 
-A reusable SceneryStack simulation template for one or N screens, built with
-[SceneryStack](https://scenerystack.org/), Vite 8, TypeScript 7, and Biome 2.
+Build, predict, forbid. Assemble hadrons from quarks and watch charge, baryon number and
+strangeness add up; stand where Gell-Mann stood in 1962 and predict the missing Ω⁻; pull a quark
+away from its partner until the string snaps into new mesons; and put proposed reactions on trial
+against the conservation laws, down to the quark-level Feynman vertices. It is pitched at
+introductory university physics and senior high school. Companion to
+[Collider Lab](https://github.com/OpenLyceum/ColliderLab). Built with
+[SceneryStack](https://scenerystack.org/); runs offline as a Progressive Web App.
 
 ## Features
 
-- SceneryStack scaffold with model/view separation (`rename` + `scaffold-screens` for one or N screens)
-- English, Spanish, and French localization via `StringManager`
-- Default and projector color profiles
-- Progressive Web App (installable, offline-capable)
-- Git hooks for Biome pre-commit checks
-- Shared GitHub Actions CI via `OpenLyceum/Baton`
+- **Hadron Builder.** Drag (or click) quarks and antiquarks into a bag of up to three.
+  - Live readouts of charge Q, baryon number B, strangeness S (and charm and beauty), the allowed
+    spins, and colour neutrality.
+  - A matching hadron is named with its mass and lifetime, from p, n and π⁺ to K⁺ = u s̄, Λ, Ω⁻
+    and J/ψ. Same-content states (Λ and Σ⁰) are both shown.
+  - Colour charges swap between the quarks, like gluon exchange (a preference turns this off).
+- **Eightfold Way.** The spin-3/2 decuplet on strangeness and charge axes, as known in 1962, with the
+  S = −3 corner empty.
+  - A mass-vs-strangeness ladder shows the ~150 MeV steps.
+  - Predict the missing particle's quarks, charge and mass, check, then reveal the Ω⁻ (1672 MeV).
+  - The octet is shown for comparison.
+- **Confinement.** Pull a quark–antiquark pair apart against V = σr (σ ≈ 1 GeV/fm), with an
+  optional short-range Coulomb term.
+  - An energy bar fills toward the cost of a new pair (~680 MeV); then the string snaps into two
+    named mesons (π⁺ → π⁰ + π⁺, K⁺ → π⁰ + K⁺), never a free quark.
+- **Reaction Court.** Build a reaction from 36 particles or pick one of 14 classic cases.
+  - A ledger checks Q, B, L<sub>e</sub>, L<sub>μ</sub>, L<sub>τ</sub>, S and mass–energy.
+  - The verdict names the broken law, or the force (strong, electromagnetic or weak), its lifetime
+    scale and the parent's measured lifetime.
+  - For six reactions, complete a quark-level Feynman diagram (time upward): choose the boson and
+    the missing lines, and each vertex turns green or red.
+- **Accessible:**
+  - Every control works from the keyboard.
+  - Each screen has a live screen summary and a keyboard-help dialog.
+  - English, French and Spanish.
+  - Default and projector colour profiles.
+  - Installable PWA.
+  - A preference (or `?animateColorCharge=false`) stops the colour animation.
 
 ## Quick Start
 
 ```bash
 npm install
-npm run icons    # generate PNG icons from public/icons/icon.svg
 npm start        # dev server → http://localhost:5173
 ```
 
@@ -39,12 +65,8 @@ npm start        # dev server → http://localhost:5173
 | `npm run format` | Auto-format all files |
 | `npm run fix` | Lint + auto-fix |
 | `npm run icons` | Regenerate PNG icons from `public/icons/icon.svg` |
-| `npm run rename` | Sim-level fork/rename (`--id`, `--name`) |
-| `npm run scaffold-screens` | Emit N fleet-named screen packages from `hadron-builder/` (`--shared-model` optional) |
 | `npm run release` | `check && lint && build && test`, then version patch + push tags |
 | `npm run clean` | Remove `dist/` |
-
-New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a release (for example `npm version patch` and a matching git tag). Keep `name` in kebab-case; it is separate from the SceneryStack sim identifier in `src/init.ts`, which reads its `version` from `package.json`.
 
 ## Tech Stack
 
@@ -53,7 +75,7 @@ New sims start at `version: "0.0.0"` in `package.json`. Bump only when cutting a
 | [SceneryStack](https://scenerystack.org/) | ^3.0.0 | Simulation framework |
 | [Vite](https://vitejs.dev/) | ^8 | Build tool + dev server |
 | [TypeScript](https://www.typescriptlang.org/) | ^7 | Type-safe JavaScript |
-| [Biome](https://biomejs.dev/) | ^2.5 | Linting + formatting |
+| [Biome](https://biomejs.dev/) | ^2.6 | Linting + formatting |
 | [vite-plugin-pwa](https://vite-pwa-org.netlify.app/) | ^2 | PWA + service worker |
 
 ## License

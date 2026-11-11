@@ -72,7 +72,7 @@
   },
   "preferences": {
     "title": "Simulación",
-    "exampleToggle": "Ejemplo de alternancia"
+    "animateColorCharge": "Animar la carga de color (intercambio de gluones)"
   },
   "particles": {
     "electron": "electrón",

@@ -17,6 +17,7 @@ const COLUMN_WIDTH = 92; // px per unit of I₃
 const RADIUS = 34;
 
 export class MultipletDiagramNode extends Node {
+  private readonly multilinks: { dispose(): void }[] = [];
   public constructor(model: EightfoldWayModel) {
     super();
     const layer = new Node();
@@ -81,7 +82,7 @@ export class MultipletDiagramNode extends Node {
       }
       layer.children = children;
     };
-    Multilink.multilink([model.multipletProperty, model.revealedProperty], draw);
+    this.multilinks.push(Multilink.multilink([model.multipletProperty, model.revealedProperty], draw));
   }
 
   private memberNode(m: Member, revealed: boolean, isDecuplet: boolean, cx: number, cy: number): Node {
@@ -108,5 +109,15 @@ export class MultipletDiagramNode extends Node {
     mass.centerX = cx;
     mass.top = symbol.bottom;
     return new Node({ children: [circle, symbol, mass] });
+  }
+
+  public override dispose(): void {
+    for (const multilink of this.multilinks) {
+      multilink.dispose();
+    }
+    for (const child of [...this.children]) {
+      child.disposeSubtree();
+    }
+    super.dispose();
   }
 }

@@ -5,29 +5,32 @@
  * Simulation. Each preference Property takes its initial value from the
  * corresponding query parameter in particleZooQueryParameters.
  *
- * Remove the example preference (and its query parameter / UI control) if the
- * sim has no sim-specific preferences.
+ * A single instance is shared by main.ts (the Preferences dialog) and the
+ * screen views that read it.
  */
 
 import { BooleanProperty } from "scenerystack/axon";
-import type { Tandem } from "scenerystack/tandem";
+import { Tandem } from "scenerystack/tandem";
 import ParticleZooNamespace from "../ParticleZooNamespace.js";
 import particleZooQueryParameters from "./particleZooQueryParameters.js";
 
 export class ParticleZooPreferencesModel {
-  /** Example preference; initial value comes from the `exampleToggle` query parameter. */
-  public readonly exampleToggleProperty: BooleanProperty;
+  /** Cycle the colour charges of the quarks in the Hadron Builder bag (gluon exchange). Turn off for reduced motion. */
+  public readonly animateColorChargeProperty: BooleanProperty;
 
   public constructor(tandem?: Tandem) {
-    this.exampleToggleProperty = new BooleanProperty(
-      particleZooQueryParameters.exampleToggle,
-      tandem ? { tandem: tandem.createTandem("exampleToggleProperty") } : undefined,
+    this.animateColorChargeProperty = new BooleanProperty(
+      particleZooQueryParameters.animateColorCharge,
+      tandem ? { tandem: tandem.createTandem("animateColorChargeProperty") } : undefined,
     );
   }
 
   public reset(): void {
-    this.exampleToggleProperty.reset();
+    this.animateColorChargeProperty.reset();
   }
 }
+
+/** The sim-wide preferences. */
+export const particleZooPreferences = new ParticleZooPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
 ParticleZooNamespace.register("ParticleZooPreferencesModel", ParticleZooPreferencesModel);

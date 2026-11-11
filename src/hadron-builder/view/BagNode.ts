@@ -13,6 +13,7 @@ import { quarkSymbol } from "../../common/model/quarks.js";
 import { QuarkNode } from "../../common/view/QuarkNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { particleZooPreferences } from "../../preferences/ParticleZooPreferencesModel.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 
 const COLOR_PERIOD = 0.9; // seconds per colour swap
@@ -82,6 +83,7 @@ export class BagNode extends Node {
       this.updateColors(model);
     });
     model.timeProperty.link(() => this.updateColors(model));
+    particleZooPreferences.animateColorChargeProperty.lazyLink(() => this.updateColors(model));
   }
 
   private updateColors(model: HadronBuilderModel): void {
@@ -95,8 +97,8 @@ export class BagNode extends Node {
       if (!q) {
         return;
       }
-      // Animate only colour-neutral combinations; a lone net colour stays put.
-      const shift = neutral ? phase : 0;
+      // Animate only colour-neutral combinations (and only if the preference allows motion).
+      const shift = neutral && particleZooPreferences.animateColorChargeProperty.value ? phase : 0;
       if (q.anti) {
         // In a meson the antiquark carries the anticolour of its partner.
         const index = bag.length === 2 ? shift : antiIndex + shift;

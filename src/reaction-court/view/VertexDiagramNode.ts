@@ -65,6 +65,7 @@ function placeAtEnd(node: Node, end: Vector2, isTop: boolean): void {
 }
 
 export class VertexDiagramNode extends Node {
+  private readonly multilinks: { dispose(): void }[] = [];
   /** Focusable blanks, rebuilt for each template. */
   public readonly blanks = new Node();
 
@@ -318,9 +319,21 @@ export class VertexDiagramNode extends Node {
       status.bottom = height - 8;
     };
 
-    Multilink.multilink(
-      [model.diagramProperty, model.bosonProperty, model.slotChoicesProperty, model.vertexChecksProperty],
-      (diagram) => build(diagram),
+    this.multilinks.push(
+      Multilink.multilink(
+        [model.diagramProperty, model.bosonProperty, model.slotChoicesProperty, model.vertexChecksProperty],
+        (diagram) => build(diagram),
+      ),
     );
+  }
+
+  public override dispose(): void {
+    for (const multilink of this.multilinks) {
+      multilink.dispose();
+    }
+    for (const child of [...this.children]) {
+      child.disposeSubtree();
+    }
+    super.dispose();
   }
 }
