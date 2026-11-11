@@ -1,40 +1,37 @@
 /**
  * ConfinementScreenSummaryContent.ts
  *
- * The accessible screen summary read by screen readers (SceneryStack's
- * Interactive Description). It appears at the top of the parallel DOM and gives
- * a non-visual user a way to orient themselves and to re-read the simulation's
- * current state at any time.
- *
- * A summary has four regions (all optional, but provide at least the first
- * three in every sim for consistency across OpenLyceum):
- *   - playAreaContent       — what the play area contains
- *   - controlAreaContent    — what the controls do
- *   - currentDetailsContent — a LIVE paragraph describing current state
- *   - interactionHintContent — a short hint on how to get started
- *
- * ── Making "current details" live ─────────────────────────────────────────────
- * The template has no model state, so currentDetails is a static string. In a
- * real sim, build a DerivedProperty over the relevant model Properties and pass
- * it as `currentDetailsContent` so the paragraph updates as the sim runs.
- * See LunarLander/src/.../LunarLanderScreenSummaryContent.ts for the pattern.
- * If that DerivedProperty (or any Multilink) is owned by a short-lived object,
- * dispose it on teardown — see the commented dispose() stub in ConfinementScreenView.
+ * Screen summary; current details give the separation and stored energy, or
+ * the break report once the string has snapped.
  */
+import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import type { ConfinementModel } from "../model/ConfinementModel.js";
 
 export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
-  // `model` is unused in the template but kept in the signature so real sims can
-  // derive a live currentDetailsContent from it without changing call sites.
-  public constructor(_model: ConfinementModel) {
+  public constructor(model: ConfinementModel) {
     const a11y = StringManager.getInstance().getConfinementA11yStrings();
-
+    const strings = StringManager.getInstance().getConfinementStrings();
+    const bound = new PatternStringProperty(a11y.currentDetailsBoundPatternStringProperty, {
+      r: new DerivedProperty([model.separationProperty], (r) => r.toFixed(2)),
+      energy: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
+    });
+    const details = new DerivedProperty(
+      [bound, model.phaseProperty, model.fragmentsProperty, strings.brokenPatternStringProperty],
+      (boundText, phase, fragments, pattern) =>
+        phase === "broken" && fragments
+          ? pattern
+              .replace("{{r}}", model.separationProperty.value.toFixed(2))
+              .replace("{{pair}}", fragments[1].quarks[0].flavor)
+              .replace("{{left}}", fragments[0].meson?.symbol ?? "?")
+              .replace("{{right}}", fragments[1].meson?.symbol ?? "?")
+          : boundText,
+    );
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: a11y.currentDetailsStringProperty,
+      currentDetailsContent: details,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

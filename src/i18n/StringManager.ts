@@ -156,6 +156,11 @@ export class StringManager {
     return stringProperties.eightfoldWay;
   }
 
+  /** Visible strings for the Confinement screen. */
+  public getConfinementStrings() {
+    return stringProperties.confinement;
+  }
+
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */

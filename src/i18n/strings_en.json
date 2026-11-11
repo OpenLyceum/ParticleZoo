@@ -39,13 +39,15 @@
     },
     "confinement": {
       "screenSummary": {
-        "playArea": "The play area shows the main simulation content.",
-        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-        "interactionHint": "Explore the simulation by interacting with its controls."
+        "playArea": "The play area shows a quark and an antiquark joined by a colour flux tube, an energy bar for the field, and a graph of the potential energy against separation.",
+        "controlArea": "Choose the starting meson, add the Coulomb term, and set the separation with the slider or by dragging the antiquark. Start Again rejoins the pair.",
+        "interactionHint": "Pull the antiquark away and watch the energy bar fill until the string snaps."
       },
-      "currentDetails": "The simulation is in its initial state.",
+      "currentDetailsBoundPattern": "The pair is {{r}} femtometres apart; the field stores {{energy}} MeV.",
       "controls": {
-        "exampleControl": "Example control"
+        "preset": "Starting meson",
+        "separation": "Quark separation",
+        "rejoin": "Rejoin the pair"
       }
     },
     "reactionCourt": {
@@ -157,5 +159,22 @@
     "contentHint": "The empty slot sits at S = −3.",
     "chargeHint": "Charge follows from the quarks.",
     "massHint": "Extend the equal steps down the triangle."
+  },
+  "confinement": {
+    "presetTitle": "Starting meson",
+    "coulomb": "Add short-range Coulomb term",
+    "separation": "Separation r",
+    "separationPattern": "r = {{value}} fm",
+    "energyPattern": "V = {{value}} MeV",
+    "fieldEnergy": "Field energy",
+    "thresholdPattern": "Pair cost ≈ {{value}} MeV",
+    "plotTitle": "V(r) = σr, σ ≈ 1 GeV/fm",
+    "plotTitleCoulomb": "V(r) = σr − 4αs ħc / 3r",
+    "rAxis": "r (fm)",
+    "vAxis": "V (MeV)",
+    "rejoin": "Start again",
+    "dragHint": "Drag the antiquark to pull the pair apart.",
+    "brokenPattern": "The string snapped at r = {{r}} fm. A new {{pair}} pair formed: you now hold {{left}} and {{right}}, not a free quark.",
+    "unknownMeson": "a meson"
   }
 }

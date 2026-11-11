@@ -39,13 +39,15 @@
     },
     "confinement": {
       "screenSummary": {
-        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+        "playArea": "La zone de jeu montre un quark et un antiquark reliés par un tube de flux de couleur, une barre d’énergie du champ et un graphique de l’énergie potentielle selon la séparation.",
+        "controlArea": "Choisissez le méson de départ, ajoutez le terme coulombien et réglez la séparation avec le curseur ou en faisant glisser l’antiquark. Recommencer réunit la paire.",
+        "interactionHint": "Éloignez l’antiquark et regardez la barre d’énergie se remplir jusqu’à ce que la corde casse."
       },
-      "currentDetails": "La simulation est dans son état initial.",
+      "currentDetailsBoundPattern": "La paire est séparée de {{r}} femtomètres ; le champ stocke {{energy}} MeV.",
       "controls": {
-        "exampleControl": "Contrôle d'exemple"
+        "preset": "Méson de départ",
+        "separation": "Séparation des quarks",
+        "rejoin": "Réunir la paire"
       }
     },
     "reactionCourt": {
@@ -157,5 +159,22 @@
     "contentHint": "La case vide est à S = −3.",
     "chargeHint": "La charge découle des quarks.",
     "massHint": "Prolongez les marches égales vers le bas du triangle."
+  },
+  "confinement": {
+    "presetTitle": "Méson de départ",
+    "coulomb": "Ajouter le terme coulombien à courte portée",
+    "separation": "Séparation r",
+    "separationPattern": "r = {{value}} fm",
+    "energyPattern": "V = {{value}} MeV",
+    "fieldEnergy": "Énergie du champ",
+    "thresholdPattern": "Coût d’une paire ≈ {{value}} MeV",
+    "plotTitle": "V(r) = σr, σ ≈ 1 GeV/fm",
+    "plotTitleCoulomb": "V(r) = σr − 4αs ħc / 3r",
+    "rAxis": "r (fm)",
+    "vAxis": "V (MeV)",
+    "rejoin": "Recommencer",
+    "dragHint": "Faites glisser l’antiquark pour séparer la paire.",
+    "brokenPattern": "La corde a cassé à r = {{r}} fm. Une nouvelle paire {{pair}} s’est formée : vous tenez maintenant {{left}} et {{right}}, pas un quark libre.",
+    "unknownMeson": "un méson"
   }
 }
