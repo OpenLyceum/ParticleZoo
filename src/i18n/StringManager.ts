@@ -151,6 +151,11 @@ export class StringManager {
     return stringProperties.hadronBuilder;
   }
 
+  /** Visible strings for the Eightfold Way screen. */
+  public getEightfoldWayStrings() {
+    return stringProperties.eightfoldWay;
+  }
+
   /**
    * Simulation-specific preference labels shown in Preferences → Simulation.
    */

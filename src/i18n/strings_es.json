@@ -23,13 +23,18 @@
     },
     "eightfoldWay": {
       "screenSummary": {
-        "playArea": "El área de juego muestra el contenido principal de la simulación.",
-        "controlArea": "El área de control tiene un botón Restablecer todo que devuelve la simulación a su estado inicial.",
-        "interactionHint": "Explora la simulación interactuando con sus controles."
+        "playArea": "El área de juego muestra el decuplete de bariones de espín 3/2 como un triángulo, la extrañeza en el lado y la carga en las diagonales, como en 1962, con la esquina inferior vacía. Un pequeño gráfico traza la masa según la extrañeza.",
+        "controlArea": "El panel de predicción fija el contenido de quarks, la carga y la masa de la partícula que falta, y luego comprueba o revela la respuesta. Un selector muestra el octete en su lugar.",
+        "interactionHint": "Lea los saltos de masa entre filas y prediga la partícula de extrañeza −3."
       },
-      "currentDetails": "La simulación está en su estado inicial.",
+      "currentDetailsPattern": "Predicción: quarks {{quarks}}, carga {{charge}}, masa {{mass}} MeV.",
+      "revealedDetails": "Se ha revelado la omega menos.",
       "controls": {
-        "exampleControl": "Control de ejemplo"
+        "multiplet": "Multiplete",
+        "charge": "Carga predicha",
+        "mass": "Masa predicha",
+        "check": "Comprobar la predicción",
+        "reveal": "Revelar la partícula que falta"
       }
     },
     "confinement": {
@@ -129,5 +134,28 @@
     "tryOtherSpin": "Pruebe el otro espín.",
     "ambiguousNote": "Mismos quarks, distinta disposición interna: ambas partículas existen.",
     "removeQuarkPattern": "Quitar {{quark}} de la bolsa"
+  },
+  "eightfoldWay": {
+    "decuplet": "Decuplete (espín 3/2)",
+    "octet": "Octete (espín ½)",
+    "yearNote": "Tal como se conocía en 1962",
+    "strangenessAxis": "Extrañeza S",
+    "chargePattern": "Q = {{value}}",
+    "predictTitle": "Prediga la partícula que falta",
+    "quarkContent": "Contenido de quarks",
+    "cycleQuarkPattern": "Quark {{slot}}: {{flavor}}. Active para cambiar.",
+    "charge": "Carga Q",
+    "impliedChargePattern": "Estos quarks dan Q = {{value}}",
+    "mass": "Masa",
+    "check": "Comprobar",
+    "reveal": "Revelar",
+    "correct": "✓",
+    "wrong": "✗",
+    "massLadderTitle": "Masa según la extrañeza",
+    "stepPattern": "+{{value}} MeV",
+    "omegaRevealed": "Ω⁻ hallado en Brookhaven en 1964: sss, Q = −1, 1672 MeV/c². Gell-Mann había predicho unos 1680.",
+    "contentHint": "La casilla vacía está en S = −3.",
+    "chargeHint": "La carga se deduce de los quarks.",
+    "massHint": "Prolongue los escalones iguales hacia abajo del triángulo."
   }
 }

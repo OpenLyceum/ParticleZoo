@@ -23,13 +23,18 @@
     },
     "eightfoldWay": {
       "screenSummary": {
-        "playArea": "The play area shows the main simulation content.",
-        "controlArea": "The control area has a Reset All button that returns the simulation to its starting state.",
-        "interactionHint": "Explore the simulation by interacting with its controls."
+        "playArea": "The play area shows the spin-3/2 baryon decuplet as a triangle, strangeness down the side and charge along the diagonals, as it stood in 1962 with the bottom corner empty. A small chart plots mass against strangeness.",
+        "controlArea": "The prediction panel sets the missing particle's quark content, charge and mass, then checks or reveals the answer. A switch shows the octet instead.",
+        "interactionHint": "Read the mass steps between rows, then predict the particle at strangeness −3."
       },
-      "currentDetails": "The simulation is in its initial state.",
+      "currentDetailsPattern": "Prediction: quarks {{quarks}}, charge {{charge}}, mass {{mass}} MeV.",
+      "revealedDetails": "The omega-minus has been revealed.",
       "controls": {
-        "exampleControl": "Example control"
+        "multiplet": "Multiplet",
+        "charge": "Predicted charge",
+        "mass": "Predicted mass",
+        "check": "Check the prediction",
+        "reveal": "Reveal the missing particle"
       }
     },
     "confinement": {
@@ -129,5 +134,28 @@
     "tryOtherSpin": "Try the other spin.",
     "ambiguousNote": "Same quarks, different internal arrangement: both are real particles.",
     "removeQuarkPattern": "Remove {{quark}} from the bag"
+  },
+  "eightfoldWay": {
+    "decuplet": "Decuplet (spin 3/2)",
+    "octet": "Octet (spin ½)",
+    "yearNote": "As known in 1962",
+    "strangenessAxis": "Strangeness S",
+    "chargePattern": "Q = {{value}}",
+    "predictTitle": "Predict the missing particle",
+    "quarkContent": "Quark content",
+    "cycleQuarkPattern": "Quark {{slot}}: {{flavor}}. Activate to change.",
+    "charge": "Charge Q",
+    "impliedChargePattern": "These quarks give Q = {{value}}",
+    "mass": "Mass",
+    "check": "Check",
+    "reveal": "Reveal",
+    "correct": "✓",
+    "wrong": "✗",
+    "massLadderTitle": "Mass vs strangeness",
+    "stepPattern": "+{{value}} MeV",
+    "omegaRevealed": "Ω⁻ found at Brookhaven in 1964: sss, Q = −1, 1672 MeV/c². Gell-Mann had predicted about 1680.",
+    "contentHint": "The empty slot sits at S = −3.",
+    "chargeHint": "Charge follows from the quarks.",
+    "massHint": "Extend the equal steps down the triangle."
   }
 }

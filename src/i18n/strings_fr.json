@@ -23,13 +23,18 @@
     },
     "eightfoldWay": {
       "screenSummary": {
-        "playArea": "La zone de jeu affiche le contenu principal de la simulation.",
-        "controlArea": "La zone de contrôle comporte un bouton Tout réinitialiser qui ramène la simulation à son état initial.",
-        "interactionHint": "Explorez la simulation en interagissant avec ses commandes."
+        "playArea": "La zone de jeu montre le décuplet des baryons de spin 3/2 en triangle, l’étrangeté sur le côté et la charge selon les diagonales, tel qu’en 1962, avec le coin du bas vide. Un petit graphique trace la masse selon l’étrangeté.",
+        "controlArea": "Le panneau de prédiction règle le contenu en quarks, la charge et la masse de la particule manquante, puis vérifie ou révèle la réponse. Un sélecteur affiche plutôt l’octet.",
+        "interactionHint": "Lisez les écarts de masse entre les rangées, puis prédisez la particule à l’étrangeté −3."
       },
-      "currentDetails": "La simulation est dans son état initial.",
+      "currentDetailsPattern": "Prédiction : quarks {{quarks}}, charge {{charge}}, masse {{mass}} MeV.",
+      "revealedDetails": "L’oméga moins a été révélé.",
       "controls": {
-        "exampleControl": "Contrôle d'exemple"
+        "multiplet": "Multiplet",
+        "charge": "Charge prédite",
+        "mass": "Masse prédite",
+        "check": "Vérifier la prédiction",
+        "reveal": "Révéler la particule manquante"
       }
     },
     "confinement": {
@@ -129,5 +134,28 @@
     "tryOtherSpin": "Essayez l’autre spin.",
     "ambiguousNote": "Mêmes quarks, arrangement interne différent : les deux particules existent.",
     "removeQuarkPattern": "Retirer {{quark}} du sac"
+  },
+  "eightfoldWay": {
+    "decuplet": "Décuplet (spin 3/2)",
+    "octet": "Octet (spin ½)",
+    "yearNote": "Tel que connu en 1962",
+    "strangenessAxis": "Étrangeté S",
+    "chargePattern": "Q = {{value}}",
+    "predictTitle": "Prédire la particule manquante",
+    "quarkContent": "Contenu en quarks",
+    "cycleQuarkPattern": "Quark {{slot}} : {{flavor}}. Activez pour changer.",
+    "charge": "Charge Q",
+    "impliedChargePattern": "Ces quarks donnent Q = {{value}}",
+    "mass": "Masse",
+    "check": "Vérifier",
+    "reveal": "Révéler",
+    "correct": "✓",
+    "wrong": "✗",
+    "massLadderTitle": "Masse selon l’étrangeté",
+    "stepPattern": "+{{value}} MeV",
+    "omegaRevealed": "Ω⁻ découvert à Brookhaven en 1964 : sss, Q = −1, 1672 MeV/c². Gell-Mann avait prédit environ 1680.",
+    "contentHint": "La case vide est à S = −3.",
+    "chargeHint": "La charge découle des quarks.",
+    "massHint": "Prolongez les marches égales vers le bas du triangle."
   }
 }
