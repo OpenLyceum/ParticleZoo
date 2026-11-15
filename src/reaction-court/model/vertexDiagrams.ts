@@ -114,6 +114,7 @@ export type DiagramTemplate = {
   readonly slotOptions: readonly (readonly string[])[];
 };
 
+/** @internal Exported for unit tests; not part of the application API. */
 export const DIAGRAMS: readonly DiagramTemplate[] = [
   {
     id: "betaDecay",

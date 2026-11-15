@@ -53,7 +53,10 @@ export function potential(r: number, coulomb: boolean): number {
   return STRING_TENSION * r - (coulomb ? (CONFINEMENT.COULOMB_FACTOR * ALPHA_S * HBAR_C) / r : 0);
 }
 
-/** Separation at which V(r) reaches the pair threshold, fm. */
+/**
+ * Separation at which V(r) reaches the pair threshold, fm.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export function breakingSeparation(coulomb: boolean): number {
   // σr − k/r = E  →  σr² − Er − k = 0
   const k = coulomb ? CONFINEMENT.COULOMB_FACTOR * ALPHA_S * HBAR_C : 0;

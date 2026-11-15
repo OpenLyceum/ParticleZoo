@@ -38,6 +38,7 @@ function member(id: string, missing = false): Member {
   return { particle, isospin3: particle.charge - (particle.baryonNumber + particle.strangeness) / 2, missing };
 }
 
+/** @internal Exported for unit tests; not part of the application API. */
 export const DECUPLET: readonly Member[] = [
   "Delta-",
   "Delta0",
@@ -52,6 +53,7 @@ export const DECUPLET: readonly Member[] = [
   .map((id) => member(id))
   .concat([member("Omega-", true)]);
 
+/** @internal Exported for unit tests; not part of the application API. */
 export const OCTET: readonly Member[] = ["n", "p", "Sigma-", "Sigma0", "Lambda", "Sigma+", "Xi-", "Xi0"].map((id) =>
   member(id),
 );
@@ -65,6 +67,7 @@ export function rowMeanMass(strangeness: number): number {
 /**
  * Gell-Mann's equal-spacing extrapolation: the S = −3 mass continues the
  * steps between rows (≈ 1232 → 1385 → 1533 → ≈ 1680 MeV).
+ * @internal Exported for unit tests; not part of the application API.
  */
 export function equalSpacingPrediction(): number {
   const masses = [0, -1, -2].map(rowMeanMass);

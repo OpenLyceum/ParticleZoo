@@ -164,7 +164,10 @@ function build(spec: Spec, anti: boolean): Particle {
   };
 }
 
-/** Every particle and antiparticle, particles first. */
+/**
+ * Every particle and antiparticle, particles first.
+ * @internal Exported for unit tests; not part of the application API.
+ */
 export const PARTICLES: readonly Particle[] = [
   ...SPECS.map((spec) => build(spec, false)),
   ...SPECS.filter((spec) => spec.anti !== undefined).map((spec) => build(spec, true)),
