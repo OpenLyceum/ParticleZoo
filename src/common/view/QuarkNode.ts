@@ -11,6 +11,7 @@ import type { TReadOnlyProperty } from "scenerystack/axon";
 import type { Color } from "scenerystack/scenery";
 import { Circle, Line, Node, type NodeOptions, Text } from "scenerystack/scenery";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { QUARK_NODE } from "../../ParticleZooConstants.js";
 import type { Quark } from "../model/quarks.js";
 
 export type QuarkNodeOptions = NodeOptions & { radius?: number };
@@ -19,7 +20,7 @@ export class QuarkNode extends Node {
   private readonly rim: Circle;
 
   public constructor(quark: Quark, providedOptions?: QuarkNodeOptions) {
-    const radius = providedOptions?.radius ?? 20;
+    const radius = providedOptions?.radius ?? QUARK_NODE.DEFAULT_RADIUS;
     const ball = new Circle(radius, {
       fill: quark.anti ? ParticleZooColors.antiquarkTileProperty : ParticleZooColors.quarkTileProperty,
     });

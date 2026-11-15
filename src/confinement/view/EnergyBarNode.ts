@@ -9,26 +9,31 @@ import { Multilink, PatternStringProperty } from "scenerystack/axon";
 import { Line, Node, Rectangle, Text } from "scenerystack/scenery";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { CONFINEMENT, FONTS } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, PAIR_THRESHOLD } from "../model/ConfinementModel.js";
 
 export class EnergyBarNode extends Node {
   public constructor(model: ConfinementModel, height: number) {
     super();
     const strings = StringManager.getInstance().getConfinementStrings();
-    const width = 34;
+    const width = CONFINEMENT.ENERGY_BAR_WIDTH;
     const outline = new Rectangle(0, 0, width, height, { stroke: ParticleZooColors.textColorProperty, lineWidth: 1.5 });
     const fill = new Rectangle(0, height, width, 0, { fill: ParticleZooColors.highlightProperty });
-    const threshold = new Line(-8, 0, width + 8, 0, { stroke: ParticleZooColors.badProperty, lineWidth: 3 });
+    const overhang = CONFINEMENT.THRESHOLD_OVERHANG;
+    const threshold = new Line(-overhang, 0, width + overhang, 0, {
+      stroke: ParticleZooColors.badProperty,
+      lineWidth: 3,
+    });
     const thresholdLabel = new Text(
       new PatternStringProperty(strings.thresholdPatternStringProperty, { value: Math.round(PAIR_THRESHOLD) }),
-      { font: "12px sans-serif", fill: ParticleZooColors.badProperty, maxWidth: 150 },
+      { font: FONTS.SMALL, fill: ParticleZooColors.badProperty, maxWidth: 150 },
     );
     thresholdLabel.boundsProperty.link(() => {
       thresholdLabel.left = width + 12;
       thresholdLabel.centerY = 0;
     });
     const title = new Text(strings.fieldEnergyStringProperty, {
-      font: "bold 13px sans-serif",
+      font: FONTS.PANEL_TITLE,
       fill: ParticleZooColors.textColorProperty,
       maxWidth: 140,
     });

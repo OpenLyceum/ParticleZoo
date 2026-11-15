@@ -8,35 +8,30 @@
  * `@public` to tell dead-code checkers (knip) that an unused one is not dead code.
  */
 
-import { Dimension2 } from "scenerystack/dot";
 import { NumberControl } from "scenerystack/scenery-phet";
 import type { CheckboxOptions, HSliderOptions } from "scenerystack/sun";
 import ParticleZooColors from "../ParticleZooColors.js";
+import { CONTROLS } from "../ParticleZooConstants.js";
 import { FLAT_RECTANGULAR_BUTTON_OPTIONS } from "./ParticleZooButtonOptions.js";
-
-const SLIDER_THUMB_SIZE = new Dimension2(12, 22);
-const STANDALONE_SLIDER_TRACK_SIZE = new Dimension2(150, 3);
-const NUMBER_CONTROL_SLIDER_TRACK_SIZE = new Dimension2(110, 3);
-const CHECKBOX_BOX_WIDTH = 16;
 
 /** Options for standalone HSlider instances in control panels. @public */
 export const PARTICLE_ZOO_SLIDER_OPTIONS = {
-  trackSize: STANDALONE_SLIDER_TRACK_SIZE,
-  thumbSize: SLIDER_THUMB_SIZE,
+  trackSize: CONTROLS.STANDALONE_TRACK_SIZE,
+  thumbSize: CONTROLS.THUMB_SIZE,
   trackFillEnabled: ParticleZooColors.textColorProperty,
 } satisfies HSliderOptions;
 
 /** Base NumberControl options; spread into each instance and add titleNodeOptions as needed. @public */
 export const PARTICLE_ZOO_NUMBER_CONTROL_OPTIONS = {
-  arrowButtonOptions: { ...FLAT_RECTANGULAR_BUTTON_OPTIONS, scale: 0.75 },
+  arrowButtonOptions: { ...FLAT_RECTANGULAR_BUTTON_OPTIONS, scale: CONTROLS.ARROW_BUTTON_SCALE },
   layoutFunction: NumberControl.createLayoutFunction4({
-    sliderPadding: 4,
-    arrowButtonSpacing: 3,
-    verticalSpacing: 4,
+    sliderPadding: CONTROLS.SLIDER_PADDING,
+    arrowButtonSpacing: CONTROLS.ARROW_BUTTON_SPACING,
+    verticalSpacing: CONTROLS.VERTICAL_SPACING,
   }),
   sliderOptions: {
-    trackSize: NUMBER_CONTROL_SLIDER_TRACK_SIZE,
-    thumbSize: SLIDER_THUMB_SIZE,
+    trackSize: CONTROLS.NUMBER_CONTROL_TRACK_SIZE,
+    thumbSize: CONTROLS.THUMB_SIZE,
     trackFillEnabled: ParticleZooColors.textColorProperty,
   },
 };
@@ -52,8 +47,8 @@ export const PARTICLE_ZOO_NUMBER_CONTROL_OPTIONS = {
  * @public
  */
 export const PARTICLE_ZOO_CHECKBOX_OPTIONS = {
-  boxWidth: CHECKBOX_BOX_WIDTH,
-  spacing: 4,
+  boxWidth: CONTROLS.CHECKBOX_BOX_WIDTH,
+  spacing: CONTROLS.CHECKBOX_SPACING,
   checkboxColor: ParticleZooColors.textColorProperty,
   checkboxColorBackground: ParticleZooColors.panelBackgroundColorProperty,
 } satisfies CheckboxOptions;

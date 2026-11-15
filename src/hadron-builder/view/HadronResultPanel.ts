@@ -13,6 +13,7 @@ import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
 import { richSymbol } from "../../common/view/richSymbol.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS } from "../../ParticleZooConstants.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 
 /** Localised description lines for one particle. */
@@ -44,7 +45,7 @@ export class HadronResultPanel extends ParticleZooPanel {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const content = new VBox({ spacing: 10, align: "left" });
     const note = (s: string, fill = ParticleZooColors.textColorProperty) =>
-      new RichText(s, { font: "14px sans-serif", fill, lineWrap: width - 20 });
+      new RichText(s, { font: FONTS.CONTROL, fill, lineWrap: width - 20 });
 
     const card = (particle: Particle): Node => {
       const d = describeParticle(particle);
@@ -52,7 +53,7 @@ export class HadronResultPanel extends ParticleZooPanel {
         spacing: 14,
         children: [
           new RichText(richSymbol(particle.symbol), {
-            font: "bold 40px serif",
+            font: FONTS.EQUATION,
             fill: ParticleZooColors.highlightProperty,
           }),
           new VBox({
@@ -60,12 +61,12 @@ export class HadronResultPanel extends ParticleZooPanel {
             spacing: 2,
             children: [
               new Text(`${d.name} (${d.family})`, {
-                font: "bold 15px sans-serif",
+                font: FONTS.READOUT_BOLD,
                 fill: ParticleZooColors.textColorProperty,
                 maxWidth: width - 110,
               }),
-              new Text(d.mass, { font: "14px sans-serif", fill: ParticleZooColors.textColorProperty }),
-              new Text(d.lifetime, { font: "14px sans-serif", fill: ParticleZooColors.textColorProperty }),
+              new Text(d.mass, { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
+              new Text(d.lifetime, { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
             ],
           }),
         ],

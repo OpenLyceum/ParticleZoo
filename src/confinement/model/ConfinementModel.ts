@@ -20,17 +20,20 @@ import {
 import { Range } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import { hadronsWithContent, type Particle } from "../../common/model/particleCatalog.js";
-import { contentKey, FLAVOR_DATA, type Flavor, type Quark, quark } from "../../common/model/quarks.js";
+import { contentKey, type Flavor, type Quark, quark } from "../../common/model/quarks.js";
+import { CONFINEMENT } from "../../ParticleZooConstants.js";
 
 /** String tension, MeV per fm (≈ 1 GeV/fm). */
-export const STRING_TENSION = 1000;
+export const STRING_TENSION = CONFINEMENT.STRING_TENSION;
 /** ħc in MeV·fm. */
-export const HBAR_C = 197.327;
+export const HBAR_C = CONFINEMENT.HBAR_C;
 /** Strong coupling at hadronic distances, for the optional Coulomb term. */
-export const ALPHA_S = 0.3;
+export const ALPHA_S = CONFINEMENT.ALPHA_S;
 /** Separation range, fm. */
-export const SEPARATION_RANGE = new Range(0.25, 1.6);
-export const INITIAL_SEPARATION = 0.4;
+export const SEPARATION_RANGE = CONFINEMENT.SEPARATION_RANGE;
+export const INITIAL_SEPARATION = CONFINEMENT.INITIAL_SEPARATION;
+/** Energy needed to create a light (u ū or d d̄) pair, MeV. */
+export const PAIR_THRESHOLD = CONFINEMENT.PAIR_THRESHOLD;
 
 export const PRESETS = ["piPlus", "kPlus", "jpsi"] as const;
 export type Preset = (typeof PRESETS)[number];
@@ -47,16 +50,13 @@ export type Phase = (typeof PHASES)[number];
 
 /** Field energy stored at separation r (fm), MeV. */
 export function potential(r: number, coulomb: boolean): number {
-  return STRING_TENSION * r - (coulomb ? ((4 / 3) * ALPHA_S * HBAR_C) / r : 0);
+  return STRING_TENSION * r - (coulomb ? (CONFINEMENT.COULOMB_FACTOR * ALPHA_S * HBAR_C) / r : 0);
 }
-
-/** Energy needed to create a light (u ū or d d̄) pair, MeV. */
-export const PAIR_THRESHOLD = 2 * FLAVOR_DATA.u.constituentMass + 8; // ≈ 680 MeV
 
 /** Separation at which V(r) reaches the pair threshold, fm. */
 export function breakingSeparation(coulomb: boolean): number {
   // σr − k/r = E  →  σr² − Er − k = 0
-  const k = coulomb ? (4 / 3) * ALPHA_S * HBAR_C : 0;
+  const k = coulomb ? CONFINEMENT.COULOMB_FACTOR * ALPHA_S * HBAR_C : 0;
   return (PAIR_THRESHOLD + Math.sqrt(PAIR_THRESHOLD ** 2 + 4 * STRING_TENSION * k)) / (2 * STRING_TENSION);
 }
 

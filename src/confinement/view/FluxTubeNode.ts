@@ -15,35 +15,34 @@ import { DragListener, Node, Rectangle, Text } from "scenerystack/scenery";
 import { type Quark, quark } from "../../common/model/quarks.js";
 import { QuarkNode } from "../../common/view/QuarkNode.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { CONFINEMENT, FONTS } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, PRESET_CONTENT } from "../model/ConfinementModel.js";
 
 /** Screen pixels per femtometre. */
-export const PIXELS_PER_FM = 300;
-const TUBE_HEIGHT = 26;
-const QUARK_RADIUS = 24;
-const DRIFT_SPEED = 120; // px/s for the separating mesons
-const DRIFT_TIME = 1.2; // s
+export const PIXELS_PER_FM = CONFINEMENT.PIXELS_PER_FM;
 
 export class FluxTubeNode extends Node {
   public constructor(model: ConfinementModel) {
     super();
-    const tube = new Rectangle(0, -TUBE_HEIGHT / 2, 1, TUBE_HEIGHT, {
-      cornerRadius: TUBE_HEIGHT / 2,
+    const tubeHeight = CONFINEMENT.TUBE_HEIGHT;
+    const quarkRadius = CONFINEMENT.QUARK_RADIUS;
+    const tube = new Rectangle(0, -tubeHeight / 2, 1, tubeHeight, {
+      cornerRadius: tubeHeight / 2,
       fill: ParticleZooColors.colorRedProperty,
     });
-    const leftTube = new Rectangle(0, -TUBE_HEIGHT / 2, 1, TUBE_HEIGHT, {
-      cornerRadius: TUBE_HEIGHT / 2,
+    const leftTube = new Rectangle(0, -tubeHeight / 2, 1, tubeHeight, {
+      cornerRadius: tubeHeight / 2,
       fill: ParticleZooColors.colorRedProperty,
     });
-    const rightTube = new Rectangle(0, -TUBE_HEIGHT / 2, 1, TUBE_HEIGHT, {
-      cornerRadius: TUBE_HEIGHT / 2,
+    const rightTube = new Rectangle(0, -tubeHeight / 2, 1, tubeHeight, {
+      cornerRadius: tubeHeight / 2,
       fill: ParticleZooColors.colorRedProperty,
     });
     const quarkLayer = new Node();
     const labelLayer = new Node();
     this.children = [tube, leftTube, rightTube, quarkLayer, labelLayer];
 
-    const ball = (q: Quark): QuarkNode => new QuarkNode(q, { radius: QUARK_RADIUS, centerY: 0 });
+    const ball = (q: Quark): QuarkNode => new QuarkNode(q, { radius: quarkRadius, centerY: 0 });
 
     // Bound state: persistent nodes, so a drag in progress is never interrupted.
     const boundLayer = new Node();
@@ -82,7 +81,11 @@ export class FluxTubeNode extends Node {
       brokenBalls = fragments ? fragments.flatMap((f) => [ball(f.quarks[0]), ball(f.quarks[1])]) : [];
       brokenLayer.children = brokenBalls;
       const label = (text: string): Text =>
-        new Text(text, { font: "bold 26px serif", fill: ParticleZooColors.highlightProperty, top: QUARK_RADIUS + 12 });
+        new Text(text, {
+          font: FONTS.FRAGMENT_LABEL,
+          fill: ParticleZooColors.highlightProperty,
+          top: quarkRadius + CONFINEMENT.LABEL_TOP_GAP,
+        });
       labelLayer.children = fragments ? fragments.map((f) => label(f.meson?.symbol ?? "?")) : [];
     });
 
@@ -94,22 +97,22 @@ export class FluxTubeNode extends Node {
 
       if (!broken) {
         // Brighter tube as it stores more energy.
-        tube.opacity = 0.35 + 0.55 * model.fillFractionProperty.value;
-        tube.setRect(0, -TUBE_HEIGHT / 2, Math.max(1, r), TUBE_HEIGHT);
+        tube.opacity = CONFINEMENT.TUBE_OPACITY_MIN + CONFINEMENT.TUBE_OPACITY_RANGE * model.fillFractionProperty.value;
+        tube.setRect(0, -tubeHeight / 2, Math.max(1, r), tubeHeight);
         antiquarkBall.centerX = r;
         return;
       }
 
       // Two short tubes drifting apart from the break point.
-      const t = Math.min(model.sinceBreakProperty.value, DRIFT_TIME);
-      const drift = DRIFT_SPEED * t;
-      const half = Math.min(r / 2, QUARK_RADIUS * 2.2);
+      const t = Math.min(model.sinceBreakProperty.value, CONFINEMENT.DRIFT_TIME);
+      const drift = CONFINEMENT.DRIFT_SPEED * t;
+      const half = Math.min(r / 2, quarkRadius * CONFINEMENT.BROKEN_HALF_FACTOR);
       const mid = r / 2;
-      const leftEnds = [-drift, mid - drift - half + 2 * QUARK_RADIUS] as const;
-      const rightEnds = [mid + drift + half - 2 * QUARK_RADIUS, r + drift] as const;
-      leftTube.setRect(leftEnds[0], -TUBE_HEIGHT / 2, leftEnds[1] - leftEnds[0], TUBE_HEIGHT);
-      rightTube.setRect(rightEnds[0], -TUBE_HEIGHT / 2, rightEnds[1] - rightEnds[0], TUBE_HEIGHT);
-      leftTube.opacity = rightTube.opacity = 0.4;
+      const leftEnds = [-drift, mid - drift - half + 2 * quarkRadius] as const;
+      const rightEnds = [mid + drift + half - 2 * quarkRadius, r + drift] as const;
+      leftTube.setRect(leftEnds[0], -tubeHeight / 2, leftEnds[1] - leftEnds[0], tubeHeight);
+      rightTube.setRect(rightEnds[0], -tubeHeight / 2, rightEnds[1] - rightEnds[0], tubeHeight);
+      leftTube.opacity = rightTube.opacity = CONFINEMENT.BROKEN_TUBE_OPACITY;
       [leftEnds[0], leftEnds[1], rightEnds[0], rightEnds[1]].forEach((x, i) => {
         const node = brokenBalls[i];
         if (node) {

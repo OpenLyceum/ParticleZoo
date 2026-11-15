@@ -21,14 +21,12 @@ import {
 import { PARTICLE_ZOO_CHECKBOX_OPTIONS, PARTICLE_ZOO_SLIDER_OPTIONS } from "../../common/ParticleZooControlOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
-import { SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
+import { CONFINEMENT, CONTROLS, FONTS, SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, SEPARATION_RANGE } from "../model/ConfinementModel.js";
 import { ConfinementScreenSummaryContent } from "./ConfinementScreenSummaryContent.js";
 import { EnergyBarNode } from "./EnergyBarNode.js";
 import { FluxTubeNode } from "./FluxTubeNode.js";
 import { PotentialPlotNode } from "./PotentialPlotNode.js";
-
-const FONT = "14px sans-serif";
 
 export type ConfinementScreenViewOptions = ScreenViewOptions;
 
@@ -42,7 +40,11 @@ export class ConfinementScreenView extends ScreenView {
     const strings = StringManager.getInstance().getConfinementStrings();
     const a11y = StringManager.getInstance().getConfinementA11yStrings();
     const text = (s: typeof strings.coulombStringProperty, bold = false) =>
-      new Text(s, { font: bold ? `bold ${FONT}` : FONT, fill: ParticleZooColors.textColorProperty, maxWidth: 300 });
+      new Text(s, {
+        font: bold ? FONTS.CONTROL_BOLD : FONTS.CONTROL,
+        fill: ParticleZooColors.textColorProperty,
+        maxWidth: 300,
+      });
 
     // ── controls ──
     const presetGroup = new AquaRadioButtonGroup(
@@ -50,24 +52,24 @@ export class ConfinementScreenView extends ScreenView {
       [
         {
           value: "piPlus",
-          createNode: () => new Text("π⁺ = u d̄", { font: FONT, fill: ParticleZooColors.textColorProperty }),
+          createNode: () => new Text("π⁺ = u d̄", { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
           options: { accessibleName: "pi plus" },
         },
         {
           value: "kPlus",
-          createNode: () => new Text("K⁺ = u s̄", { font: FONT, fill: ParticleZooColors.textColorProperty }),
+          createNode: () => new Text("K⁺ = u s̄", { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
           options: { accessibleName: "K plus" },
         },
         {
           value: "jpsi",
-          createNode: () => new Text("J/ψ = c c̄", { font: FONT, fill: ParticleZooColors.textColorProperty }),
+          createNode: () => new Text("J/ψ = c c̄", { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
           options: { accessibleName: "J psi" },
         },
       ] as const,
       {
         orientation: "horizontal",
-        spacing: 18,
-        radioButtonOptions: { radius: 7 },
+        spacing: CONFINEMENT.PRESET_RADIO_SPACING,
+        radioButtonOptions: { radius: CONTROLS.RADIO_RADIUS },
         accessibleName: a11y.controls.presetStringProperty,
       },
     );
@@ -75,7 +77,7 @@ export class ConfinementScreenView extends ScreenView {
       ...PARTICLE_ZOO_CHECKBOX_OPTIONS,
     });
     const controls = new VBox({
-      spacing: 8,
+      spacing: CONFINEMENT.CONTROLS_SPACING,
       align: "left",
       children: [text(strings.presetTitleStringProperty, true), presetGroup, coulombCheckbox],
       left: this.layoutBounds.minX + SCREEN_VIEW_MARGIN,
@@ -84,14 +86,14 @@ export class ConfinementScreenView extends ScreenView {
 
     // ── stage ──
     const stage = new FluxTubeNode(model);
-    stage.x = this.layoutBounds.minX + 250;
-    stage.y = this.layoutBounds.minY + 200;
+    stage.x = this.layoutBounds.minX + CONFINEMENT.STAGE_X;
+    stage.y = this.layoutBounds.minY + CONFINEMENT.STAGE_Y;
     const hint = new Text(strings.dragHintStringProperty, {
-      font: "italic 13px sans-serif",
+      font: FONTS.CONTROL_ITALIC,
       fill: ParticleZooColors.textColorProperty,
-      opacity: 0.75,
-      left: stage.x - 40,
-      top: stage.y + 40,
+      opacity: CONFINEMENT.HINT_OPACITY,
+      left: stage.x - CONFINEMENT.HINT_LEFT_OFFSET,
+      top: stage.y + CONFINEMENT.HINT_TOP_OFFSET,
     });
 
     // ── separation slider (keyboard access to the drag) ──
@@ -99,12 +101,12 @@ export class ConfinementScreenView extends ScreenView {
       // Only the stretch before the break is reachable.
       enabledRangeProperty: model.separationProperty.rangeProperty,
       ...PARTICLE_ZOO_SLIDER_OPTIONS,
-      trackSize: new Dimension2(260, PARTICLE_ZOO_SLIDER_OPTIONS.trackSize.height),
-      keyboardStep: 0.05,
+      trackSize: new Dimension2(CONFINEMENT.SLIDER_TRACK_WIDTH, PARTICLE_ZOO_SLIDER_OPTIONS.trackSize.height),
+      keyboardStep: CONFINEMENT.SLIDER_KEYBOARD_STEP,
       enabledProperty: new DerivedProperty([model.phaseProperty], (phase) => phase === "bound"),
       accessibleName: a11y.controls.separationStringProperty,
     });
-    const readout = new Text("", { font: `bold ${FONT}`, fill: ParticleZooColors.textColorProperty });
+    const readout = new Text("", { font: FONTS.CONTROL_BOLD, fill: ParticleZooColors.textColorProperty });
     const separationText = new PatternStringProperty(strings.separationPatternStringProperty, {
       value: new DerivedProperty([model.separationProperty], (r) => r.toFixed(2)),
     });
@@ -117,33 +119,37 @@ export class ConfinementScreenView extends ScreenView {
     separationText.link(updateReadout);
     energyText.link(updateReadout);
     const sliderRow = new HBox({
-      spacing: 14,
+      spacing: CONFINEMENT.SLIDER_ROW_SPACING,
       children: [text(strings.separationStringProperty), slider, readout],
       left: this.layoutBounds.minX + SCREEN_VIEW_MARGIN,
-      top: stage.y + 70,
+      top: stage.y + CONFINEMENT.SLIDER_ROW_TOP_GAP,
     });
 
     // ── plot, bar, report ──
-    const plot = new PotentialPlotNode(model, 420, 220);
+    const plot = new PotentialPlotNode(model, CONFINEMENT.PLOT_WIDTH, CONFINEMENT.PLOT_HEIGHT);
     plot.left = this.layoutBounds.minX + SCREEN_VIEW_MARGIN;
     plot.bottom = this.layoutBounds.maxY - SCREEN_VIEW_MARGIN;
 
-    const bar = new EnergyBarNode(model, 240);
-    bar.left = this.layoutBounds.maxX - 280;
-    bar.top = this.layoutBounds.minY + 60;
+    const bar = new EnergyBarNode(model, CONFINEMENT.ENERGY_BAR_HEIGHT);
+    bar.left = this.layoutBounds.maxX - CONFINEMENT.ENERGY_BAR_LEFT_INSET;
+    bar.top = this.layoutBounds.minY + CONFINEMENT.ENERGY_BAR_TOP;
 
     const report = new RichText("", {
-      font: FONT,
+      font: FONTS.CONTROL,
       fill: ParticleZooColors.textColorProperty,
-      lineWrap: 380,
+      lineWrap: CONFINEMENT.REPORT_LINE_WRAP,
     });
     const rejoinButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(strings.rejoinStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+      content: new Text(strings.rejoinStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
       listener: () => model.rejoin(),
       accessibleName: a11y.controls.rejoinStringProperty,
     });
-    const reportBox = new VBox({ spacing: 10, align: "left", children: [report, rejoinButton] });
+    const reportBox = new VBox({
+      spacing: CONFINEMENT.REPORT_BOX_SPACING,
+      align: "left",
+      children: [report, rejoinButton],
+    });
     const updateReport = () => {
       const fragments = model.fragmentsProperty.value;
       reportBox.visible = model.phaseProperty.value === "broken" && fragments !== null;
@@ -158,8 +164,8 @@ export class ConfinementScreenView extends ScreenView {
           .replace("{{left}}", fragmentLabel(fragments[0]))
           .replace("{{right}}", fragmentLabel(fragments[1]));
       }
-      reportBox.left = plot.right + 30;
-      reportBox.top = plot.top + 10;
+      reportBox.left = plot.right + CONFINEMENT.REPORT_GAP;
+      reportBox.top = plot.top + CONFINEMENT.REPORT_TOP_INSET;
     };
     model.fragmentsProperty.link(updateReport);
     model.phaseProperty.link(updateReport);

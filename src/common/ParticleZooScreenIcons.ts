@@ -12,11 +12,12 @@ import { Circle, type Color, Line, Node, Path, Rectangle } from "scenerystack/sc
 import { ArrowNode } from "scenerystack/scenery-phet";
 import { ScreenIcon } from "scenerystack/sim";
 import ParticleZooColors from "../ParticleZooColors.js";
+import { SCREEN_ICONS } from "../ParticleZooConstants.js";
 import { type Flavor, quark } from "./model/quarks.js";
 import { QuarkNode } from "./view/QuarkNode.js";
 
-const W = 548;
-const H = 373;
+const W = SCREEN_ICONS.WIDTH;
+const H = SCREEN_ICONS.HEIGHT;
 
 function background(): Rectangle {
   return new Rectangle(0, 0, W, H, { fill: ParticleZooColors.backgroundColorProperty });
@@ -37,7 +38,7 @@ function constituent(
   colorProperty: TReadOnlyProperty<Color>,
   x: number,
   y: number,
-  radius = 43,
+  radius: number = SCREEN_ICONS.CONSTITUENT_RADIUS,
 ): QuarkNode {
   const node = new QuarkNode(quark(flavor, anti), { radius, x, y, pickable: false });
   node.setColorCharge(colorProperty);

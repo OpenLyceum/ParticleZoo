@@ -10,11 +10,8 @@
 import { Multilink } from "scenerystack/axon";
 import { Circle, Line, Node, Text } from "scenerystack/scenery";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { EIGHTFOLD, FONTS } from "../../ParticleZooConstants.js";
 import type { EightfoldWayModel, Member } from "../model/EightfoldWayModel.js";
-
-const ROW_HEIGHT = 105;
-const COLUMN_WIDTH = 92; // px per unit of I₃
-const RADIUS = 34;
 
 export class MultipletDiagramNode extends Node {
   private readonly multilinks: { dispose(): void }[] = [];
@@ -22,9 +19,10 @@ export class MultipletDiagramNode extends Node {
     super();
     const layer = new Node();
     this.addChild(layer);
+    const radius = EIGHTFOLD.MEMBER_RADIUS;
 
-    const x = (i3: number): number => i3 * COLUMN_WIDTH;
-    const y = (s: number): number => -s * ROW_HEIGHT;
+    const x = (i3: number): number => i3 * EIGHTFOLD.COLUMN_WIDTH;
+    const y = (s: number): number => -s * EIGHTFOLD.ROW_HEIGHT;
 
     const draw = (): void => {
       const members = model.members;
@@ -38,14 +36,14 @@ export class MultipletDiagramNode extends Node {
       // Row guides and S labels.
       for (const s of strangenesses) {
         children.push(
-          new Line(x(minI3) - RADIUS - 10, y(s), x(maxI3) + RADIUS + 10, y(s), {
+          new Line(x(minI3) - radius - 10, y(s), x(maxI3) + radius + 10, y(s), {
             stroke: ParticleZooColors.panelBorderColorProperty,
             lineDash: [2, 6],
           }),
           new Text(`S = ${s === 0 ? "0" : `−${-s}`}`, {
-            font: "14px sans-serif",
+            font: FONTS.CONTROL,
             fill: ParticleZooColors.textColorProperty,
-            right: x(minI3) - RADIUS - 18,
+            right: x(minI3) - radius - 18,
             centerY: y(s),
           }),
         );
@@ -68,7 +66,7 @@ export class MultipletDiagramNode extends Node {
           }),
         );
         const label = new Text(q === 0 ? "Q = 0" : `Q = ${q > 0 ? "+" : "−"}${Math.abs(q)}`, {
-          font: "13px sans-serif",
+          font: FONTS.BAG_HINT,
           fill: ParticleZooColors.textColorProperty,
           opacity: 0.85,
         });
@@ -87,7 +85,7 @@ export class MultipletDiagramNode extends Node {
 
   private memberNode(m: Member, revealed: boolean, isDecuplet: boolean, cx: number, cy: number): Node {
     const hidden = m.missing && !revealed && isDecuplet;
-    const circle = new Circle(RADIUS, {
+    const circle = new Circle(EIGHTFOLD.MEMBER_RADIUS, {
       fill: hidden ? null : ParticleZooColors.panelBackgroundColorProperty,
       stroke: m.missing ? ParticleZooColors.highlightProperty : ParticleZooColors.bagStrokeProperty,
       lineWidth: m.missing ? 3 : 2,
@@ -96,13 +94,13 @@ export class MultipletDiagramNode extends Node {
     circle.centerX = cx;
     circle.centerY = cy;
     const symbol = new Text(hidden ? "?" : m.particle.symbol, {
-      font: "bold 22px serif",
+      font: FONTS.MULTIPLET_SYMBOL,
       fill: m.missing ? ParticleZooColors.highlightProperty : ParticleZooColors.textColorProperty,
     });
     symbol.centerX = cx;
     symbol.centerY = cy - 6;
     const mass = new Text(hidden ? "" : `${Math.round(m.particle.mass)}`, {
-      font: "12px sans-serif",
+      font: FONTS.MULTIPLET_MASS,
       fill: ParticleZooColors.textColorProperty,
       opacity: 0.8,
     });

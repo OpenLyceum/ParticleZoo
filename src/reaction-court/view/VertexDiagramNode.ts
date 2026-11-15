@@ -15,6 +15,7 @@ import { RectangularPushButton } from "scenerystack/sun";
 import { FLAT_PANEL_PUSH_BUTTON_OPTIONS, LIGHT_SURFACE_TEXT_FILL } from "../../common/ParticleZooButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS, PANEL_CORNER_RADIUS, REACTION_COURT } from "../../ParticleZooConstants.js";
 import type { ReactionCourtModel } from "../model/ReactionCourtModel.js";
 import {
   BOSON_SYMBOLS,
@@ -26,8 +27,6 @@ import {
   type VertexCheck,
 } from "../model/vertexDiagrams.js";
 
-const LABEL_FONT = "bold 18px serif";
-
 /** Sinusoidal (photon/W/Z) or coiled (gluon) line from a to b. */
 function bosonShape(a: Vector2, b: Vector2, boson: Boson | null): Shape {
   const shape = new Shape();
@@ -38,9 +37,9 @@ function bosonShape(a: Vector2, b: Vector2, boson: Boson | null): Shape {
   const dir = b.minus(a).normalized();
   const perp = dir.perpendicular;
   const gluon = boson === "gluon";
-  const amplitude = gluon ? 7 : 5;
-  const wavelength = gluon ? 12 : 14;
-  const steps = Math.max(8, Math.round(length / 2));
+  const amplitude = gluon ? REACTION_COURT.GLUON_AMPLITUDE : REACTION_COURT.PHOTON_AMPLITUDE;
+  const wavelength = gluon ? REACTION_COURT.GLUON_WAVELENGTH : REACTION_COURT.PHOTON_WAVELENGTH;
+  const steps = Math.max(REACTION_COURT.BOSON_MIN_STEPS, Math.round(length / 2));
   for (let i = 0; i <= steps; i++) {
     const t = (i / steps) * length;
     const phase = (2 * Math.PI * t) / wavelength;
@@ -58,9 +57,9 @@ function bosonShape(a: Vector2, b: Vector2, boson: Boson | null): Shape {
 function placeAtEnd(node: Node, end: Vector2, isTop: boolean): void {
   node.centerX = end.x;
   if (isTop) {
-    node.bottom = end.y - 4;
+    node.bottom = end.y - REACTION_COURT.LABEL_END_GAP;
   } else {
-    node.top = end.y + 4;
+    node.top = end.y + REACTION_COURT.LABEL_END_GAP;
   }
 }
 
@@ -77,28 +76,33 @@ export class VertexDiagramNode extends Node {
     const frame = new Rectangle(0, 0, width, height, {
       fill: ParticleZooColors.panelBackgroundColorProperty,
       stroke: ParticleZooColors.panelBorderColorProperty,
-      cornerRadius: 6,
+      cornerRadius: PANEL_CORNER_RADIUS,
     });
     const title = new Text(strings.diagramTitleStringProperty, {
-      font: "bold 14px sans-serif",
+      font: FONTS.DIAGRAM_TITLE,
       fill: ParticleZooColors.textColorProperty,
-      left: 10,
-      top: 8,
-      maxWidth: width - 20,
+      left: REACTION_COURT.DIAGRAM_TITLE_LEFT,
+      top: REACTION_COURT.DIAGRAM_TITLE_TOP,
+      maxWidth: width - 2 * REACTION_COURT.DIAGRAM_TITLE_LEFT,
     });
     const hint = new RichText(strings.diagramHintStringProperty, {
-      font: "12px sans-serif",
+      font: FONTS.SMALL,
       fill: ParticleZooColors.textColorProperty,
-      lineWrap: width - 20,
-      left: 10,
-      top: 30,
+      lineWrap: width - 2 * REACTION_COURT.DIAGRAM_TITLE_LEFT,
+      left: REACTION_COURT.DIAGRAM_TITLE_LEFT,
+      top: REACTION_COURT.DIAGRAM_HINT_TOP,
     });
     const diagramLayer = new Node();
-    const status = new VBox({ spacing: 2, align: "left" });
+    const status = new VBox({ spacing: REACTION_COURT.DIAGRAM_STATUS_SPACING, align: "left" });
     this.children = [frame, title, hint, diagramLayer, this.blanks, status];
 
     // Diagram box inside the frame.
-    const box = { left: 70, right: width - 40, top: 80, bottom: height - 70 };
+    const box = {
+      left: REACTION_COURT.DIAGRAM_BOX_LEFT,
+      right: width - REACTION_COURT.DIAGRAM_BOX_RIGHT_INSET,
+      top: REACTION_COURT.DIAGRAM_BOX_TOP,
+      bottom: height - REACTION_COURT.DIAGRAM_BOX_BOTTOM_INSET,
+    };
     const at = (x: number, y: number) =>
       new Vector2(box.left + x * (box.right - box.left), box.bottom - y * (box.bottom - box.top));
 
@@ -109,9 +113,9 @@ export class VertexDiagramNode extends Node {
     ) =>
       new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-        xMargin: 6,
-        yMargin: 2,
-        content: new Text(label, { font: LABEL_FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+        xMargin: REACTION_COURT.DIAGRAM_BLANK_X_MARGIN,
+        yMargin: REACTION_COURT.DIAGRAM_BLANK_Y_MARGIN,
+        content: new Text(label, { font: FONTS.DIAGRAM_LABEL, fill: LIGHT_SURFACE_TEXT_FILL }),
         listener: onPress,
         accessibleName,
       });
@@ -135,7 +139,10 @@ export class VertexDiagramNode extends Node {
       const blanks: Node[] = [];
 
       const fermionLine = (a: Vector2, b: Vector2) =>
-        new Line(a, b, { stroke: ParticleZooColors.textColorProperty, lineWidth: 2.5 });
+        new Line(a, b, {
+          stroke: ParticleZooColors.textColorProperty,
+          lineWidth: REACTION_COURT.DIAGRAM_LINE_WIDTH,
+        });
 
       const legLabel = (leg: Leg, end: Vector2, isTop: boolean): void => {
         if ("slot" in leg) {
@@ -155,7 +162,7 @@ export class VertexDiagramNode extends Node {
           blanks.push(button);
         } else {
           const text = new Text(fermion(leg.fermion).symbol, {
-            font: LABEL_FONT,
+            font: FONTS.DIAGRAM_LABEL,
             fill: ParticleZooColors.textColorProperty,
           });
           placeAtEnd(text, end, isTop);
@@ -174,7 +181,7 @@ export class VertexDiagramNode extends Node {
           [top, true],
         ] as const) {
           const text = new Text(fermion(flavor).symbol, {
-            font: LABEL_FONT,
+            font: FONTS.DIAGRAM_LABEL,
             fill: ParticleZooColors.textColorProperty,
             opacity: 0.8,
           });
@@ -209,7 +216,7 @@ export class VertexDiagramNode extends Node {
         lines.push(
           new Path(bosonShape(p0, p1, boson), {
             stroke: ParticleZooColors.highlightProperty,
-            lineWidth: 2.5,
+            lineWidth: REACTION_COURT.DIAGRAM_LINE_WIDTH,
             lineDash: boson === null ? [4, 4] : [],
           }),
         );
@@ -232,7 +239,7 @@ export class VertexDiagramNode extends Node {
       vertexPoints.forEach((point, i) => {
         const check = checks[i] ?? null;
         lines.push(
-          new Circle(9, {
+          new Circle(REACTION_COURT.DIAGRAM_VERTEX_RADIUS, {
             center: point,
             fill:
               check === null
@@ -251,7 +258,7 @@ export class VertexDiagramNode extends Node {
       });
 
       // Time arrow.
-      const arrowX = 30;
+      const arrowX = REACTION_COURT.DIAGRAM_TIME_ARROW_X;
       lines.push(
         new Line(arrowX, box.bottom, arrowX, box.top, {
           stroke: ParticleZooColors.textColorProperty,
@@ -315,8 +322,8 @@ export class VertexDiagramNode extends Node {
             maxWidth: width - 20,
           }),
       );
-      status.left = 10;
-      status.bottom = height - 8;
+      status.left = REACTION_COURT.DIAGRAM_TITLE_LEFT;
+      status.bottom = height - REACTION_COURT.DIAGRAM_STATUS_BOTTOM_INSET;
     };
 
     this.multilinks.push(

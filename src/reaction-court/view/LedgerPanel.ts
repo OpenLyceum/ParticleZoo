@@ -12,11 +12,10 @@ import { formatSigned } from "../../common/model/quarks.js";
 import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS } from "../../ParticleZooConstants.js";
 import type { ReactionCourtModel } from "../model/ReactionCourtModel.js";
 import type { LedgerRow } from "../model/reactionRules.js";
 import { energyLine, ledgerLabel } from "./courtStrings.js";
-
-const FONT = "14px sans-serif";
 
 export class LedgerPanel extends ParticleZooPanel {
   public constructor(model: ReactionCourtModel, width: number) {
@@ -26,18 +25,22 @@ export class LedgerPanel extends ParticleZooPanel {
       options: { bold?: boolean; fill?: typeof ParticleZooColors.textColorProperty; small?: boolean } = {},
     ) =>
       new Text(s, {
-        font: `${options.bold ? "bold " : ""}${options.small ? "12px sans-serif" : FONT}`,
+        font: options.small ? FONTS.SMALL : options.bold ? FONTS.CONTROL_BOLD : FONTS.CONTROL,
         fill: options.fill ?? ParticleZooColors.textColorProperty,
         maxWidth: width * 0.5,
       });
     const title = new Text(strings.ledgerTitleStringProperty, {
-      font: `bold ${FONT}`,
+      font: FONTS.CONTROL_BOLD,
       fill: ParticleZooColors.textColorProperty,
     });
     const grid = new GridBox({ xSpacing: 14, ySpacing: 3, xAlign: "center" });
-    const energy = new Text("", { font: FONT, fill: ParticleZooColors.textColorProperty, maxWidth: width - 20 });
+    const energy = new Text("", {
+      font: FONTS.CONTROL,
+      fill: ParticleZooColors.textColorProperty,
+      maxWidth: width - 20,
+    });
     const note = new Text(strings.spinNoteStringProperty, {
-      font: "italic 11px sans-serif",
+      font: FONTS.TICK,
       fill: ParticleZooColors.textColorProperty,
       opacity: 0.7,
       maxWidth: width - 20,
@@ -53,7 +56,7 @@ export class LedgerPanel extends ParticleZooPanel {
           : ParticleZooColors.badProperty;
       return [
         new RichText(ledgerLabel(row.key), {
-          font: FONT,
+          font: FONTS.CONTROL,
           fill: ParticleZooColors.textColorProperty,
           maxWidth: width * 0.5,
           layoutOptions: { xAlign: "left" },

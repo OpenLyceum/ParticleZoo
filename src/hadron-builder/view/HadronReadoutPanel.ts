@@ -12,9 +12,8 @@ import { formatSigned, formatThirds } from "../../common/model/quarks.js";
 import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { CONTROLS, FONTS, HADRON_BUILDER } from "../../ParticleZooConstants.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
-
-const FONT = "15px sans-serif";
 
 /** Spin in units of ħ/2 → "½", "3/2", "0", "1". */
 export function formatSpin(spin2: number): string {
@@ -31,9 +30,9 @@ export class HadronReadoutPanel extends ParticleZooPanel {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const a11y = StringManager.getInstance().getHadronBuilderA11yStrings();
     const text = (s: TReadOnlyProperty<string>) =>
-      new Text(s, { font: FONT, fill: ParticleZooColors.textColorProperty, maxWidth: width * 0.6 });
+      new Text(s, { font: FONTS.READOUT, fill: ParticleZooColors.textColorProperty, maxWidth: width * 0.6 });
     const value = (property: TReadOnlyProperty<string>) =>
-      new Text(property, { font: `bold ${FONT}`, fill: ParticleZooColors.textColorProperty });
+      new Text(property, { font: FONTS.READOUT_BOLD, fill: ParticleZooColors.textColorProperty });
 
     const sums = model.sumsProperty;
     const q = new DerivedProperty([sums], (s) => formatThirds(s.charge3));
@@ -51,7 +50,7 @@ export class HadronReadoutPanel extends ParticleZooPanel {
       beautyLabel.visible = beautyValue.visible = s.beauty !== 0;
     });
 
-    const neutralValue = new Text("", { font: `bold ${FONT}` });
+    const neutralValue = new Text("", { font: FONTS.READOUT_BOLD });
     const updateNeutral = () => {
       const bag = model.bagProperty.value;
       const neutral = model.colorNeutralProperty.value;
@@ -69,8 +68,8 @@ export class HadronReadoutPanel extends ParticleZooPanel {
     strings.yesStringProperty.lazyLink(updateNeutral);
 
     const grid = new GridBox({
-      xSpacing: 16,
-      ySpacing: 4,
+      xSpacing: HADRON_BUILDER.READOUT_X_SPACING,
+      ySpacing: HADRON_BUILDER.READOUT_Y_SPACING,
       xAlign: "left",
       rows: [
         [text(strings.chargeStringProperty), value(q)],
@@ -87,7 +86,8 @@ export class HadronReadoutPanel extends ParticleZooPanel {
       model.spin2Property,
       [0, 1, 2, 3].map((spin2) => ({
         value: spin2,
-        createNode: () => new Text(formatSpin(spin2), { font: FONT, fill: ParticleZooColors.textColorProperty }),
+        createNode: () =>
+          new Text(formatSpin(spin2), { font: FONTS.READOUT, fill: ParticleZooColors.textColorProperty }),
         options: {
           accessibleName: formatSpin(spin2),
           enabledProperty: new DerivedProperty([model.allowedSpinsProperty], (allowed) => allowed.includes(spin2)),
@@ -95,18 +95,22 @@ export class HadronReadoutPanel extends ParticleZooPanel {
       })),
       {
         orientation: "horizontal",
-        spacing: 14,
-        radioButtonOptions: { radius: 7 },
+        spacing: HADRON_BUILDER.SPIN_RADIO_SPACING,
+        radioButtonOptions: { radius: CONTROLS.RADIO_RADIUS },
         accessibleName: a11y.controls.spinStringProperty,
       },
     );
     super(
       new VBox({
-        spacing: 8,
+        spacing: HADRON_BUILDER.READOUT_V_SPACING,
         align: "left",
         children: [
           grid,
-          new VBox({ spacing: 4, align: "left", children: [text(strings.spinStringProperty), spinGroup] }),
+          new VBox({
+            spacing: HADRON_BUILDER.SPIN_LABEL_SPACING,
+            align: "left",
+            children: [text(strings.spinStringProperty), spinGroup],
+          }),
         ],
       }),
       { minWidth: width, maxWidth: width },

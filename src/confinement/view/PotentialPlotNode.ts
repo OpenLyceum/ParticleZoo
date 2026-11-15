@@ -11,10 +11,8 @@ import { Shape } from "scenerystack/kite";
 import { Circle, Line, Node, Path, Rectangle, Text } from "scenerystack/scenery";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { CONFINEMENT, FONTS, PANEL_CORNER_RADIUS } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, PAIR_THRESHOLD, potential, SEPARATION_RANGE } from "../model/ConfinementModel.js";
-
-const V_MIN = -400;
-const V_MAX = 1600;
 
 export class PotentialPlotNode extends Node {
   private readonly multilinks: { dispose(): void }[] = [];
@@ -24,24 +22,26 @@ export class PotentialPlotNode extends Node {
     const frame = new Rectangle(0, 0, width, height, {
       fill: ParticleZooColors.panelBackgroundColorProperty,
       stroke: ParticleZooColors.panelBorderColorProperty,
-      cornerRadius: 6,
+      cornerRadius: PANEL_CORNER_RADIUS,
     });
     const title = new Text("", {
-      font: "bold 13px sans-serif",
+      font: FONTS.PANEL_TITLE,
       fill: ParticleZooColors.textColorProperty,
-      left: 8,
-      top: 6,
-      maxWidth: width - 16,
+      left: CONFINEMENT.PLOT_TITLE_INSET,
+      top: CONFINEMENT.PLOT_TITLE_TOP,
+      maxWidth: width - 2 * CONFINEMENT.PLOT_TITLE_INSET,
     });
     const plot = new Node();
     this.children = [frame, title, plot];
 
-    const left = 48;
-    const right = width - 12;
-    const top = 30;
-    const bottom = height - 30;
+    const left = CONFINEMENT.PLOT_LEFT_PAD;
+    const right = width - CONFINEMENT.PLOT_RIGHT_PAD;
+    const top = CONFINEMENT.PLOT_TOP_PAD;
+    const bottom = height - CONFINEMENT.PLOT_BOTTOM_PAD;
+    const vMin = CONFINEMENT.V_MIN;
+    const vMax = CONFINEMENT.V_MAX;
     const x = (r: number): number => left + (r / SEPARATION_RANGE.max) * (right - left);
-    const y = (v: number): number => bottom - ((v - V_MIN) / (V_MAX - V_MIN)) * (bottom - top);
+    const y = (v: number): number => bottom - ((v - vMin) / (vMax - vMin)) * (bottom - top);
 
     const draw = (): void => {
       const coulomb = model.coulombProperty.value;
@@ -51,7 +51,7 @@ export class PotentialPlotNode extends Node {
         children.push(
           new Line(left, y(v), right, y(v), { stroke: ParticleZooColors.panelBorderColorProperty }),
           new Text(`${v}`, {
-            font: "11px sans-serif",
+            font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
             right: left - 4,
             centerY: y(v),
@@ -61,7 +61,7 @@ export class PotentialPlotNode extends Node {
       for (const r of [0, 0.5, 1, 1.5]) {
         children.push(
           new Text(`${r}`, {
-            font: "11px sans-serif",
+            font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
             centerX: x(r),
             top: bottom + 3,
@@ -70,7 +70,7 @@ export class PotentialPlotNode extends Node {
       }
       children.push(
         new Text(strings.rAxisStringProperty, {
-          font: "11px sans-serif",
+          font: FONTS.TICK,
           fill: ParticleZooColors.textColorProperty,
           right: right,
           top: bottom + 14,
@@ -78,8 +78,8 @@ export class PotentialPlotNode extends Node {
       );
       const curve = new Shape();
       let started = false;
-      for (let r = 0.05; r <= SEPARATION_RANGE.max; r += 0.01) {
-        const v = Math.max(V_MIN, potential(r, coulomb));
+      for (let r = CONFINEMENT.CURVE_R_START; r <= SEPARATION_RANGE.max; r += CONFINEMENT.CURVE_R_STEP) {
+        const v = Math.max(vMin, potential(r, coulomb));
         started ? curve.lineTo(x(r), y(v)) : curve.moveTo(x(r), y(v));
         started = true;
       }
@@ -90,9 +90,9 @@ export class PotentialPlotNode extends Node {
           lineDash: [6, 4],
           lineWidth: 1.5,
         }),
-        new Circle(6, {
+        new Circle(CONFINEMENT.MARKER_RADIUS, {
           fill: ParticleZooColors.highlightProperty,
-          center: new Vector2(x(model.separationProperty.value), y(Math.max(V_MIN, model.energyProperty.value))),
+          center: new Vector2(x(model.separationProperty.value), y(Math.max(vMin, model.energyProperty.value))),
         }),
       );
       plot.children = children;

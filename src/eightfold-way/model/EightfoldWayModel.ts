@@ -17,10 +17,10 @@ import {
   StringUnionProperty,
   type TReadOnlyProperty,
 } from "scenerystack/axon";
-import { Range } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import { type Particle, particleById } from "../../common/model/particleCatalog.js";
 import { contentKey, FLAVORS, type Flavor, parseContent, quark } from "../../common/model/quarks.js";
+import { EIGHTFOLD } from "../../ParticleZooConstants.js";
 
 export const MULTIPLETS = ["decuplet", "octet"] as const;
 export type Multiplet = (typeof MULTIPLETS)[number];
@@ -72,9 +72,9 @@ export function equalSpacingPrediction(): number {
   return (masses[2] ?? 0) + step;
 }
 
-export const MASS_RANGE = new Range(1500, 1900);
+export const MASS_RANGE = EIGHTFOLD.MASS_RANGE;
 /** How close a mass prediction must be to count, MeV/c². */
-export const MASS_TOLERANCE = 30;
+export const MASS_TOLERANCE = EIGHTFOLD.MASS_TOLERANCE;
 
 export const OMEGA = DECUPLET.find((m) => m.missing)?.particle ?? particleById("Omega-");
 
@@ -82,8 +82,8 @@ export class EightfoldWayModel implements TModel {
   public readonly multipletProperty = new StringUnionProperty<Multiplet>("decuplet", { validValues: MULTIPLETS });
   /** The student's three quark picks for the empty slot. */
   public readonly predictedQuarksProperty = new Property<readonly [Flavor, Flavor, Flavor]>(["u", "d", "s"]);
-  public readonly predictedChargeProperty = new NumberProperty(0, { range: new Range(-2, 2) });
-  public readonly predictedMassProperty = new NumberProperty(1600, { range: MASS_RANGE });
+  public readonly predictedChargeProperty = new NumberProperty(0, { range: EIGHTFOLD.CHARGE_RANGE });
+  public readonly predictedMassProperty = new NumberProperty(EIGHTFOLD.MASS_DEFAULT, { range: MASS_RANGE });
   public readonly checkedProperty = new BooleanProperty(false);
   public readonly revealedProperty = new BooleanProperty(false);
 

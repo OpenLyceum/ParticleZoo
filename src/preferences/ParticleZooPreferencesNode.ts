@@ -7,11 +7,11 @@
  */
 
 import { Text, VBox } from "scenerystack/scenery";
-import { PhetFont } from "scenerystack/scenery-phet";
 import { Checkbox } from "scenerystack/sun";
 import type { Tandem } from "scenerystack/tandem";
 import { StringManager } from "../i18n/StringManager.js";
 import ParticleZooColors from "../ParticleZooColors.js";
+import { FONTS, PREFERENCES_LAYOUT } from "../ParticleZooConstants.js";
 import ParticleZooNamespace from "../ParticleZooNamespace.js";
 import type { ParticleZooPreferencesModel } from "./ParticleZooPreferencesModel.js";
 
@@ -23,27 +23,27 @@ export class ParticleZooPreferencesNode extends VBox {
     // colors (readable on white in both default and projector profiles), not textColorProperty
     // (which is near-white in default mode and would be invisible on the white dialog).
     const header = new Text(prefStrings.titleStringProperty, {
-      font: new PhetFont({ size: 18, weight: "bold" }),
+      font: FONTS.PREFERENCES_TITLE,
       fill: ParticleZooColors.controlSurfaceTextColorProperty,
     });
 
     const animateColorChargeCheckbox = new Checkbox(
       preferencesModel.animateColorChargeProperty,
       new Text(prefStrings.animateColorChargeStringProperty, {
-        font: new PhetFont(14),
+        font: FONTS.PREFERENCES_LABEL,
         fill: ParticleZooColors.controlSurfaceTextColorProperty,
       }),
       {
         checkboxColor: ParticleZooColors.controlSurfaceTextColorProperty,
         checkboxColorBackground: ParticleZooColors.controlSurfaceColorProperty,
-        spacing: 8,
+        spacing: PREFERENCES_LAYOUT.CONTROL_SPACING,
         ...(tandem && { tandem: tandem.createTandem("animateColorChargeCheckbox") }),
       },
     );
 
     super({
       align: "left",
-      spacing: 12,
+      spacing: PREFERENCES_LAYOUT.SECTION_SPACING,
       children: [header, animateColorChargeCheckbox],
     });
   }

@@ -19,7 +19,7 @@ import {
 } from "../../common/ParticleZooButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
-import { SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
+import { CONTROLS, FONTS, REACTION_COURT, SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
 import { PRESETS, type ReactionCourtModel } from "../model/ReactionCourtModel.js";
 import { LedgerPanel } from "./LedgerPanel.js";
 import { ParticlePaletteNode } from "./ParticlePaletteNode.js";
@@ -27,9 +27,6 @@ import { ReactionCourtScreenSummaryContent } from "./ReactionCourtScreenSummaryC
 import { ReactionEquationNode } from "./ReactionEquationNode.js";
 import { VerdictPanel } from "./VerdictPanel.js";
 import { VertexDiagramNode } from "./VertexDiagramNode.js";
-
-const RIGHT_WIDTH = 360;
-const FONT = "14px sans-serif";
 
 export type ReactionCourtScreenViewOptions = ScreenViewOptions;
 
@@ -44,7 +41,11 @@ export class ReactionCourtScreenView extends ScreenView {
     const a11y = StringManager.getInstance().getReactionCourtA11yStrings();
     const presetNames = strings.presetNames as unknown as Record<string, typeof strings.beforeStringProperty>;
     const label = (s: typeof strings.beforeStringProperty) =>
-      new Text(s, { font: FONT, fill: ParticleZooColors.textColorProperty, maxWidth: 160 });
+      new Text(s, {
+        font: FONTS.CONTROL,
+        fill: ParticleZooColors.textColorProperty,
+        maxWidth: REACTION_COURT.LABEL_MAX_WIDTH,
+      });
     const left = this.layoutBounds.minX + SCREEN_VIEW_MARGIN;
 
     // ── top row: presets, side, clear ──
@@ -55,15 +56,16 @@ export class ReactionCourtScreenView extends ScreenView {
       [
         {
           value: "none",
-          createNode: () => new Text(strings.choosePresetStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+          createNode: () =>
+            new Text(strings.choosePresetStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
         },
         ...PRESETS.map((preset) => ({
           value: preset.id,
           createNode: () =>
             new Text(presetNames[`${preset.id}StringProperty`] ?? preset.id, {
-              font: FONT,
+              font: FONTS.CONTROL,
               fill: LIGHT_SURFACE_TEXT_FILL,
-              maxWidth: 220,
+              maxWidth: REACTION_COURT.PRESET_MAX_WIDTH,
             }),
         })),
       ],
@@ -114,22 +116,25 @@ export class ReactionCourtScreenView extends ScreenView {
       ] as const,
       {
         orientation: "horizontal",
-        spacing: 12,
-        radioButtonOptions: { radius: 7 },
+        spacing: REACTION_COURT.SIDE_RADIO_SPACING,
+        radioButtonOptions: { radius: CONTROLS.RADIO_RADIUS },
         accessibleName: a11y.controls.sideStringProperty,
       },
     );
     const clearButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(strings.clearStringProperty, { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL }),
+      content: new Text(strings.clearStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
       listener: () => model.clear(),
       accessibleName: a11y.controls.clearStringProperty,
     });
     const topRow = new HBox({
-      spacing: 16,
+      spacing: REACTION_COURT.TOP_ROW_SPACING,
       children: [
         presetBox,
-        new HBox({ spacing: 8, children: [label(strings.addToStringProperty), sideGroup] }),
+        new HBox({
+          spacing: REACTION_COURT.ADD_TO_SPACING,
+          children: [label(strings.addToStringProperty), sideGroup],
+        }),
         clearButton,
       ],
       left,
@@ -139,15 +144,15 @@ export class ReactionCourtScreenView extends ScreenView {
     // ── reaction ──
     const equation = new ReactionEquationNode(model);
     equation.boundsProperty.link(() => {
-      equation.left = left + 6;
-      equation.top = topRow.bottom + 18;
+      equation.left = left + REACTION_COURT.EQUATION_LEFT_INSET;
+      equation.top = topRow.bottom + REACTION_COURT.EQUATION_TOP_GAP;
     });
 
     // ── palette / diagram ──
     const palette = new ParticlePaletteNode(model);
     palette.left = left;
-    palette.top = topRow.bottom + 80;
-    const diagramWidth = this.layoutBounds.width - RIGHT_WIDTH - 3 * SCREEN_VIEW_MARGIN;
+    palette.top = topRow.bottom + REACTION_COURT.PALETTE_TOP_GAP;
+    const diagramWidth = this.layoutBounds.width - REACTION_COURT.RIGHT_WIDTH - 3 * SCREEN_VIEW_MARGIN;
     const diagram = new VertexDiagramNode(
       model,
       diagramWidth,
@@ -156,7 +161,11 @@ export class ReactionCourtScreenView extends ScreenView {
     diagram.left = left;
     diagram.top = palette.top;
 
-    const diagramButtonLabel = new Text("", { font: FONT, fill: LIGHT_SURFACE_TEXT_FILL, maxWidth: 260 });
+    const diagramButtonLabel = new Text("", {
+      font: FONTS.CONTROL,
+      fill: LIGHT_SURFACE_TEXT_FILL,
+      maxWidth: REACTION_COURT.DIAGRAM_BUTTON_MAX_WIDTH,
+    });
     const diagramButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
       content: diagramButtonLabel,
@@ -175,9 +184,13 @@ export class ReactionCourtScreenView extends ScreenView {
     });
 
     // ── right column ──
-    const ledger = new LedgerPanel(model, RIGHT_WIDTH);
-    const verdict = new VerdictPanel(model, RIGHT_WIDTH);
-    const rightColumn = new VBox({ spacing: 10, align: "left", children: [ledger, verdict, diagramButton] });
+    const ledger = new LedgerPanel(model, REACTION_COURT.RIGHT_WIDTH);
+    const verdict = new VerdictPanel(model, REACTION_COURT.RIGHT_WIDTH);
+    const rightColumn = new VBox({
+      spacing: REACTION_COURT.RIGHT_COLUMN_SPACING,
+      align: "left",
+      children: [ledger, verdict, diagramButton],
+    });
     rightColumn.boundsProperty.link(() => {
       rightColumn.right = this.layoutBounds.maxX - SCREEN_VIEW_MARGIN;
       rightColumn.top = this.layoutBounds.minY + SCREEN_VIEW_MARGIN;

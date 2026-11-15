@@ -29,7 +29,7 @@ import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import type { Node } from "scenerystack/scenery";
 import { Panel, type PanelOptions } from "scenerystack/sun";
 import ParticleZooColors from "../ParticleZooColors.js";
-import { PANEL_CORNER_RADIUS } from "../ParticleZooConstants.js";
+import { PANEL, PANEL_CORNER_RADIUS } from "../ParticleZooConstants.js";
 
 export type ParticleZooPanelOptions = PanelOptions;
 
@@ -40,8 +40,8 @@ export class ParticleZooPanel extends Panel {
         fill: ParticleZooColors.panelBackgroundColorProperty,
         stroke: ParticleZooColors.panelBorderColorProperty,
         cornerRadius: PANEL_CORNER_RADIUS,
-        xMargin: 12,
-        yMargin: 10,
+        xMargin: PANEL.X_MARGIN,
+        yMargin: PANEL.Y_MARGIN,
       },
       providedOptions,
     );

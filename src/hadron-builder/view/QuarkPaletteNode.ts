@@ -14,10 +14,8 @@ import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
 import { QuarkNode } from "../../common/view/QuarkNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS, HADRON_BUILDER } from "../../ParticleZooConstants.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
-
-const TILE_RADIUS = 22;
-const CLICK_SLOP = 6; // px a press may wander and still count as a click
 
 export class QuarkPaletteNode extends ParticleZooPanel {
   public readonly tiles: Node[];
@@ -32,7 +30,7 @@ export class QuarkPaletteNode extends ParticleZooPanel {
 
     const makeTile = (q: Quark): Node => {
       const tile = new QuarkNode(q, {
-        radius: TILE_RADIUS,
+        radius: HADRON_BUILDER.TILE_RADIUS,
         cursor: "pointer",
         tagName: "button",
         accessibleName: new PatternStringProperty(a11y.controls.addQuarkPatternStringProperty, {
@@ -47,7 +45,7 @@ export class QuarkPaletteNode extends ParticleZooPanel {
         new DragListener({
           start: (event) => {
             start = event.pointer.point.copy();
-            ghost = new QuarkNode(q, { radius: TILE_RADIUS, pickable: false, opacity: 0.85 });
+            ghost = new QuarkNode(q, { radius: HADRON_BUILDER.TILE_RADIUS, pickable: false, opacity: 0.85 });
             ghost.center = dragLayer.globalToLocalPoint(event.pointer.point);
             dragLayer.addChild(ghost);
           },
@@ -59,7 +57,7 @@ export class QuarkPaletteNode extends ParticleZooPanel {
           end: (event) => {
             const point = event?.pointer.point ?? start;
             const moved = point && start ? point.distance(start) : 0;
-            if (point && (moved < CLICK_SLOP || dropTarget(point))) {
+            if (point && (moved < HADRON_BUILDER.CLICK_SLOP || dropTarget(point))) {
               model.add(q);
             }
             ghost?.dispose();
@@ -74,17 +72,21 @@ export class QuarkPaletteNode extends ParticleZooPanel {
     const quarkTiles = FLAVORS.map((f) => makeTile(quark(f)));
     const antiTiles = FLAVORS.map((f) => makeTile(quark(f, true)));
     const label = (text: typeof strings.quarksStringProperty) =>
-      new Text(text, { font: "bold 13px sans-serif", fill: ParticleZooColors.textColorProperty, maxWidth: 260 });
+      new Text(text, {
+        font: FONTS.PALETTE_LABEL,
+        fill: ParticleZooColors.textColorProperty,
+        maxWidth: 260,
+      });
 
     super(
       new VBox({
-        spacing: 6,
+        spacing: HADRON_BUILDER.PALETTE_V_SPACING,
         align: "left",
         children: [
           label(strings.quarksStringProperty),
-          new HBox({ spacing: 8, children: quarkTiles }),
+          new HBox({ spacing: HADRON_BUILDER.PALETTE_H_SPACING, children: quarkTiles }),
           label(strings.antiquarksStringProperty),
-          new HBox({ spacing: 8, children: antiTiles }),
+          new HBox({ spacing: HADRON_BUILDER.PALETTE_H_SPACING, children: antiTiles }),
         ],
       }),
     );

@@ -15,16 +15,13 @@ import {
   LIGHT_SURFACE_TEXT_FILL,
 } from "../../common/ParticleZooButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
-import { SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
+import { FONTS, HADRON_BUILDER, SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 import { BagNode } from "./BagNode.js";
 import { HadronBuilderScreenSummaryContent } from "./HadronBuilderScreenSummaryContent.js";
 import { HadronReadoutPanel } from "./HadronReadoutPanel.js";
 import { HadronResultPanel } from "./HadronResultPanel.js";
 import { QuarkPaletteNode } from "./QuarkPaletteNode.js";
-
-const BAG_RADIUS = 150;
-const RIGHT_WIDTH = 330;
 
 export type HadronBuilderScreenViewOptions = ScreenViewOptions;
 
@@ -38,33 +35,42 @@ export class HadronBuilderScreenView extends ScreenView {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const a11y = StringManager.getInstance().getHadronBuilderA11yStrings();
 
-    const bag = new BagNode(model, BAG_RADIUS);
+    const bag = new BagNode(model, HADRON_BUILDER.BAG_RADIUS);
     const dragLayer = new Node();
 
     const palette = new QuarkPaletteNode(model, dragLayer, (globalPoint) => {
       const local = bag.globalToLocalPoint(globalPoint);
-      return local.magnitude <= BAG_RADIUS;
+      return local.magnitude <= HADRON_BUILDER.BAG_RADIUS;
     });
     palette.left = this.layoutBounds.minX + SCREEN_VIEW_MARGIN;
     palette.top = this.layoutBounds.minY + SCREEN_VIEW_MARGIN;
 
     // Centre the bag in the space left of the readouts.
     bag.centerX =
-      (this.layoutBounds.minX + SCREEN_VIEW_MARGIN + this.layoutBounds.maxX - SCREEN_VIEW_MARGIN - RIGHT_WIDTH) / 2;
-    bag.top = palette.bottom + 20;
+      (this.layoutBounds.minX +
+        SCREEN_VIEW_MARGIN +
+        this.layoutBounds.maxX -
+        SCREEN_VIEW_MARGIN -
+        HADRON_BUILDER.RIGHT_WIDTH) /
+      2;
+    bag.top = palette.bottom + HADRON_BUILDER.BAG_TOP_GAP;
 
     const clearButton = new RectangularPushButton({
       ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(strings.clearStringProperty, { font: "14px sans-serif", fill: LIGHT_SURFACE_TEXT_FILL }),
+      content: new Text(strings.clearStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
       listener: () => model.clear(),
       accessibleName: a11y.controls.clearStringProperty,
     });
     clearButton.centerX = bag.centerX;
-    clearButton.top = bag.bottom + 10;
+    clearButton.top = bag.bottom + HADRON_BUILDER.CLEAR_TOP_GAP;
 
-    const readouts = new HadronReadoutPanel(model, RIGHT_WIDTH);
-    const result = new HadronResultPanel(model, RIGHT_WIDTH);
-    const rightColumn = new VBox({ spacing: 12, align: "left", children: [readouts, result] });
+    const readouts = new HadronReadoutPanel(model, HADRON_BUILDER.RIGHT_WIDTH);
+    const result = new HadronResultPanel(model, HADRON_BUILDER.RIGHT_WIDTH);
+    const rightColumn = new VBox({
+      spacing: HADRON_BUILDER.RIGHT_COLUMN_SPACING,
+      align: "left",
+      children: [readouts, result],
+    });
     rightColumn.boundsProperty.link(() => {
       rightColumn.right = this.layoutBounds.maxX - SCREEN_VIEW_MARGIN;
       rightColumn.top = this.layoutBounds.minY + SCREEN_VIEW_MARGIN;

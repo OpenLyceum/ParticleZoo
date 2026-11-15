@@ -13,10 +13,9 @@ import { quarkSymbol } from "../../common/model/quarks.js";
 import { QuarkNode } from "../../common/view/QuarkNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS, HADRON_BUILDER } from "../../ParticleZooConstants.js";
 import { particleZooPreferences } from "../../preferences/ParticleZooPreferencesModel.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
-
-const COLOR_PERIOD = 0.9; // seconds per colour swap
 
 const COLORS = [
   ParticleZooColors.colorRedProperty,
@@ -43,11 +42,11 @@ export class BagNode extends Node {
     const outline = new Circle(radius, {
       fill: ParticleZooColors.bagFillProperty,
       stroke: ParticleZooColors.bagStrokeProperty,
-      lineWidth: 3,
-      lineDash: [10, 6],
+      lineWidth: HADRON_BUILDER.OUTLINE_LINE_WIDTH,
+      lineDash: [...HADRON_BUILDER.OUTLINE_DASH],
     });
     const hint = new Text(strings.bagHintStringProperty, {
-      font: "13px sans-serif",
+      font: FONTS.BAG_HINT,
       fill: ParticleZooColors.textColorProperty,
       maxWidth: radius * 1.6,
       opacity: 0.75,
@@ -63,11 +62,11 @@ export class BagNode extends Node {
       for (const node of this.constituents) {
         node.dispose();
       }
-      const spread = bag.length === 1 ? 0 : radius * 0.42;
+      const spread = bag.length === 1 ? 0 : radius * HADRON_BUILDER.CONSTITUENT_SPREAD_FACTOR;
       this.constituents = bag.map((q, i) => {
         const angle = -Math.PI / 2 + (2 * Math.PI * i) / bag.length + (bag.length === 2 ? Math.PI / 2 : 0);
         const node = new QuarkNode(q, {
-          radius: 30,
+          radius: HADRON_BUILDER.CONSTITUENT_RADIUS,
           cursor: "pointer",
           tagName: "button",
           accessibleName: new PatternStringProperty(strings.removeQuarkPatternStringProperty, {
@@ -88,7 +87,7 @@ export class BagNode extends Node {
 
   private updateColors(model: HadronBuilderModel): void {
     const bag = model.bagProperty.value;
-    const phase = Math.floor(model.timeProperty.value / COLOR_PERIOD);
+    const phase = Math.floor(model.timeProperty.value / HADRON_BUILDER.COLOR_PERIOD);
     const neutral = model.colorNeutralProperty.value;
     let quarkIndex = 0;
     let antiIndex = 0;

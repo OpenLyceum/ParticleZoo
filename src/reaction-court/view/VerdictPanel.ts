@@ -11,6 +11,7 @@ import { RichText, Text, VBox } from "scenerystack/scenery";
 import { ParticleZooPanel } from "../../common/ParticleZooPanel.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
+import { FONTS } from "../../ParticleZooConstants.js";
 import type { ReactionCourtModel } from "../model/ReactionCourtModel.js";
 import { verdictSentences } from "./courtStrings.js";
 
@@ -18,12 +19,12 @@ export class VerdictPanel extends ParticleZooPanel {
   public constructor(model: ReactionCourtModel, width: number) {
     const strings = StringManager.getInstance().getReactionCourtStrings();
     const title = new Text(strings.verdictTitleStringProperty, {
-      font: "bold 14px sans-serif",
+      font: FONTS.DIAGRAM_TITLE,
       fill: ParticleZooColors.textColorProperty,
     });
-    const verdict = new RichText("", { font: "bold 15px sans-serif", lineWrap: width - 24 });
+    const verdict = new RichText("", { font: FONTS.READOUT_BOLD, lineWrap: width - 24 });
     const measured = new RichText("", {
-      font: "14px sans-serif",
+      font: FONTS.CONTROL,
       fill: ParticleZooColors.textColorProperty,
       lineWrap: width - 24,
     });

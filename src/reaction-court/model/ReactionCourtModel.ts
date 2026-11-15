@@ -16,14 +16,15 @@ import {
 } from "scenerystack/axon";
 import type { TModel } from "scenerystack/joist";
 import { type Particle, particleById } from "../../common/model/particleCatalog.js";
+import { REACTION_COURT } from "../../ParticleZooConstants.js";
 import { type Judgement, judge } from "./reactionRules.js";
 import { type Boson, checkVertex, type DiagramTemplate, diagramFor, type VertexCheck } from "./vertexDiagrams.js";
 
 export const SIDES = ["before", "after"] as const;
 export type Side = (typeof SIDES)[number];
 
-export const MAX_BEFORE = 2;
-export const MAX_AFTER = 4;
+export const MAX_BEFORE = REACTION_COURT.MAX_BEFORE;
+export const MAX_AFTER = REACTION_COURT.MAX_AFTER;
 
 /** Particles on the palette, in display order (rows of related particles). */
 export const PALETTE_IDS: readonly string[] = [
