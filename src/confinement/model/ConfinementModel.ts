@@ -24,18 +24,18 @@ import { contentKey, type Flavor, type Quark, quark } from "../../common/model/q
 import { CONFINEMENT } from "../../ParticleZooConstants.js";
 
 /** String tension, MeV per fm (≈ 1 GeV/fm). */
-export const STRING_TENSION = CONFINEMENT.STRING_TENSION;
+const STRING_TENSION = CONFINEMENT.STRING_TENSION;
 /** ħc in MeV·fm. */
-export const HBAR_C = CONFINEMENT.HBAR_C;
+const HBAR_C = CONFINEMENT.HBAR_C;
 /** Strong coupling at hadronic distances, for the optional Coulomb term. */
-export const ALPHA_S = CONFINEMENT.ALPHA_S;
+const ALPHA_S = CONFINEMENT.ALPHA_S;
 /** Separation range, fm. */
 export const SEPARATION_RANGE = CONFINEMENT.SEPARATION_RANGE;
-export const INITIAL_SEPARATION = CONFINEMENT.INITIAL_SEPARATION;
+const INITIAL_SEPARATION = CONFINEMENT.INITIAL_SEPARATION;
 /** Energy needed to create a light (u ū or d d̄) pair, MeV. */
 export const PAIR_THRESHOLD = CONFINEMENT.PAIR_THRESHOLD;
 
-export const PRESETS = ["piPlus", "kPlus", "jpsi"] as const;
+const PRESETS = ["piPlus", "kPlus", "jpsi"] as const;
 export type Preset = (typeof PRESETS)[number];
 
 /** Starting meson for each preset: [quark flavour, antiquark flavour]. */
@@ -45,8 +45,8 @@ export const PRESET_CONTENT: Readonly<Record<Preset, readonly [Flavor, Flavor]>>
   jpsi: ["c", "c"],
 };
 
-export const PHASES = ["bound", "broken"] as const;
-export type Phase = (typeof PHASES)[number];
+const PHASES = ["bound", "broken"] as const;
+type Phase = (typeof PHASES)[number];
 
 /** Field energy stored at separation r (fm), MeV. */
 export function potential(r: number, coulomb: boolean): number {

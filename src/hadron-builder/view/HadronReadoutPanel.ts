@@ -16,7 +16,7 @@ import { CONTROLS, FONTS, HADRON_BUILDER } from "../../ParticleZooConstants.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 
 /** Spin in units of ħ/2 → "½", "3/2", "0", "1". */
-export function formatSpin(spin2: number): string {
+function formatSpin(spin2: number): string {
   if (spin2 % 2 === 0) {
     return `${spin2 / 2}`;
   }

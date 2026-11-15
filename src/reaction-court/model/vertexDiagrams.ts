@@ -310,7 +310,7 @@ export type VertexCheck = {
 };
 
 /** Resolves a leg to a fermion given the student's slot choices. */
-export function legFermion(leg: Leg, choices: readonly string[]): Fermion {
+function legFermion(leg: Leg, choices: readonly string[]): Fermion {
   return fermion("slot" in leg ? (choices[leg.slot] ?? "u") : leg.fermion);
 }
 

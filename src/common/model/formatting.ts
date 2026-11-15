@@ -19,7 +19,7 @@ const SUPERSCRIPTS: Record<string, string> = {
   "9": "⁹",
 };
 
-export function superscript(value: number): string {
+function superscript(value: number): string {
   return [...`${value}`].map((ch) => SUPERSCRIPTS[ch] ?? ch).join("");
 }
 

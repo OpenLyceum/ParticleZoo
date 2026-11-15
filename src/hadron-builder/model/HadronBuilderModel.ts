@@ -23,10 +23,10 @@ import {
 } from "../../common/model/quarks.js";
 import { HADRON_BUILDER } from "../../ParticleZooConstants.js";
 
-export const BAG_CAPACITY = HADRON_BUILDER.BAG_CAPACITY;
+const BAG_CAPACITY = HADRON_BUILDER.BAG_CAPACITY;
 
-export const VERDICTS = ["empty", "netColor", "hadron", "unknown"] as const;
-export type Verdict = (typeof VERDICTS)[number];
+const VERDICTS = ["empty", "netColor", "hadron", "unknown"] as const;
+type Verdict = (typeof VERDICTS)[number];
 
 export class HadronBuilderModel implements TModel {
   public readonly bagProperty = new Property<readonly Quark[]>([]);

@@ -25,18 +25,11 @@
 
 import type { Particle } from "../../common/model/particleCatalog.js";
 
-export const LEDGER_KEYS = ["charge", "baryon", "electron", "muon", "tau", "strangeness"] as const;
+const LEDGER_KEYS = ["charge", "baryon", "electron", "muon", "tau", "strangeness"] as const;
 export type LedgerKey = (typeof LEDGER_KEYS)[number];
 
-export const FORCES = ["strong", "electromagnetic", "weak"] as const;
-export type Force = (typeof FORCES)[number];
-
-/** Characteristic lifetimes, seconds: [shortest, longest] of the typical range. */
-export const LIFETIME_SCALE: Readonly<Record<Force, readonly [number, number]>> = {
-  strong: [1e-24, 1e-22],
-  electromagnetic: [1e-20, 1e-16],
-  weak: [1e-13, 1e3],
-};
+const FORCES = ["strong", "electromagnetic", "weak"] as const;
+type Force = (typeof FORCES)[number];
 
 export type LedgerRow = {
   readonly key: LedgerKey;
@@ -46,7 +39,7 @@ export type LedgerRow = {
   readonly conserved: boolean;
 };
 
-export type Verdict =
+type Verdict =
   | { readonly kind: "incomplete" }
   | { readonly kind: "forbidden"; readonly reasons: readonly ForbiddenReason[] }
   | { readonly kind: "allowed"; readonly force: Force; readonly flavorChanges: boolean };

@@ -19,7 +19,7 @@ import { CONFINEMENT, FONTS } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, PRESET_CONTENT } from "../model/ConfinementModel.js";
 
 /** Screen pixels per femtometre. */
-export const PIXELS_PER_FM = CONFINEMENT.PIXELS_PER_FM;
+const PIXELS_PER_FM = CONFINEMENT.PIXELS_PER_FM;
 
 export class FluxTubeNode extends Node {
   public constructor(model: ConfinementModel) {

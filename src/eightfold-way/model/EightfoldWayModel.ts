@@ -22,8 +22,8 @@ import { type Particle, particleById } from "../../common/model/particleCatalog.
 import { contentKey, FLAVORS, type Flavor, parseContent, quark } from "../../common/model/quarks.js";
 import { EIGHTFOLD } from "../../ParticleZooConstants.js";
 
-export const MULTIPLETS = ["decuplet", "octet"] as const;
-export type Multiplet = (typeof MULTIPLETS)[number];
+const MULTIPLETS = ["decuplet", "octet"] as const;
+type Multiplet = (typeof MULTIPLETS)[number];
 
 export type Member = {
   readonly particle: Particle;
@@ -74,7 +74,7 @@ export function equalSpacingPrediction(): number {
 
 export const MASS_RANGE = EIGHTFOLD.MASS_RANGE;
 /** How close a mass prediction must be to count, MeV/c². */
-export const MASS_TOLERANCE = EIGHTFOLD.MASS_TOLERANCE;
+const MASS_TOLERANCE = EIGHTFOLD.MASS_TOLERANCE;
 
 export const OMEGA = DECUPLET.find((m) => m.missing)?.particle ?? particleById("Omega-");
 

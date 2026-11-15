@@ -12,8 +12,8 @@
 
 import { contentKey, parseContent } from "./quarks.js";
 
-export const FAMILIES = ["lepton", "boson", "meson", "baryon"] as const;
-export type Family = (typeof FAMILIES)[number];
+const FAMILIES = ["lepton", "boson", "meson", "baryon"] as const;
+type Family = (typeof FAMILIES)[number];
 
 export type Particle = {
   /** Stable identifier, e.g. "p", "anti-p", "K+". Also the i18n name key's base. */
