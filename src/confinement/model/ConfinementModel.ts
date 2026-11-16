@@ -21,7 +21,7 @@ import {
 import { Range } from "scenerystack/dot";
 import type { TModel } from "scenerystack/joist";
 import { hadronsWithContent, type Particle } from "../../common/model/particleCatalog.js";
-import { contentKey, type Flavor, type Quark, quark } from "../../common/model/quarks.js";
+import { contentKey, FLAVOR_DATA, type Flavor, type Quark, quark } from "../../common/model/quarks.js";
 import { CONFINEMENT } from "../../ParticleZooConstants.js";
 
 /** String tension, MeV per fm (≈ 1 GeV/fm). */
@@ -34,7 +34,7 @@ const ALPHA_S = CONFINEMENT.ALPHA_S;
 export const SEPARATION_RANGE = CONFINEMENT.SEPARATION_RANGE;
 const INITIAL_SEPARATION = CONFINEMENT.INITIAL_SEPARATION;
 /** Energy needed to create a light (u ū or d d̄) pair, MeV. */
-export const PAIR_THRESHOLD = CONFINEMENT.PAIR_THRESHOLD;
+export const PAIR_THRESHOLD = 2 * FLAVOR_DATA.u.constituentMass + CONFINEMENT.PAIR_THRESHOLD_PADDING;
 
 const PRESETS = ["piPlus", "kPlus", "jpsi"] as const;
 export type Preset = (typeof PRESETS)[number];

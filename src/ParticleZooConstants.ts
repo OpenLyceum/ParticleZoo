@@ -16,7 +16,6 @@
 
 import { Dimension2, Range } from "scenerystack/dot";
 import { PhetFont } from "scenerystack/scenery-phet";
-import { FLAVOR_DATA } from "./common/model/quarks.js";
 import ParticleZooNamespace from "./ParticleZooNamespace.js";
 
 /** Margin (view px) between screen content and the layoutBounds edges. */
@@ -167,8 +166,12 @@ export const EIGHTFOLD = {
   BUTTON_ROW_SPACING: 12,
 } as const;
 
-/** Confinement: linear potential, pair-creation threshold, flux-tube view. */
+/**
+ * Confinement: linear potential and pair-creation physics, plus flux-tube /
+ * plot chrome (view keys below the separator).
+ */
 export const CONFINEMENT = {
+  // ── Physics (MeV, fm) ──────────────────────────────────────────────────────
   /** String tension σ (MeV/fm). ≈ 1 GeV/fm. */
   STRING_TENSION: 1000,
   /** ħc (MeV·fm). */
@@ -182,10 +185,12 @@ export const CONFINEMENT = {
   /** Starting separation (fm). */
   INITIAL_SEPARATION: 0.4,
   /**
-   * Pair-creation threshold (MeV): 2 × u constituent mass + padding.
-   * ≈ 680 MeV; the string snaps when V(r) reaches this.
+   * Extra MeV added to 2 × u constituent mass for the pair-creation threshold.
+   * ConfinementModel computes PAIR_THRESHOLD = 2 × FLAVOR_DATA.u.constituentMass + this.
    */
-  PAIR_THRESHOLD: 2 * FLAVOR_DATA.u.constituentMass + 8,
+  PAIR_THRESHOLD_PADDING: 8,
+
+  // ── View / chrome (px unless noted) ────────────────────────────────────────
   /** Screen pixels per femtometre. */
   PIXELS_PER_FM: 300,
   /** Flux-tube height (px). */
