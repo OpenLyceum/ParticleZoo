@@ -1,3 +1,4 @@
+import { VERDICT_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * VerdictPanel.ts
  *
@@ -22,11 +23,14 @@ export class VerdictPanel extends ParticleZooPanel {
       font: FONTS.DIAGRAM_TITLE,
       fill: ParticleZooColors.textColorProperty,
     });
-    const verdict = new RichText("", { font: FONTS.READOUT_BOLD, lineWrap: width - 24 });
+    const verdict = new RichText("", {
+      font: FONTS.READOUT_BOLD,
+      lineWrap: width - VERDICT_PANEL_SETTINGS.VERDICT_LINE_WRAP_OFFSET,
+    });
     const measured = new RichText("", {
       font: FONTS.CONTROL,
       fill: ParticleZooColors.textColorProperty,
-      lineWrap: width - 24,
+      lineWrap: width - VERDICT_PANEL_SETTINGS.MEASURED_LINE_WRAP_OFFSET,
     });
 
     Multilink.multilink(
@@ -45,10 +49,17 @@ export class VerdictPanel extends ParticleZooPanel {
       },
     );
 
-    super(new VBox({ spacing: 6, align: "left", children: [title, verdict, measured] }), {
-      minWidth: width,
-      maxWidth: width,
-      minHeight: 110,
-    });
+    super(
+      new VBox({
+        spacing: VERDICT_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        align: "left",
+        children: [title, verdict, measured],
+      }),
+      {
+        minWidth: width,
+        maxWidth: width,
+        minHeight: VERDICT_PANEL_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+      },
+    );
   }
 }

@@ -1,3 +1,4 @@
+import { EIGHTFOLD_WAY_SCREEN_VIEW_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * EightfoldWayScreenView.ts
  *
@@ -32,7 +33,11 @@ export class EightfoldWayScreenView extends ScreenView {
     const strings = StringManager.getInstance().getEightfoldWayStrings();
     const a11y = StringManager.getInstance().getEightfoldWayA11yStrings();
     const label = (s: typeof strings.decupletStringProperty) =>
-      new Text(s, { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty, maxWidth: 220 });
+      new Text(s, {
+        font: FONTS.CONTROL,
+        fill: ParticleZooColors.textColorProperty,
+        maxWidth: EIGHTFOLD_WAY_SCREEN_VIEW_SETTINGS.LABEL_MAX_WIDTH,
+      });
 
     const multipletGroup = new AquaRadioButtonGroup(
       model.multipletProperty,
@@ -61,7 +66,7 @@ export class EightfoldWayScreenView extends ScreenView {
     const yearNote = new Text(strings.yearNoteStringProperty, {
       font: FONTS.CONTROL_ITALIC,
       fill: ParticleZooColors.textColorProperty,
-      opacity: 0.8,
+      opacity: EIGHTFOLD_WAY_SCREEN_VIEW_SETTINGS.YEAR_NOTE_OPACITY,
     });
 
     const diagram = new MultipletDiagramNode(model);

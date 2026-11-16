@@ -1,3 +1,4 @@
+import { REACTION_EQUATION_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * ReactionEquationNode.ts
  *
@@ -36,9 +37,18 @@ export class ReactionEquationNode extends Node {
       text.addInputListener({ click: () => model.remove(side, index), down: () => model.remove(side, index) });
       return text;
     };
-    const plus = () => new Text("+", { font: FONTS.EQUATION, fill: ParticleZooColors.textColorProperty, opacity: 0.6 });
+    const plus = () =>
+      new Text("+", {
+        font: FONTS.EQUATION,
+        fill: ParticleZooColors.textColorProperty,
+        opacity: REACTION_EQUATION_NODE_SETTINGS.PLUS_OPACITY,
+      });
     const placeholder = () =>
-      new Text("…", { font: FONTS.EQUATION, fill: ParticleZooColors.textColorProperty, opacity: 0.4 });
+      new Text("…", {
+        font: FONTS.EQUATION,
+        fill: ParticleZooColors.textColorProperty,
+        opacity: REACTION_EQUATION_NODE_SETTINGS.PLACEHOLDER_OPACITY,
+      });
     const sideNode = (particles: readonly Particle[], which: Side): Node => {
       if (particles.length === 0) {
         return placeholder();

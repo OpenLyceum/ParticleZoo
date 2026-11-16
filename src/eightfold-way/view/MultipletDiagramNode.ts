@@ -1,3 +1,4 @@
+import { MULTIPLET_DIAGRAM_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * MultipletDiagramNode.ts
  *
@@ -38,12 +39,12 @@ export class MultipletDiagramNode extends Node {
         children.push(
           new Line(x(minI3) - radius - 10, y(s), x(maxI3) + radius + 10, y(s), {
             stroke: ParticleZooColors.panelBorderColorProperty,
-            lineDash: [2, 6],
+            lineDash: [2, MULTIPLET_DIAGRAM_NODE_SETTINGS.DRAW_LINE_DASH_DASH],
           }),
           new Text(`S = ${s === 0 ? "0" : `−${-s}`}`, {
             font: FONTS.CONTROL,
             fill: ParticleZooColors.textColorProperty,
-            right: x(minI3) - radius - 18,
+            right: x(minI3) - radius - MULTIPLET_DIAGRAM_NODE_SETTINGS.DRAW_RIGHT_OFFSET,
             centerY: y(s),
           }),
         );
@@ -62,13 +63,13 @@ export class MultipletDiagramNode extends Node {
         children.push(
           new Line(x(i3At(startS)), y(startS), x(i3At(lowestS)), y(lowestS), {
             stroke: ParticleZooColors.panelBorderColorProperty,
-            lineWidth: 1.5,
+            lineWidth: MULTIPLET_DIAGRAM_NODE_SETTINGS.DRAW_LINE_WIDTH,
           }),
         );
         const label = new Text(q === 0 ? "Q = 0" : `Q = ${q > 0 ? "+" : "−"}${Math.abs(q)}`, {
           font: FONTS.BAG_HINT,
           fill: ParticleZooColors.textColorProperty,
-          opacity: 0.85,
+          opacity: MULTIPLET_DIAGRAM_NODE_SETTINGS.LABEL_OPACITY,
         });
         label.centerX = x(i3At(startS));
         label.bottom = y(startS) - 2;
@@ -88,8 +89,13 @@ export class MultipletDiagramNode extends Node {
     const circle = new Circle(EIGHTFOLD.MEMBER_RADIUS, {
       fill: hidden ? null : ParticleZooColors.panelBackgroundColorProperty,
       stroke: m.missing ? ParticleZooColors.highlightProperty : ParticleZooColors.bagStrokeProperty,
-      lineWidth: m.missing ? 3 : 2,
-      lineDash: hidden ? [6, 5] : [],
+      lineWidth: m.missing ? MULTIPLET_DIAGRAM_NODE_SETTINGS.CIRCLE_LINE_WIDTH : 2,
+      lineDash: hidden
+        ? [
+            MULTIPLET_DIAGRAM_NODE_SETTINGS.CIRCLE_LINE_DASH_DASH,
+            MULTIPLET_DIAGRAM_NODE_SETTINGS.MEMBER_NODE_CIRCLE_LINE_DASH_DASH,
+          ]
+        : [],
     });
     circle.centerX = cx;
     circle.centerY = cy;
@@ -98,11 +104,11 @@ export class MultipletDiagramNode extends Node {
       fill: m.missing ? ParticleZooColors.highlightProperty : ParticleZooColors.textColorProperty,
     });
     symbol.centerX = cx;
-    symbol.centerY = cy - 6;
+    symbol.centerY = cy - MULTIPLET_DIAGRAM_NODE_SETTINGS.MEMBER_NODE_CENTER_Y_OFFSET;
     const mass = new Text(hidden ? "" : `${Math.round(m.particle.mass)}`, {
       font: FONTS.MULTIPLET_MASS,
       fill: ParticleZooColors.textColorProperty,
-      opacity: 0.8,
+      opacity: MULTIPLET_DIAGRAM_NODE_SETTINGS.MASS_OPACITY,
     });
     mass.centerX = cx;
     mass.top = symbol.bottom;

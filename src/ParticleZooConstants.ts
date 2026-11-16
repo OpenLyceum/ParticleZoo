@@ -296,6 +296,237 @@ export const REACTION_COURT = {
   LABEL_END_GAP: 4,
 } as const;
 
+/** Settings for common/ParticleZooScreenIcons.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const PARTICLE_ZOO_SCREEN_ICONS_SETTINGS = {
+  CREATE_HADRON_BUILDER_ICON_X_SEGMENT_2: 336, // px
+  CREATE_HADRON_BUILDER_ICON_X_SEGMENT_3: 274, // px
+  CREATE_HADRON_BUILDER_ICON_Y_SEGMENT_2: 252, // px
+  CREATE_HADRON_BUILDER_ICON_ITEM_3_LINE_WIDTH: 8, // px
+  CREATE_CONFINEMENT_ICON_ITEM_3_LINE_WIDTH: 6, // px
+  CREATE_CONFINEMENT_ICON_START_X_SEGMENT_2: 175, // px
+  CREATE_CONFINEMENT_ICON_END_X_SEGMENT_2: 65, // px
+  CREATE_CONFINEMENT_ICON_START_X_SEGMENT_3: 373, // px
+  CREATE_CONFINEMENT_ICON_END_X_SEGMENT_3: 483, // px
+  CREATE_REACTION_COURT_ICON_X_SEGMENT_2: 105, // px
+  CREATE_REACTION_COURT_ICON_Y_SEGMENT_2: 75, // px
+  CREATE_REACTION_COURT_ICON_Y_SEGMENT_3: 253, // px
+  CREATE_REACTION_COURT_ICON_ITEM_3_LINE_WIDTH: 7, // px
+  U_CONSTITUENT_RADIUS: 35, // px
+  CREATE_REACTION_COURT_ICON_X_SEGMENT_3: 323, // px
+  CREATE_REACTION_COURT_ICON_Y_SEGMENT_4: 284, // px
+  CREATE_REACTION_COURT_ICON_X_SEGMENT_4: 358, // px
+  CREATE_REACTION_COURT_ICON_Y_SEGMENT_5: 318, // px
+  CREATE_REACTION_COURT_ICON_X_SEGMENT_5: 441, // px
+  CREATE_REACTION_COURT_ICON_Y_SEGMENT_6: 233, // px
+  CREATE_REACTION_COURT_ICON_ITEM_7_LINE_WIDTH: 18, // px
+
+  CREATE_EIGHTFOLD_WAY_ICON_LINE_DASH_DASH: 9, // px
+
+  CREATE_HADRON_BUILDER_ICON_RADIUS: 142,
+  CREATE_HADRON_BUILDER_ICON_LINE_WIDTH: 6,
+  CREATE_HADRON_BUILDER_ICON_X: 212,
+  CREATE_HADRON_BUILDER_ICON_Y: 142,
+  CREATE_EIGHTFOLD_WAY_ICON_RADIUS: 22,
+  CREATE_EIGHTFOLD_WAY_ICON_LINE_WIDTH: 5,
+  STRING_X: 138,
+  ARROWS_HEAD_HEIGHT: 28,
+  ARROWS_HEAD_WIDTH: 38,
+  ARROWS_TAIL_WIDTH: 13,
+  CREATE_CONFINEMENT_ICON_START_X: 138,
+  CREATE_CONFINEMENT_ICON_END_X: 410,
+  CREATE_CONFINEMENT_ICON_LINE_WIDTH: 30,
+  /** Create confinement icon opacity (dimensionless). */
+  CREATE_CONFINEMENT_ICON_OPACITY: 0.15,
+  CREATE_CONFINEMENT_ICON_START_Y: 285,
+  CREATE_CONFINEMENT_ICON_END_Y: 285,
+  CREATE_REACTION_COURT_ICON_X: 245,
+  CREATE_REACTION_COURT_ICON_Y: 164,
+  CREATE_REACTION_COURT_ICON_LINE_WIDTH: 8,
+  CREATE_REACTION_COURT_ICON_RADIUS: 12,
+} as const;
+
+/** Settings for confinement/view/ConfinementScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const CONFINEMENT_SCREEN_VIEW_SETTINGS = {
+  SEPARATION_TEXT_DECIMAL_PLACES: 2, // digits
+  REPORT_DECIMAL_PLACES: 2, // digits
+
+  TEXT_MAX_WIDTH: 300,
+} as const;
+
+/** Settings for confinement/view/EnergyBarNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const ENERGY_BAR_NODE_SETTINGS = {
+  CONSTRUCTOR_LEFT_OFFSET: 12, // px
+  CONSTRUCTOR_TOP_OFFSET: 8, // px
+
+  OUTLINE_LINE_WIDTH: 1.5,
+  THRESHOLD_LINE_WIDTH: 3,
+  THRESHOLD_LABEL_MAX_WIDTH: 150,
+  TITLE_MAX_WIDTH: 140,
+} as const;
+
+/** Settings for confinement/view/PotentialPlotNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const POTENTIAL_PLOT_NODE_SETTINGS = {
+  DRAW_RIGHT_OFFSET: 4, // px
+  DRAW_TOP_OFFSET: 3, // px
+  CONSTRUCTOR_DRAW_TOP_OFFSET: 14, // px
+  DRAW_LINE_DASH_DASH: 6, // px
+  CONSTRUCTOR_DRAW_LINE_DASH_DASH: 4, // px
+  CONSTRUCTOR_DRAW_LINE_WIDTH: 1.5, // px
+
+  DRAW_LINE_WIDTH: 2,
+} as const;
+
+/** Settings for eightfold-way/view/EightfoldWayScreenView.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const EIGHTFOLD_WAY_SCREEN_VIEW_SETTINGS = {
+  LABEL_MAX_WIDTH: 220,
+  /** Year note opacity (dimensionless). */
+  YEAR_NOTE_OPACITY: 0.8,
+} as const;
+
+/** Settings for eightfold-way/view/MassLadderNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const MASS_LADDER_NODE_SETTINGS = {
+  TITLE_MAX_WIDTH_OFFSET: 16, // px
+  DRAW_RIGHT_OFFSET: 4, // px
+  DRAW_TOP_OFFSET: 4, // px
+  DRAW_LEFT_OFFSET: 4, // px
+  DRAW_LINE_DASH_DASH: 4, // px
+
+  TITLE_LEFT: 8,
+  TITLE_TOP: 6,
+  LEFT: 46,
+  TOP: 32,
+  DRAW_RADIUS: 5,
+  DOT_LINE_WIDTH: 2.5,
+} as const;
+
+/** Settings for eightfold-way/view/MultipletDiagramNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const MULTIPLET_DIAGRAM_NODE_SETTINGS = {
+  DRAW_LINE_DASH_DASH: 6, // px
+  DRAW_RIGHT_OFFSET: 18, // px
+  CIRCLE_LINE_WIDTH: 3, // px
+  CIRCLE_LINE_DASH_DASH: 6, // px
+  MEMBER_NODE_CIRCLE_LINE_DASH_DASH: 5, // px
+  MEMBER_NODE_CENTER_Y_OFFSET: 6, // px
+
+  DRAW_LINE_WIDTH: 1.5,
+  /** Label opacity (dimensionless). */
+  LABEL_OPACITY: 0.85,
+  /** Mass opacity (dimensionless). */
+  MASS_OPACITY: 0.8,
+} as const;
+
+/** Settings for eightfold-way/view/PredictionPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const PREDICTION_PANEL_SETTINGS = {
+  TEXT_MAX_WIDTH_OFFSET: 60, // px
+  IMPLIED_CHARGE_MAX_WIDTH_OFFSET: 20, // px
+
+  /** Implied charge opacity (dimensionless). */
+  IMPLIED_CHARGE_OPACITY: 0.8,
+} as const;
+
+/** Settings for hadron-builder/view/BagNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const BAG_NODE_SETTINGS = {
+  HINT_MAX_WIDTH_FACTOR: 1.6, // dimensionless
+
+  /** Hint opacity (dimensionless). */
+  HINT_OPACITY: 0.75,
+} as const;
+
+/** Settings for hadron-builder/view/HadronResultPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const HADRON_RESULT_PANEL_SETTINGS = {
+  CARD_ITEM_2_SPACING: 2, // px
+
+  MASS_SIGNIFICANT_FIGURES: 5, // digits
+  NOTE_LINE_WRAP_OFFSET: 20, // px
+  CARD_MAX_WIDTH_OFFSET: 110, // px
+
+  CONTENT_SPACING: 10,
+  CARD_SPACING: 14,
+  CONSTRUCTOR_MIN_HEIGHT: 120,
+} as const;
+
+/** Settings for hadron-builder/view/QuarkPaletteNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const QUARK_PALETTE_NODE_SETTINGS = {
+  /** Make tile opacity (dimensionless). */
+  MAKE_TILE_OPACITY: 0.85,
+  LABEL_MAX_WIDTH: 260,
+} as const;
+
+/** Settings for reaction-court/view/LedgerPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const LEDGER_PANEL_SETTINGS = {
+  ENERGY_MAX_WIDTH_OFFSET: 20, // px
+  NOTE_MAX_WIDTH_OFFSET: 20, // px
+
+  GRID_X_SPACING: 14,
+  GRID_Y_SPACING: 3,
+  /** Note opacity (dimensionless). */
+  NOTE_OPACITY: 0.7,
+  CONSTRUCTOR_SPACING: 6,
+} as const;
+
+/** Settings for reaction-court/view/ReactionEquationNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const REACTION_EQUATION_NODE_SETTINGS = {
+  /** Plus opacity (dimensionless). */
+  PLUS_OPACITY: 0.6,
+  /** Placeholder opacity (dimensionless). */
+  PLACEHOLDER_OPACITY: 0.4,
+} as const;
+
+/** Settings for reaction-court/view/VerdictPanel.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const VERDICT_PANEL_SETTINGS = {
+  VERDICT_LINE_WRAP_OFFSET: 24, // px
+  MEASURED_LINE_WRAP_OFFSET: 24, // px
+
+  CONSTRUCTOR_SPACING: 6,
+  CONSTRUCTOR_MIN_HEIGHT: 110,
+} as const;
+
+/** Settings for reaction-court/view/VertexDiagramNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
+export const VERTEX_DIAGRAM_NODE_SETTINGS = {
+  BUILD_OPACITY_VARIANT_2: 0.7, // dimensionless
+
+  BUILD_LINE_DASH_DASH: 4, // px
+  BUILD_LEFT_OFFSET: 16, // px
+  BUILD_CENTER_X_OFFSET: 12, // px
+  BUILD_MAX_WIDTH_OFFSET: 20, // px
+
+  /** Text opacity (dimensionless). */
+  TEXT_OPACITY: 0.8,
+  BUILD_LINE_WIDTH: 1.5,
+  /** Build opacity (dimensionless). */
+  BUILD_OPACITY: 0.6,
+} as const;
+
+/** Numerical thresholds for the corresponding model. */
+export const CONFINEMENT_NUMERICS = {
+  /** Separation tolerance for reaching the drag limit (fm). */
+  SEPARATION_EPSILON: 1e-9,
+} as const;
+
+/** Layout lengths in px; precision values count digits; factors are dimensionless. */
+export const COURT_STRINGS_SETTINGS = {
+  ROUND_SIGNIFICANT_FIGURES: 5, // digits
+} as const;
+
+/** Layout lengths in px; precision values count digits; factors are dimensionless. */
+export const HADRON_READOUT_PANEL_SETTINGS = {
+  TEXT_MAX_WIDTH_FACTOR: 0.6, // dimensionless
+} as const;
+
+/** Layout lengths in px; precision values count digits; factors are dimensionless. */
+export const QUARK_NODE_SETTINGS = {
+  RIM_LINE_WIDTH_FACTOR: 6, // dimensionless
+  CONSTRUCTOR_CENTER_Y_FACTOR: 0.08, // dimensionless
+  CONSTRUCTOR_LINE_WIDTH: 1.5, // px
+  CONSTRUCTOR_LINE_WIDTH_FACTOR: 12, // dimensionless
+} as const;
+
+/** Component dimensions in px; ratios and control steps are dimensionless; precision counts digits. */
+export const CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS = {
+  BOUND_DECIMAL_PLACES: 2, // digits
+  DETAILS_DECIMAL_PLACES: 2, // digits
+} as const;
+
 ParticleZooNamespace.register("ParticleZooConstants", {
   SCREEN_VIEW_MARGIN,
   PANEL_CORNER_RADIUS,

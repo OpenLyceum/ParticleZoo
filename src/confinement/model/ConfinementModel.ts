@@ -1,3 +1,4 @@
+import { CONFINEMENT_NUMERICS } from "../../ParticleZooConstants.js";
 /**
  * ConfinementModel.ts
  *
@@ -107,7 +108,10 @@ export class ConfinementModel implements TModel {
       this.separationProperty.rangeProperty.value = new Range(SEPARATION_RANGE.min, breakingSeparation(coulomb));
     });
     this.separationProperty.lazyLink((r) => {
-      if (this.phaseProperty.value === "bound" && r >= this.separationProperty.range.max - 1e-9) {
+      if (
+        this.phaseProperty.value === "bound" &&
+        r >= this.separationProperty.range.max - CONFINEMENT_NUMERICS.SEPARATION_EPSILON
+      ) {
         this.snap();
       }
     });

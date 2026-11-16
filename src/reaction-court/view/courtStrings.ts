@@ -1,3 +1,4 @@
+import { COURT_STRINGS_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * courtStrings.ts
  *
@@ -68,7 +69,7 @@ export function verdictSentences(
 /** Energy line for the ledger. */
 export function energyLine(judgement: Judgement, before: readonly Particle[], after: readonly Particle[]): string {
   const total = (ps: readonly Particle[]) => ps.reduce((t, p) => t + p.mass, 0);
-  const round = (m: number) => `${Number(m.toPrecision(5))}`;
+  const round = (m: number) => `${Number(m.toPrecision(COURT_STRINGS_SETTINGS.ROUND_SIGNIFICANT_FIGURES))}`;
   if (judgement.isDecay) {
     return get("massDecayPattern")
       .replace("{{before}}", round(total(before)))

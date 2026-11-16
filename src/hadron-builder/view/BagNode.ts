@@ -1,3 +1,4 @@
+import { BAG_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * BagNode.ts
  *
@@ -48,8 +49,8 @@ export class BagNode extends Node {
     const hint = new Text(strings.bagHintStringProperty, {
       font: FONTS.BAG_HINT,
       fill: ParticleZooColors.textColorProperty,
-      maxWidth: radius * 1.6,
-      opacity: 0.75,
+      maxWidth: radius * BAG_NODE_SETTINGS.HINT_MAX_WIDTH_FACTOR,
+      opacity: BAG_NODE_SETTINGS.HINT_OPACITY,
     });
     hint.boundsProperty.link(() => {
       hint.centerX = 0;

@@ -1,3 +1,4 @@
+import { ENERGY_BAR_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * EnergyBarNode.ts
  *
@@ -17,29 +18,36 @@ export class EnergyBarNode extends Node {
     super();
     const strings = StringManager.getInstance().getConfinementStrings();
     const width = CONFINEMENT.ENERGY_BAR_WIDTH;
-    const outline = new Rectangle(0, 0, width, height, { stroke: ParticleZooColors.textColorProperty, lineWidth: 1.5 });
+    const outline = new Rectangle(0, 0, width, height, {
+      stroke: ParticleZooColors.textColorProperty,
+      lineWidth: ENERGY_BAR_NODE_SETTINGS.OUTLINE_LINE_WIDTH,
+    });
     const fill = new Rectangle(0, height, width, 0, { fill: ParticleZooColors.highlightProperty });
     const overhang = CONFINEMENT.THRESHOLD_OVERHANG;
     const threshold = new Line(-overhang, 0, width + overhang, 0, {
       stroke: ParticleZooColors.badProperty,
-      lineWidth: 3,
+      lineWidth: ENERGY_BAR_NODE_SETTINGS.THRESHOLD_LINE_WIDTH,
     });
     const thresholdLabel = new Text(
       new PatternStringProperty(strings.thresholdPatternStringProperty, { value: Math.round(PAIR_THRESHOLD) }),
-      { font: FONTS.SMALL, fill: ParticleZooColors.badProperty, maxWidth: 150 },
+      {
+        font: FONTS.SMALL,
+        fill: ParticleZooColors.badProperty,
+        maxWidth: ENERGY_BAR_NODE_SETTINGS.THRESHOLD_LABEL_MAX_WIDTH,
+      },
     );
     thresholdLabel.boundsProperty.link(() => {
-      thresholdLabel.left = width + 12;
+      thresholdLabel.left = width + ENERGY_BAR_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
       thresholdLabel.centerY = 0;
     });
     const title = new Text(strings.fieldEnergyStringProperty, {
       font: FONTS.PANEL_TITLE,
       fill: ParticleZooColors.textColorProperty,
-      maxWidth: 140,
+      maxWidth: ENERGY_BAR_NODE_SETTINGS.TITLE_MAX_WIDTH,
     });
     title.boundsProperty.link(() => {
       title.centerX = width / 2;
-      title.top = height + 8;
+      title.top = height + ENERGY_BAR_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
     });
     this.children = [fill, outline, threshold, thresholdLabel, title];
 

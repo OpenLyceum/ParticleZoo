@@ -1,3 +1,4 @@
+import { VERTEX_DIAGRAM_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * VertexDiagramNode.ts
  *
@@ -183,7 +184,7 @@ export class VertexDiagramNode extends Node {
           const text = new Text(fermion(flavor).symbol, {
             font: FONTS.DIAGRAM_LABEL,
             fill: ParticleZooColors.textColorProperty,
-            opacity: 0.8,
+            opacity: VERTEX_DIAGRAM_NODE_SETTINGS.TEXT_OPACITY,
           });
           placeAtEnd(text, end, isTop);
           labels.push(text);
@@ -217,7 +218,10 @@ export class VertexDiagramNode extends Node {
           new Path(bosonShape(p0, p1, boson), {
             stroke: ParticleZooColors.highlightProperty,
             lineWidth: REACTION_COURT.DIAGRAM_LINE_WIDTH,
-            lineDash: boson === null ? [4, 4] : [],
+            lineDash:
+              boson === null
+                ? [VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_LINE_DASH_DASH, VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_LINE_DASH_DASH]
+                : [],
           }),
         );
         const shown = boson ? BOSON_SYMBOLS[boson] : "?";
@@ -230,7 +234,7 @@ export class VertexDiagramNode extends Node {
           },
         );
         const mid = p0.average(p1);
-        bosonButton.left = mid.x + 16;
+        bosonButton.left = mid.x + VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_LEFT_OFFSET;
         bosonButton.centerY = mid.y;
         blanks.unshift(bosonButton);
       }
@@ -262,8 +266,8 @@ export class VertexDiagramNode extends Node {
       lines.push(
         new Line(arrowX, box.bottom, arrowX, box.top, {
           stroke: ParticleZooColors.textColorProperty,
-          lineWidth: 1.5,
-          opacity: 0.6,
+          lineWidth: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_LINE_WIDTH,
+          opacity: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_OPACITY,
         }),
         new Path(
           new Shape()
@@ -272,16 +276,16 @@ export class VertexDiagramNode extends Node {
             .lineTo(arrowX + 6, box.top + 10),
           {
             stroke: ParticleZooColors.textColorProperty,
-            lineWidth: 1.5,
-            opacity: 0.6,
+            lineWidth: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_LINE_WIDTH,
+            opacity: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_OPACITY,
           },
         ),
         new Text(strings.timeStringProperty, {
           font: "12px sans-serif",
           fill: ParticleZooColors.textColorProperty,
-          opacity: 0.7,
+          opacity: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_OPACITY_VARIANT_2,
           rotation: -Math.PI / 2,
-          centerX: arrowX - 12,
+          centerX: arrowX - VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_CENTER_X_OFFSET,
           centerY: (box.top + box.bottom) / 2,
         }),
       );
@@ -319,7 +323,7 @@ export class VertexDiagramNode extends Node {
                 : check.balanced
                   ? ParticleZooColors.goodProperty
                   : ParticleZooColors.badProperty,
-            maxWidth: width - 20,
+            maxWidth: width - VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_MAX_WIDTH_OFFSET,
           }),
       );
       status.left = REACTION_COURT.DIAGRAM_TITLE_LEFT;

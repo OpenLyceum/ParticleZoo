@@ -1,3 +1,4 @@
+import { LEDGER_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * LedgerPanel.ts
  *
@@ -33,17 +34,21 @@ export class LedgerPanel extends ParticleZooPanel {
       font: FONTS.CONTROL_BOLD,
       fill: ParticleZooColors.textColorProperty,
     });
-    const grid = new GridBox({ xSpacing: 14, ySpacing: 3, xAlign: "center" });
+    const grid = new GridBox({
+      xSpacing: LEDGER_PANEL_SETTINGS.GRID_X_SPACING,
+      ySpacing: LEDGER_PANEL_SETTINGS.GRID_Y_SPACING,
+      xAlign: "center",
+    });
     const energy = new Text("", {
       font: FONTS.CONTROL,
       fill: ParticleZooColors.textColorProperty,
-      maxWidth: width - 20,
+      maxWidth: width - LEDGER_PANEL_SETTINGS.ENERGY_MAX_WIDTH_OFFSET,
     });
     const note = new Text(strings.spinNoteStringProperty, {
       font: FONTS.TICK,
       fill: ParticleZooColors.textColorProperty,
-      opacity: 0.7,
-      maxWidth: width - 20,
+      opacity: LEDGER_PANEL_SETTINGS.NOTE_OPACITY,
+      maxWidth: width - LEDGER_PANEL_SETTINGS.NOTE_MAX_WIDTH_OFFSET,
     });
 
     const ledgerRow = (row: LedgerRow, complete: boolean): Node[] => {
@@ -89,9 +94,16 @@ export class LedgerPanel extends ParticleZooPanel {
       },
     );
 
-    super(new VBox({ spacing: 6, align: "left", children: [title, grid, energy, note] }), {
-      minWidth: width,
-      maxWidth: width,
-    });
+    super(
+      new VBox({
+        spacing: LEDGER_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        align: "left",
+        children: [title, grid, energy, note],
+      }),
+      {
+        minWidth: width,
+        maxWidth: width,
+      },
+    );
   }
 }

@@ -7,6 +7,7 @@
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
+import { CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS } from "../../ParticleZooConstants.js";
 import type { ConfinementModel } from "../model/ConfinementModel.js";
 
 export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
@@ -14,7 +15,9 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
     const a11y = StringManager.getInstance().getConfinementA11yStrings();
     const strings = StringManager.getInstance().getConfinementStrings();
     const bound = new PatternStringProperty(a11y.currentDetailsBoundPatternStringProperty, {
-      r: new DerivedProperty([model.separationProperty], (r) => r.toFixed(2)),
+      r: new DerivedProperty([model.separationProperty], (r) =>
+        r.toFixed(CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.BOUND_DECIMAL_PLACES),
+      ),
       energy: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
     });
     const details = new DerivedProperty(
@@ -22,7 +25,12 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
       (boundText, phase, fragments, pattern) =>
         phase === "broken" && fragments
           ? pattern
-              .replace("{{r}}", model.separationProperty.value.toFixed(2))
+              .replace(
+                "{{r}}",
+                model.separationProperty.value.toFixed(
+                  CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.DETAILS_DECIMAL_PLACES,
+                ),
+              )
               .replace("{{pair}}", fragments[1].quarks[0].flavor)
               .replace("{{left}}", fragments[0].meson?.symbol ?? "?")
               .replace("{{right}}", fragments[1].meson?.symbol ?? "?")

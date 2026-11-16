@@ -1,3 +1,4 @@
+import { QUARK_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * QuarkNode.ts
  *
@@ -24,19 +25,25 @@ export class QuarkNode extends Node {
     const ball = new Circle(radius, {
       fill: quark.anti ? ParticleZooColors.antiquarkTileProperty : ParticleZooColors.quarkTileProperty,
     });
-    const rim = new Circle(radius, { stroke: ParticleZooColors.bagStrokeProperty, lineWidth: Math.max(2, radius / 6) });
+    const rim = new Circle(radius, {
+      stroke: ParticleZooColors.bagStrokeProperty,
+      lineWidth: Math.max(2, radius / QUARK_NODE_SETTINGS.RIM_LINE_WIDTH_FACTOR),
+    });
     const letter = new Text(quark.flavor, {
       font: `italic bold ${Math.round(radius * 1.1)}px serif`,
       fill: quark.anti ? ParticleZooColors.antiquarkLabelProperty : ParticleZooColors.quarkLabelProperty,
       center: ball.center,
     });
-    letter.centerY = ball.centerY - radius * 0.08;
+    letter.centerY = ball.centerY - radius * QUARK_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_FACTOR;
     const children: Node[] = [ball, rim, letter];
     if (quark.anti) {
       children.push(
         new Line(letter.left, letter.top + 1, letter.right, letter.top + 1, {
           stroke: ParticleZooColors.antiquarkLabelProperty,
-          lineWidth: Math.max(1.5, radius / 12),
+          lineWidth: Math.max(
+            QUARK_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
+            radius / QUARK_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH_FACTOR,
+          ),
         }),
       );
     }

@@ -1,3 +1,4 @@
+import { MASS_LADDER_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * MassLadderNode.ts
  *
@@ -26,16 +27,16 @@ export class MassLadderNode extends Node {
     const title = new Text(strings.massLadderTitleStringProperty, {
       font: FONTS.PANEL_TITLE,
       fill: ParticleZooColors.textColorProperty,
-      maxWidth: width - 16,
-      left: 8,
-      top: 6,
+      maxWidth: width - MASS_LADDER_NODE_SETTINGS.TITLE_MAX_WIDTH_OFFSET,
+      left: MASS_LADDER_NODE_SETTINGS.TITLE_LEFT,
+      top: MASS_LADDER_NODE_SETTINGS.TITLE_TOP,
     });
     const plot = new Node();
     this.children = [frame, title, plot];
 
-    const left = 46;
+    const left: number = MASS_LADDER_NODE_SETTINGS.LEFT;
     const right = width - 16;
-    const top = 32;
+    const top: number = MASS_LADDER_NODE_SETTINGS.TOP;
     const bottom = height - 26;
     const minMass = EIGHTFOLD.LADDER_MIN_MASS;
     const maxMass = EIGHTFOLD.LADDER_MAX_MASS;
@@ -50,7 +51,7 @@ export class MassLadderNode extends Node {
           new Text(`${m}`, {
             font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
-            right: left - 4,
+            right: left - MASS_LADDER_NODE_SETTINGS.DRAW_RIGHT_OFFSET,
             centerY: y(m),
           }),
         );
@@ -61,14 +62,17 @@ export class MassLadderNode extends Node {
             font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
             centerX: x(s),
-            top: bottom + 4,
+            top: bottom + MASS_LADDER_NODE_SETTINGS.DRAW_TOP_OFFSET,
           }),
         );
       }
       const rows = [0, -1, -2].map((s) => ({ s, m: rowMeanMass(s) }));
       rows.forEach((row, i) => {
         children.push(
-          new Circle(5, { fill: ParticleZooColors.textColorProperty, center: new Vector2(x(row.s), y(row.m)) }),
+          new Circle(MASS_LADDER_NODE_SETTINGS.DRAW_RADIUS, {
+            fill: ParticleZooColors.textColorProperty,
+            center: new Vector2(x(row.s), y(row.m)),
+          }),
         );
         const next = rows[i + 1];
         if (next) {
@@ -77,7 +81,7 @@ export class MassLadderNode extends Node {
             new Text(strings.stepPatternStringProperty.value.replace("{{value}}", `${Math.round(next.m - row.m)}`), {
               font: FONTS.TICK,
               fill: ParticleZooColors.textColorProperty,
-              left: (x(row.s) + x(next.s)) / 2 + 4,
+              left: (x(row.s) + x(next.s)) / 2 + MASS_LADDER_NODE_SETTINGS.DRAW_LEFT_OFFSET,
               bottom: (y(row.m) + y(next.m)) / 2 - 2,
             }),
           );
@@ -89,13 +93,13 @@ export class MassLadderNode extends Node {
         children.push(
           new Line(x(last.s), y(last.m), x(-3), y(predicted), {
             stroke: ParticleZooColors.highlightProperty,
-            lineDash: [4, 4],
+            lineDash: [MASS_LADDER_NODE_SETTINGS.DRAW_LINE_DASH_DASH, MASS_LADDER_NODE_SETTINGS.DRAW_LINE_DASH_DASH],
           }),
         );
       }
       const dot = new Circle(EIGHTFOLD.LADDER_MARKER_RADIUS, {
         stroke: ParticleZooColors.highlightProperty,
-        lineWidth: 2.5,
+        lineWidth: MASS_LADDER_NODE_SETTINGS.DOT_LINE_WIDTH,
         center: new Vector2(x(-3), y(predicted)),
       });
       children.push(dot);

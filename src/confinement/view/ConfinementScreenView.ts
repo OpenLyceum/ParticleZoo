@@ -1,3 +1,4 @@
+import { CONFINEMENT_SCREEN_VIEW_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * ConfinementScreenView.ts
  *
@@ -43,7 +44,7 @@ export class ConfinementScreenView extends ScreenView {
       new Text(s, {
         font: bold ? FONTS.CONTROL_BOLD : FONTS.CONTROL,
         fill: ParticleZooColors.textColorProperty,
-        maxWidth: 300,
+        maxWidth: CONFINEMENT_SCREEN_VIEW_SETTINGS.TEXT_MAX_WIDTH,
       });
 
     // ── controls ──
@@ -108,7 +109,9 @@ export class ConfinementScreenView extends ScreenView {
     });
     const readout = new Text("", { font: FONTS.CONTROL_BOLD, fill: ParticleZooColors.textColorProperty });
     const separationText = new PatternStringProperty(strings.separationPatternStringProperty, {
-      value: new DerivedProperty([model.separationProperty], (r) => r.toFixed(2)),
+      value: new DerivedProperty([model.separationProperty], (r) =>
+        r.toFixed(CONFINEMENT_SCREEN_VIEW_SETTINGS.SEPARATION_TEXT_DECIMAL_PLACES),
+      ),
     });
     const energyText = new PatternStringProperty(strings.energyPatternStringProperty, {
       value: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
@@ -159,7 +162,10 @@ export class ConfinementScreenView extends ScreenView {
           `${f.meson?.symbol ?? strings.unknownMesonStringProperty.value} (${f.quarks.map(quarkSymbol).join(" ")})`;
         const popped = fragments[1].quarks[0];
         report.string = strings.brokenPatternStringProperty.value
-          .replace("{{r}}", model.separationProperty.value.toFixed(2))
+          .replace(
+            "{{r}}",
+            model.separationProperty.value.toFixed(CONFINEMENT_SCREEN_VIEW_SETTINGS.REPORT_DECIMAL_PLACES),
+          )
           .replace("{{pair}}", `${popped.flavor} ${popped.flavor}̄`)
           .replace("{{left}}", fragmentLabel(fragments[0]))
           .replace("{{right}}", fragmentLabel(fragments[1]));

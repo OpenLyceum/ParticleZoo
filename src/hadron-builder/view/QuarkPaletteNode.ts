@@ -1,3 +1,4 @@
+import { QUARK_PALETTE_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * QuarkPaletteNode.ts
  *
@@ -45,7 +46,11 @@ export class QuarkPaletteNode extends ParticleZooPanel {
         new DragListener({
           start: (event) => {
             start = event.pointer.point.copy();
-            ghost = new QuarkNode(q, { radius: HADRON_BUILDER.TILE_RADIUS, pickable: false, opacity: 0.85 });
+            ghost = new QuarkNode(q, {
+              radius: HADRON_BUILDER.TILE_RADIUS,
+              pickable: false,
+              opacity: QUARK_PALETTE_NODE_SETTINGS.MAKE_TILE_OPACITY,
+            });
             ghost.center = dragLayer.globalToLocalPoint(event.pointer.point);
             dragLayer.addChild(ghost);
           },
@@ -75,7 +80,7 @@ export class QuarkPaletteNode extends ParticleZooPanel {
       new Text(text, {
         font: FONTS.PALETTE_LABEL,
         fill: ParticleZooColors.textColorProperty,
-        maxWidth: 260,
+        maxWidth: QUARK_PALETTE_NODE_SETTINGS.LABEL_MAX_WIDTH,
       });
 
     super(

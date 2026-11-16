@@ -1,3 +1,4 @@
+import { PREDICTION_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * PredictionPanel.ts
  *
@@ -30,7 +31,7 @@ export class PredictionPanel extends ParticleZooPanel {
       new Text(s, {
         font: bold ? FONTS.CONTROL_BOLD : FONTS.CONTROL,
         fill: ParticleZooColors.textColorProperty,
-        maxWidth: width - 60,
+        maxWidth: width - PREDICTION_PANEL_SETTINGS.TEXT_MAX_WIDTH_OFFSET,
       });
 
     // ── quark pickers ──
@@ -61,7 +62,12 @@ export class PredictionPanel extends ParticleZooPanel {
       new PatternStringProperty(strings.impliedChargePatternStringProperty, {
         value: new DerivedProperty([model.contentChargeProperty], (q) => formatSigned(q)),
       }),
-      { font: FONTS.SMALL, fill: ParticleZooColors.textColorProperty, opacity: 0.8, maxWidth: width - 20 },
+      {
+        font: FONTS.SMALL,
+        fill: ParticleZooColors.textColorProperty,
+        opacity: PREDICTION_PANEL_SETTINGS.IMPLIED_CHARGE_OPACITY,
+        maxWidth: width - PREDICTION_PANEL_SETTINGS.IMPLIED_CHARGE_MAX_WIDTH_OFFSET,
+      },
     );
 
     const chargeSpinner = new NumberSpinner(

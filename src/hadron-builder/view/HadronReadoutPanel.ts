@@ -1,3 +1,4 @@
+import { HADRON_READOUT_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * HadronReadoutPanel.ts
  *
@@ -30,7 +31,11 @@ export class HadronReadoutPanel extends ParticleZooPanel {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const a11y = StringManager.getInstance().getHadronBuilderA11yStrings();
     const text = (s: TReadOnlyProperty<string>) =>
-      new Text(s, { font: FONTS.READOUT, fill: ParticleZooColors.textColorProperty, maxWidth: width * 0.6 });
+      new Text(s, {
+        font: FONTS.READOUT,
+        fill: ParticleZooColors.textColorProperty,
+        maxWidth: width * HADRON_READOUT_PANEL_SETTINGS.TEXT_MAX_WIDTH_FACTOR,
+      });
     const value = (property: TReadOnlyProperty<string>) =>
       new Text(property, { font: FONTS.READOUT_BOLD, fill: ParticleZooColors.textColorProperty });
 

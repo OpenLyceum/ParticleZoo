@@ -1,3 +1,4 @@
+import { HADRON_RESULT_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * HadronResultPanel.ts
  *
@@ -32,7 +33,10 @@ export function describeParticle(particle: Particle): { name: string; family: st
         : particle.family === "lepton"
           ? common.leptonStringProperty.value
           : common.bosonStringProperty.value;
-  const mass = common.massPatternStringProperty.value.replace("{{value}}", `${Number(particle.mass.toPrecision(5))}`);
+  const mass = common.massPatternStringProperty.value.replace(
+    "{{value}}",
+    `${Number(particle.mass.toPrecision(HADRON_RESULT_PANEL_SETTINGS.MASS_SIGNIFICANT_FIGURES))}`,
+  );
   const lifetime =
     particle.lifetime === null
       ? common.stableStringProperty.value
@@ -43,14 +47,18 @@ export function describeParticle(particle: Particle): { name: string; family: st
 export class HadronResultPanel extends ParticleZooPanel {
   public constructor(model: HadronBuilderModel, width: number) {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
-    const content = new VBox({ spacing: 10, align: "left" });
+    const content = new VBox({ spacing: HADRON_RESULT_PANEL_SETTINGS.CONTENT_SPACING, align: "left" });
     const note = (s: string, fill = ParticleZooColors.textColorProperty) =>
-      new RichText(s, { font: FONTS.CONTROL, fill, lineWrap: width - 20 });
+      new RichText(s, {
+        font: FONTS.CONTROL,
+        fill,
+        lineWrap: width - HADRON_RESULT_PANEL_SETTINGS.NOTE_LINE_WRAP_OFFSET,
+      });
 
     const card = (particle: Particle): Node => {
       const d = describeParticle(particle);
       return new HBox({
-        spacing: 14,
+        spacing: HADRON_RESULT_PANEL_SETTINGS.CARD_SPACING,
         children: [
           new RichText(richSymbol(particle.symbol), {
             font: FONTS.EQUATION,
@@ -58,12 +66,12 @@ export class HadronResultPanel extends ParticleZooPanel {
           }),
           new VBox({
             align: "left",
-            spacing: 2,
+            spacing: HADRON_RESULT_PANEL_SETTINGS.CARD_ITEM_2_SPACING,
             children: [
               new Text(`${d.name} (${d.family})`, {
                 font: FONTS.READOUT_BOLD,
                 fill: ParticleZooColors.textColorProperty,
-                maxWidth: width - 110,
+                maxWidth: width - HADRON_RESULT_PANEL_SETTINGS.CARD_MAX_WIDTH_OFFSET,
               }),
               new Text(d.mass, { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
               new Text(d.lifetime, { font: FONTS.CONTROL, fill: ParticleZooColors.textColorProperty }),
@@ -94,6 +102,10 @@ export class HadronResultPanel extends ParticleZooPanel {
     };
     Multilink.multilink([model.verdictProperty, model.matchesProperty, strings.emptyStringProperty], update);
 
-    super(content, { minWidth: width, maxWidth: width, minHeight: 120 });
+    super(content, {
+      minWidth: width,
+      maxWidth: width,
+      minHeight: HADRON_RESULT_PANEL_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+    });
   }
 }

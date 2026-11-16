@@ -12,7 +12,7 @@ import { Circle, type Color, Line, Node, Path, Rectangle } from "scenerystack/sc
 import { ArrowNode } from "scenerystack/scenery-phet";
 import { ScreenIcon } from "scenerystack/sim";
 import ParticleZooColors from "../ParticleZooColors.js";
-import { SCREEN_ICONS } from "../ParticleZooConstants.js";
+import { PARTICLE_ZOO_SCREEN_ICONS_SETTINGS, SCREEN_ICONS } from "../ParticleZooConstants.js";
 import { type Flavor, quark } from "./model/quarks.js";
 import { QuarkNode } from "./view/QuarkNode.js";
 
@@ -51,17 +51,33 @@ export function createHadronBuilderIcon(): ScreenIcon {
     new Node({
       children: [
         background(),
-        new Circle(142, {
+        new Circle(PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_RADIUS, {
           x: W / 2,
           y: H / 2,
           fill: ParticleZooColors.bagFillProperty,
           stroke: ParticleZooColors.bagStrokeProperty,
-          lineWidth: 6,
+          lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_LINE_WIDTH,
         }),
-        new Path(new Shape().moveTo(212, 142).lineTo(336, 142).lineTo(274, 252).close(), {
-          stroke: ParticleZooColors.bagStrokeProperty,
-          lineWidth: 8,
-        }),
+        new Path(
+          new Shape()
+            .moveTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_X,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_Y,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_X_SEGMENT_2,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_Y,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_X_SEGMENT_3,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_Y_SEGMENT_2,
+            )
+            .close(),
+          {
+            stroke: ParticleZooColors.bagStrokeProperty,
+            lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_HADRON_BUILDER_ICON_ITEM_3_LINE_WIDTH,
+          },
+        ),
         constituent("u", false, ParticleZooColors.colorRedProperty, 212, 142),
         constituent("u", false, ParticleZooColors.colorGreenProperty, 336, 142),
         constituent("d", false, ParticleZooColors.colorBlueProperty, 274, 252),
@@ -89,13 +105,13 @@ export function createEightfoldWayIcon(): ScreenIcon {
       }
       const missing = row === 3;
       particles.push(
-        new Circle(22, {
+        new Circle(PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_EIGHTFOLD_WAY_ICON_RADIUS, {
           x,
           y,
           fill: missing ? ParticleZooColors.backgroundColorProperty : ParticleZooColors.quarkTileProperty,
           stroke: missing ? ParticleZooColors.highlightProperty : ParticleZooColors.bagStrokeProperty,
-          lineWidth: missing ? 7 : 5,
-          lineDash: missing ? [9, 6] : [],
+          lineWidth: missing ? 7 : PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_EIGHTFOLD_WAY_ICON_LINE_WIDTH,
+          lineDash: missing ? [PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_EIGHTFOLD_WAY_ICON_LINE_DASH_DASH, 6] : [],
         }),
       );
     }
@@ -104,7 +120,10 @@ export function createEightfoldWayIcon(): ScreenIcon {
     new Node({
       children: [
         background(),
-        new Path(lattice, { stroke: ParticleZooColors.bagStrokeProperty, lineWidth: 5 }),
+        new Path(lattice, {
+          stroke: ParticleZooColors.bagStrokeProperty,
+          lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_EIGHTFOLD_WAY_ICON_LINE_WIDTH,
+        }),
         ...particles,
       ],
     }),
@@ -113,25 +132,52 @@ export function createEightfoldWayIcon(): ScreenIcon {
 
 /** A quark-antiquark pair being pulled against the tension of its color string. */
 export function createConfinementIcon(): ScreenIcon {
-  const string = new Shape().moveTo(138, H / 2);
+  const string = new Shape().moveTo(PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.STRING_X, H / 2);
   for (let i = 1; i <= 28; i++) {
     string.lineTo(138 + (272 * i) / 28, H / 2 + (i === 28 ? 0 : i % 2 === 0 ? -16 : 16));
   }
-  const arrows = { headHeight: 28, headWidth: 38, tailWidth: 13, stroke: null };
+  const arrows = {
+    headHeight: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.ARROWS_HEAD_HEIGHT,
+    headWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.ARROWS_HEAD_WIDTH,
+    tailWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.ARROWS_TAIL_WIDTH,
+    stroke: null,
+  };
   return iconFrom(
     new Node({
       children: [
         background(),
-        new Line(138, H / 2, 410, H / 2, {
+        new Line(
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_START_X,
+          H / 2,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_END_X,
+          H / 2,
+          {
+            stroke: ParticleZooColors.highlightProperty,
+            lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_LINE_WIDTH,
+            opacity: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_OPACITY,
+          },
+        ),
+        new Path(string, {
           stroke: ParticleZooColors.highlightProperty,
-          lineWidth: 30,
-          opacity: 0.15,
+          lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_ITEM_3_LINE_WIDTH,
+          lineJoin: "round",
         }),
-        new Path(string, { stroke: ParticleZooColors.highlightProperty, lineWidth: 6, lineJoin: "round" }),
         constituent("u", false, ParticleZooColors.colorRedProperty, 96, H / 2),
         constituent("d", true, ParticleZooColors.antiRedProperty, 452, H / 2),
-        new ArrowNode(175, 285, 65, 285, { ...arrows, fill: ParticleZooColors.textColorProperty }),
-        new ArrowNode(373, 285, 483, 285, { ...arrows, fill: ParticleZooColors.textColorProperty }),
+        new ArrowNode(
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_START_X_SEGMENT_2,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_START_Y,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_END_X_SEGMENT_2,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_END_Y,
+          { ...arrows, fill: ParticleZooColors.textColorProperty },
+        ),
+        new ArrowNode(
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_START_X_SEGMENT_3,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_START_Y,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_END_X_SEGMENT_3,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_CONFINEMENT_ICON_END_Y,
+          { ...arrows, fill: ParticleZooColors.textColorProperty },
+        ),
       ],
     }),
   );
@@ -141,7 +187,10 @@ export function createConfinementIcon(): ScreenIcon {
 export function createReactionCourtIcon(): ScreenIcon {
   const photons = new Shape();
   for (const direction of [-1, 1]) {
-    photons.moveTo(245, 164);
+    photons.moveTo(
+      PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X,
+      PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y,
+    );
     for (let i = 1; i <= 80; i++) {
       const u = i / 80;
       photons.lineTo(245 + 195 * u, 164 + direction * 70 * u + 12 * Math.sin(u * 8 * Math.PI));
@@ -151,21 +200,72 @@ export function createReactionCourtIcon(): ScreenIcon {
     new Node({
       children: [
         background(),
-        new Path(new Shape().moveTo(105, 75).lineTo(245, 164).lineTo(105, 253), {
-          stroke: ParticleZooColors.bagStrokeProperty,
-          lineWidth: 8,
-          lineCap: "round",
+        new Path(
+          new Shape()
+            .moveTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X_SEGMENT_2,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y_SEGMENT_2,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X_SEGMENT_2,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y_SEGMENT_3,
+            ),
+          {
+            stroke: ParticleZooColors.bagStrokeProperty,
+            lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_LINE_WIDTH,
+            lineCap: "round",
+          },
+        ),
+        new Path(photons, {
+          stroke: ParticleZooColors.highlightProperty,
+          lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_ITEM_3_LINE_WIDTH,
         }),
-        new Path(photons, { stroke: ParticleZooColors.highlightProperty, lineWidth: 7 }),
-        constituent("u", false, ParticleZooColors.colorRedProperty, 105, 75, 35),
-        constituent("u", true, ParticleZooColors.antiRedProperty, 105, 253, 35),
-        new Circle(12, { x: 245, y: 164, fill: ParticleZooColors.textColorProperty }),
-        new Path(new Shape().moveTo(323, 284).lineTo(358, 318).lineTo(441, 233), {
-          stroke: ParticleZooColors.goodProperty,
-          lineWidth: 18,
-          lineCap: "round",
-          lineJoin: "round",
+        constituent(
+          "u",
+          false,
+          ParticleZooColors.colorRedProperty,
+          105,
+          75,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.U_CONSTITUENT_RADIUS,
+        ),
+        constituent(
+          "u",
+          true,
+          ParticleZooColors.antiRedProperty,
+          105,
+          253,
+          PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.U_CONSTITUENT_RADIUS,
+        ),
+        new Circle(PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_RADIUS, {
+          x: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X,
+          y: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y,
+          fill: ParticleZooColors.textColorProperty,
         }),
+        new Path(
+          new Shape()
+            .moveTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X_SEGMENT_3,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y_SEGMENT_4,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X_SEGMENT_4,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y_SEGMENT_5,
+            )
+            .lineTo(
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_X_SEGMENT_5,
+              PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_Y_SEGMENT_6,
+            ),
+          {
+            stroke: ParticleZooColors.goodProperty,
+            lineWidth: PARTICLE_ZOO_SCREEN_ICONS_SETTINGS.CREATE_REACTION_COURT_ICON_ITEM_7_LINE_WIDTH,
+            lineCap: "round",
+            lineJoin: "round",
+          },
+        ),
       ],
     }),
   );

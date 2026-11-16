@@ -1,3 +1,4 @@
+import { POTENTIAL_PLOT_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * PotentialPlotNode.ts
  *
@@ -53,7 +54,7 @@ export class PotentialPlotNode extends Node {
           new Text(`${v}`, {
             font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
-            right: left - 4,
+            right: left - POTENTIAL_PLOT_NODE_SETTINGS.DRAW_RIGHT_OFFSET,
             centerY: y(v),
           }),
         );
@@ -64,7 +65,7 @@ export class PotentialPlotNode extends Node {
             font: FONTS.TICK,
             fill: ParticleZooColors.textColorProperty,
             centerX: x(r),
-            top: bottom + 3,
+            top: bottom + POTENTIAL_PLOT_NODE_SETTINGS.DRAW_TOP_OFFSET,
           }),
         );
       }
@@ -73,7 +74,7 @@ export class PotentialPlotNode extends Node {
           font: FONTS.TICK,
           fill: ParticleZooColors.textColorProperty,
           right: right,
-          top: bottom + 14,
+          top: bottom + POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_TOP_OFFSET,
         }),
       );
       const curve = new Shape();
@@ -84,11 +85,17 @@ export class PotentialPlotNode extends Node {
         started = true;
       }
       children.push(
-        new Path(curve, { stroke: ParticleZooColors.textColorProperty, lineWidth: 2 }),
+        new Path(curve, {
+          stroke: ParticleZooColors.textColorProperty,
+          lineWidth: POTENTIAL_PLOT_NODE_SETTINGS.DRAW_LINE_WIDTH,
+        }),
         new Line(left, y(PAIR_THRESHOLD), right, y(PAIR_THRESHOLD), {
           stroke: ParticleZooColors.badProperty,
-          lineDash: [6, 4],
-          lineWidth: 1.5,
+          lineDash: [
+            POTENTIAL_PLOT_NODE_SETTINGS.DRAW_LINE_DASH_DASH,
+            POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_LINE_DASH_DASH,
+          ],
+          lineWidth: POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_LINE_WIDTH,
         }),
         new Circle(CONFINEMENT.MARKER_RADIUS, {
           fill: ParticleZooColors.highlightProperty,
