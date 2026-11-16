@@ -89,7 +89,7 @@ strings live under the `a11y` key in each locale JSON, exposed via `StringManage
 
 ## Compliance carve-outs
 
-None.
+- `.github/workflows/ci.yml`: `unused-mode: advisory` until both Knip default and production baselines are reviewed and cleared ([Baton/doc/knip.md](https://github.com/OpenLyceum/Baton/blob/main/doc/knip.md)).
 
 ### Template-owned files (drift-checked)
 
