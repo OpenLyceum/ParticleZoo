@@ -51,14 +51,14 @@ export class VerdictPanel extends ParticleZooPanel {
 
     super(
       new VBox({
-        spacing: VERDICT_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        spacing: VERDICT_PANEL_SETTINGS.SPACING,
         align: "left",
         children: [title, verdict, measured],
       }),
       {
         minWidth: width,
         maxWidth: width,
-        minHeight: VERDICT_PANEL_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+        minHeight: VERDICT_PANEL_SETTINGS.PANEL_MIN_HEIGHT,
       },
     );
   }

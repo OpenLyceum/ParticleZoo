@@ -96,7 +96,7 @@ export class LedgerPanel extends ParticleZooPanel {
 
     super(
       new VBox({
-        spacing: LEDGER_PANEL_SETTINGS.CONSTRUCTOR_SPACING,
+        spacing: LEDGER_PANEL_SETTINGS.SPACING,
         align: "left",
         children: [title, grid, energy, note],
       }),

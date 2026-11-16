@@ -74,7 +74,7 @@ export class PotentialPlotNode extends Node {
           font: FONTS.TICK,
           fill: ParticleZooColors.textColorProperty,
           right: right,
-          top: bottom + POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_TOP_OFFSET,
+          top: bottom + POTENTIAL_PLOT_NODE_SETTINGS.AXIS_LABEL_TOP_GAP,
         }),
       );
       const curve = new Shape();
@@ -93,9 +93,9 @@ export class PotentialPlotNode extends Node {
           stroke: ParticleZooColors.badProperty,
           lineDash: [
             POTENTIAL_PLOT_NODE_SETTINGS.DRAW_LINE_DASH_DASH,
-            POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_LINE_DASH_DASH,
+            POTENTIAL_PLOT_NODE_SETTINGS.THRESHOLD_LINE_DASH_GAP,
           ],
-          lineWidth: POTENTIAL_PLOT_NODE_SETTINGS.CONSTRUCTOR_DRAW_LINE_WIDTH,
+          lineWidth: POTENTIAL_PLOT_NODE_SETTINGS.THRESHOLD_LINE_WIDTH,
         }),
         new Circle(CONFINEMENT.MARKER_RADIUS, {
           fill: ParticleZooColors.highlightProperty,

@@ -34,15 +34,15 @@ export class QuarkNode extends Node {
       fill: quark.anti ? ParticleZooColors.antiquarkLabelProperty : ParticleZooColors.quarkLabelProperty,
       center: ball.center,
     });
-    letter.centerY = ball.centerY - radius * QUARK_NODE_SETTINGS.CONSTRUCTOR_CENTER_Y_FACTOR;
+    letter.centerY = ball.centerY - radius * QUARK_NODE_SETTINGS.LETTER_CENTER_Y_FACTOR;
     const children: Node[] = [ball, rim, letter];
     if (quark.anti) {
       children.push(
         new Line(letter.left, letter.top + 1, letter.right, letter.top + 1, {
           stroke: ParticleZooColors.antiquarkLabelProperty,
           lineWidth: Math.max(
-            QUARK_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH,
-            radius / QUARK_NODE_SETTINGS.CONSTRUCTOR_LINE_WIDTH_FACTOR,
+            QUARK_NODE_SETTINGS.ANTIMARK_LINE_WIDTH,
+            radius / QUARK_NODE_SETTINGS.ANTIMARK_LINE_WIDTH_FACTOR,
           ),
         }),
       );

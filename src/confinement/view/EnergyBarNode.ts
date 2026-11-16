@@ -37,7 +37,7 @@ export class EnergyBarNode extends Node {
       },
     );
     thresholdLabel.boundsProperty.link(() => {
-      thresholdLabel.left = width + ENERGY_BAR_NODE_SETTINGS.CONSTRUCTOR_LEFT_OFFSET;
+      thresholdLabel.left = width + ENERGY_BAR_NODE_SETTINGS.THRESHOLD_LABEL_LEFT_GAP;
       thresholdLabel.centerY = 0;
     });
     const title = new Text(strings.fieldEnergyStringProperty, {
@@ -47,7 +47,7 @@ export class EnergyBarNode extends Node {
     });
     title.boundsProperty.link(() => {
       title.centerX = width / 2;
-      title.top = height + ENERGY_BAR_NODE_SETTINGS.CONSTRUCTOR_TOP_OFFSET;
+      title.top = height + ENERGY_BAR_NODE_SETTINGS.TITLE_TOP_GAP;
     });
     this.children = [fill, outline, threshold, thresholdLabel, title];
 

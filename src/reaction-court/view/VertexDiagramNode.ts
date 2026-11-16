@@ -283,7 +283,7 @@ export class VertexDiagramNode extends Node {
         new Text(strings.timeStringProperty, {
           font: "12px sans-serif",
           fill: ParticleZooColors.textColorProperty,
-          opacity: VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_OPACITY_VARIANT_2,
+          opacity: VERTEX_DIAGRAM_NODE_SETTINGS.TIME_LABEL_OPACITY,
           rotation: -Math.PI / 2,
           centerX: arrowX - VERTEX_DIAGRAM_NODE_SETTINGS.BUILD_CENTER_X_OFFSET,
           centerY: (box.top + box.bottom) / 2,

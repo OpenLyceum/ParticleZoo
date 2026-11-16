@@ -105,7 +105,7 @@ export class HadronResultPanel extends ParticleZooPanel {
     super(content, {
       minWidth: width,
       maxWidth: width,
-      minHeight: HADRON_RESULT_PANEL_SETTINGS.CONSTRUCTOR_MIN_HEIGHT,
+      minHeight: HADRON_RESULT_PANEL_SETTINGS.PANEL_MIN_HEIGHT,
     });
   }
 }

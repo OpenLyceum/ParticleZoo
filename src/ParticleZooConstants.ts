@@ -303,26 +303,26 @@ export const REACTION_COURT = {
 
 /** Settings for common/ParticleZooScreenIcons.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const PARTICLE_ZOO_SCREEN_ICONS_SETTINGS = {
-  CREATE_HADRON_BUILDER_ICON_X_SEGMENT_2: 336, // px
-  CREATE_HADRON_BUILDER_ICON_X_SEGMENT_3: 274, // px
-  CREATE_HADRON_BUILDER_ICON_Y_SEGMENT_2: 252, // px
+  CREATE_HADRON_BUILDER_ICON_RIGHT_X: 336, // px
+  CREATE_HADRON_BUILDER_ICON_BOTTOM_X: 274, // px
+  CREATE_HADRON_BUILDER_ICON_BOTTOM_Y: 252, // px
   CREATE_HADRON_BUILDER_ICON_ITEM_3_LINE_WIDTH: 8, // px
   CREATE_CONFINEMENT_ICON_ITEM_3_LINE_WIDTH: 6, // px
-  CREATE_CONFINEMENT_ICON_START_X_SEGMENT_2: 175, // px
-  CREATE_CONFINEMENT_ICON_END_X_SEGMENT_2: 65, // px
-  CREATE_CONFINEMENT_ICON_START_X_SEGMENT_3: 373, // px
-  CREATE_CONFINEMENT_ICON_END_X_SEGMENT_3: 483, // px
-  CREATE_REACTION_COURT_ICON_X_SEGMENT_2: 105, // px
-  CREATE_REACTION_COURT_ICON_Y_SEGMENT_2: 75, // px
-  CREATE_REACTION_COURT_ICON_Y_SEGMENT_3: 253, // px
+  CREATE_CONFINEMENT_ICON_LEFT_STUB_START_X: 175, // px
+  CREATE_CONFINEMENT_ICON_LEFT_STUB_END_X: 65, // px
+  CREATE_CONFINEMENT_ICON_RIGHT_STUB_START_X: 373, // px
+  CREATE_CONFINEMENT_ICON_RIGHT_STUB_END_X: 483, // px
+  CREATE_REACTION_COURT_ICON_INCOMING_X: 105, // px
+  CREATE_REACTION_COURT_ICON_INCOMING_TOP_Y: 75, // px
+  CREATE_REACTION_COURT_ICON_INCOMING_BOTTOM_Y: 253, // px
   CREATE_REACTION_COURT_ICON_ITEM_3_LINE_WIDTH: 7, // px
   U_CONSTITUENT_RADIUS: 35, // px
-  CREATE_REACTION_COURT_ICON_X_SEGMENT_3: 323, // px
-  CREATE_REACTION_COURT_ICON_Y_SEGMENT_4: 284, // px
-  CREATE_REACTION_COURT_ICON_X_SEGMENT_4: 358, // px
-  CREATE_REACTION_COURT_ICON_Y_SEGMENT_5: 318, // px
-  CREATE_REACTION_COURT_ICON_X_SEGMENT_5: 441, // px
-  CREATE_REACTION_COURT_ICON_Y_SEGMENT_6: 233, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_START_X: 323, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_START_Y: 284, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_MID_X: 358, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_MID_Y: 318, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_END_X: 441, // px
+  CREATE_REACTION_COURT_ICON_OUTGOING_END_Y: 233, // px
   CREATE_REACTION_COURT_ICON_ITEM_7_LINE_WIDTH: 18, // px
 
   CREATE_EIGHTFOLD_WAY_ICON_LINE_DASH_DASH: 9, // px
@@ -360,8 +360,8 @@ export const CONFINEMENT_SCREEN_VIEW_SETTINGS = {
 
 /** Settings for confinement/view/EnergyBarNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const ENERGY_BAR_NODE_SETTINGS = {
-  CONSTRUCTOR_LEFT_OFFSET: 12, // px
-  CONSTRUCTOR_TOP_OFFSET: 8, // px
+  THRESHOLD_LABEL_LEFT_GAP: 12, // px
+  TITLE_TOP_GAP: 8, // px
 
   OUTLINE_LINE_WIDTH: 1.5,
   THRESHOLD_LINE_WIDTH: 3,
@@ -373,10 +373,10 @@ export const ENERGY_BAR_NODE_SETTINGS = {
 export const POTENTIAL_PLOT_NODE_SETTINGS = {
   DRAW_RIGHT_OFFSET: 4, // px
   DRAW_TOP_OFFSET: 3, // px
-  CONSTRUCTOR_DRAW_TOP_OFFSET: 14, // px
+  AXIS_LABEL_TOP_GAP: 14, // px
   DRAW_LINE_DASH_DASH: 6, // px
-  CONSTRUCTOR_DRAW_LINE_DASH_DASH: 4, // px
-  CONSTRUCTOR_DRAW_LINE_WIDTH: 1.5, // px
+  THRESHOLD_LINE_DASH_GAP: 4, // px
+  THRESHOLD_LINE_WIDTH: 1.5, // px
 
   DRAW_LINE_WIDTH: 2,
 } as const;
@@ -447,7 +447,7 @@ export const HADRON_RESULT_PANEL_SETTINGS = {
 
   CONTENT_SPACING: 10,
   CARD_SPACING: 14,
-  CONSTRUCTOR_MIN_HEIGHT: 120,
+  PANEL_MIN_HEIGHT: 120,
 } as const;
 
 /** Settings for hadron-builder/view/QuarkPaletteNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
@@ -466,7 +466,7 @@ export const LEDGER_PANEL_SETTINGS = {
   GRID_Y_SPACING: 3,
   /** Note opacity (dimensionless). */
   NOTE_OPACITY: 0.7,
-  CONSTRUCTOR_SPACING: 6,
+  SPACING: 6,
 } as const;
 
 /** Settings for reaction-court/view/ReactionEquationNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
@@ -482,13 +482,13 @@ export const VERDICT_PANEL_SETTINGS = {
   VERDICT_LINE_WRAP_OFFSET: 24, // px
   MEASURED_LINE_WRAP_OFFSET: 24, // px
 
-  CONSTRUCTOR_SPACING: 6,
-  CONSTRUCTOR_MIN_HEIGHT: 110,
+  SPACING: 6,
+  PANEL_MIN_HEIGHT: 110,
 } as const;
 
 /** Settings for reaction-court/view/VertexDiagramNode.ts. Layout lengths are in px; counts and ratios are dimensionless. */
 export const VERTEX_DIAGRAM_NODE_SETTINGS = {
-  BUILD_OPACITY_VARIANT_2: 0.7, // dimensionless
+  TIME_LABEL_OPACITY: 0.7, // dimensionless
 
   BUILD_LINE_DASH_DASH: 4, // px
   BUILD_LEFT_OFFSET: 16, // px
@@ -521,9 +521,9 @@ export const HADRON_READOUT_PANEL_SETTINGS = {
 /** Layout lengths in px; precision values count digits; factors are dimensionless. */
 export const QUARK_NODE_SETTINGS = {
   RIM_LINE_WIDTH_FACTOR: 6, // dimensionless
-  CONSTRUCTOR_CENTER_Y_FACTOR: 0.08, // dimensionless
-  CONSTRUCTOR_LINE_WIDTH: 1.5, // px
-  CONSTRUCTOR_LINE_WIDTH_FACTOR: 12, // dimensionless
+  LETTER_CENTER_Y_FACTOR: 0.08, // dimensionless
+  ANTIMARK_LINE_WIDTH: 1.5, // px
+  ANTIMARK_LINE_WIDTH_FACTOR: 12, // dimensionless
 } as const;
 
 /** Component dimensions in px; ratios and control steps are dimensionless; precision counts digits. */
