@@ -4,7 +4,9 @@
  * Screen summary; current details give the separation and stored energy, or
  * the break report once the string has snapped.
  */
+
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
+import { toFixed } from "scenerystack/dot";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import { CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS } from "../../ParticleZooConstants.js";
@@ -16,7 +18,7 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
     const strings = StringManager.getInstance().getConfinementStrings();
     const bound = new PatternStringProperty(a11y.currentDetailsBoundPatternStringProperty, {
       r: new DerivedProperty([model.separationProperty], (r) =>
-        r.toFixed(CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.BOUND_DECIMAL_PLACES),
+        toFixed(r, CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.BOUND_DECIMAL_PLACES),
       ),
       energy: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
     });
@@ -27,7 +29,8 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
           ? pattern
               .replace(
                 "{{r}}",
-                model.separationProperty.value.toFixed(
+                toFixed(
+                  model.separationProperty.value,
                   CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.DETAILS_DECIMAL_PLACES,
                 ),
               )

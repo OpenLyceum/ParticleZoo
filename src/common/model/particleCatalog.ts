@@ -69,7 +69,7 @@ type Spec = {
   beauty?: number;
 };
 
-const STABLE = null;
+const STABLE: null = null;
 
 /* biome-ignore format: one particle per line reads as a table */
 const SPECS: Spec[] = [

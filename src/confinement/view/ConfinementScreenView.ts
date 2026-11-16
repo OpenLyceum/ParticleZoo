@@ -7,7 +7,7 @@ import { CONFINEMENT_SCREEN_VIEW_SETTINGS } from "../../ParticleZooConstants.js"
  */
 
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
-import { Dimension2 } from "scenerystack/dot";
+import { Dimension2, toFixed } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { ResetAllButton } from "scenerystack/scenery-phet";
@@ -110,7 +110,7 @@ export class ConfinementScreenView extends ScreenView {
     const readout = new Text("", { font: FONTS.CONTROL_BOLD, fill: ParticleZooColors.textColorProperty });
     const separationText = new PatternStringProperty(strings.separationPatternStringProperty, {
       value: new DerivedProperty([model.separationProperty], (r) =>
-        r.toFixed(CONFINEMENT_SCREEN_VIEW_SETTINGS.SEPARATION_TEXT_DECIMAL_PLACES),
+        toFixed(r, CONFINEMENT_SCREEN_VIEW_SETTINGS.SEPARATION_TEXT_DECIMAL_PLACES),
       ),
     });
     const energyText = new PatternStringProperty(strings.energyPatternStringProperty, {
@@ -164,7 +164,7 @@ export class ConfinementScreenView extends ScreenView {
         report.string = strings.brokenPatternStringProperty.value
           .replace(
             "{{r}}",
-            model.separationProperty.value.toFixed(CONFINEMENT_SCREEN_VIEW_SETTINGS.REPORT_DECIMAL_PLACES),
+            toFixed(model.separationProperty.value, CONFINEMENT_SCREEN_VIEW_SETTINGS.REPORT_DECIMAL_PLACES),
           )
           .replace("{{pair}}", `${popped.flavor} ${popped.flavor}̄`)
           .replace("{{left}}", fragmentLabel(fragments[0]))
