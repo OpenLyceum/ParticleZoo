@@ -111,24 +111,33 @@ export class VertexDiagramNode extends Node {
       label: string,
       accessibleName: PatternStringProperty<{ value: StringProperty }>,
       onPress: () => void,
-    ) =>
-      new RectangularPushButton({
+    ): RectangularPushButton => {
+      const content = new Text(label, { font: FONTS.DIAGRAM_LABEL, fill: LIGHT_SURFACE_TEXT_FILL });
+      const button = new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         xMargin: REACTION_COURT.DIAGRAM_BLANK_X_MARGIN,
         yMargin: REACTION_COURT.DIAGRAM_BLANK_Y_MARGIN,
-        content: new Text(label, { font: FONTS.DIAGRAM_LABEL, fill: LIGHT_SURFACE_TEXT_FILL }),
+        content,
         listener: onPress,
         accessibleName,
       });
+      // The button owns its label and accessible name; both subscribe to sim-lifetime Properties.
+      button.disposeEmitter.addListener(() => {
+        content.dispose();
+        accessibleName.dispose();
+      });
+      return button;
+    };
 
     const build = (diagram: DiagramTemplate | null): void => {
       // Keep keyboard focus on the same blank across the rebuild.
       const focusedIndex = this.blanks.children.findIndex((child) => child.focused);
-      for (const child of [...diagramLayer.children, ...this.blanks.children]) {
+      for (const child of [...diagramLayer.children, ...this.blanks.children, ...status.children]) {
         child.dispose();
       }
       diagramLayer.children = [];
       this.blanks.children = [];
+      status.children = [];
       if (!diagram) {
         return;
       }

@@ -60,20 +60,24 @@ export class BagNode extends Node {
 
     model.bagProperty.link((bag) => {
       hint.visible = bag.length === 0;
+      // disposeSubtree: the ball, rim and letter link to sim-lifetime color Properties too.
       for (const node of this.constituents) {
-        node.dispose();
+        node.disposeSubtree();
       }
       const spread = bag.length === 1 ? 0 : radius * HADRON_BUILDER.CONSTITUENT_SPREAD_FACTOR;
       this.constituents = bag.map((q, i) => {
         const angle = -Math.PI / 2 + (2 * Math.PI * i) / bag.length + (bag.length === 2 ? Math.PI / 2 : 0);
+        const accessibleName = new PatternStringProperty(strings.removeQuarkPatternStringProperty, {
+          quark: quarkSymbol(q),
+        });
         const node = new QuarkNode(q, {
           radius: HADRON_BUILDER.CONSTITUENT_RADIUS,
           cursor: "pointer",
           tagName: "button",
-          accessibleName: new PatternStringProperty(strings.removeQuarkPatternStringProperty, {
-            quark: quarkSymbol(q),
-          }),
+          accessibleName,
         });
+        // The node owns its accessible name, which subscribes to the sim-lifetime string.
+        node.disposeEmitter.addListener(() => accessibleName.dispose());
         node.center =
           bag.length === 1 ? outline.center : outline.center.plusXY(spread * Math.cos(angle), spread * Math.sin(angle));
         node.addInputListener({ click: () => model.removeAt(i) });
