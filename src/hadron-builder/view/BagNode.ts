@@ -60,7 +60,10 @@ export class BagNode extends Node {
 
     model.bagProperty.link((bag) => {
       hint.visible = bag.length === 0;
-      // disposeSubtree: the ball, rim and letter link to sim-lifetime color Properties too.
+      // disposeSubtree: disposing each QuarkNode fires its disposeEmitter, which releases the
+      // accessible-name PatternStringProperty from the localized string. Disposing the ball, rim
+      // and letter is only tidiness: their fill/stroke color Properties are subscribed only while
+      // drawn on a Display, and are released when the node leaves it.
       for (const node of this.constituents) {
         node.disposeSubtree();
       }
