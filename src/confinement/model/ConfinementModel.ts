@@ -78,11 +78,13 @@ export class ConfinementModel implements TModel {
   public readonly presetProperty = new StringUnionProperty<Preset>("piPlus", { validValues: PRESETS });
   public readonly separationProperty = new NumberProperty(INITIAL_SEPARATION, { range: SEPARATION_RANGE });
   public readonly coulombProperty = new BooleanProperty(false);
-  public readonly phaseProperty = new StringUnionProperty<Phase>("bound", { validValues: PHASES });
+  private readonly _phaseProperty = new StringUnionProperty<Phase>("bound", { validValues: PHASES });
+  public readonly phaseProperty: TReadOnlyProperty<Phase> = this._phaseProperty;
   /** Seconds since the string broke, for the fly-apart animation. */
   public readonly sinceBreakProperty = new NumberProperty(0);
   /** The two mesons left after the break. */
-  public readonly fragmentsProperty = new Property<readonly [Fragment, Fragment] | null>(null);
+  private readonly _fragmentsProperty = new Property<readonly [Fragment, Fragment] | null>(null);
+  public readonly fragmentsProperty: TReadOnlyProperty<readonly [Fragment, Fragment] | null> = this._fragmentsProperty;
 
   public readonly energyProperty: TReadOnlyProperty<number>;
   /** Fraction of the pair threshold stored in the field (0 … 1). */
@@ -131,18 +133,18 @@ export class ConfinementModel implements TModel {
     this.nextPairFlavor = flavor === "u" ? "d" : "u";
     const left: [Quark, Quark] = [quark(q), quark(flavor, true)];
     const right: [Quark, Quark] = [quark(flavor), quark(aq, true)];
-    this.fragmentsProperty.value = [
+    this._fragmentsProperty.value = [
       { quarks: left, meson: mesonFor(left) },
       { quarks: right, meson: mesonFor(right) },
     ];
     this.sinceBreakProperty.value = 0;
-    this.phaseProperty.value = "broken";
+    this._phaseProperty.value = "broken";
   }
 
   /** Back to a single bound meson at the starting separation. */
   public rejoin(): void {
-    this.phaseProperty.value = "bound";
-    this.fragmentsProperty.value = null;
+    this._phaseProperty.value = "bound";
+    this._fragmentsProperty.value = null;
     this.sinceBreakProperty.value = 0;
     this.separationProperty.value = INITIAL_SEPARATION;
   }

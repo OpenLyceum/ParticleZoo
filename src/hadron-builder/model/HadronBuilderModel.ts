@@ -29,7 +29,8 @@ const VERDICTS = ["empty", "netColor", "hadron", "unknown"] as const;
 type Verdict = (typeof VERDICTS)[number];
 
 export class HadronBuilderModel implements TModel {
-  public readonly bagProperty = new Property<readonly Quark[]>([]);
+  private readonly _bagProperty = new Property<readonly Quark[]>([]);
+  public readonly bagProperty: TReadOnlyProperty<readonly Quark[]> = this._bagProperty;
   /** Chosen total spin, in units of ħ/2. Snaps to an allowed value as the bag changes. */
   public readonly spin2Property = new NumberProperty(1);
   /** Elapsed time, drives the colour-exchange animation. */
@@ -77,25 +78,25 @@ export class HadronBuilderModel implements TModel {
     if (this.isFull) {
       return false;
     }
-    this.bagProperty.value = [...this.bagProperty.value, q];
+    this._bagProperty.value = [...this.bagProperty.value, q];
     return true;
   }
 
   public removeAt(index: number): void {
-    this.bagProperty.value = this.bagProperty.value.filter((_, i) => i !== index);
+    this._bagProperty.value = this.bagProperty.value.filter((_, i) => i !== index);
   }
 
   public clear(): void {
-    this.bagProperty.value = [];
+    this._bagProperty.value = [];
   }
 
   /** Loads a recipe such as "uS" (u s̄), for presets and tests. */
   public setContents(quarks: readonly Quark[]): void {
-    this.bagProperty.value = quarks.slice(0, BAG_CAPACITY);
+    this._bagProperty.value = quarks.slice(0, BAG_CAPACITY);
   }
 
   public reset(): void {
-    this.bagProperty.reset();
+    this._bagProperty.reset();
     this.spin2Property.reset();
     this.timeProperty.reset();
   }
