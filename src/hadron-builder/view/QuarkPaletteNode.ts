@@ -42,6 +42,8 @@ export class QuarkPaletteNode extends ParticleZooPanel {
 
       let ghost: QuarkNode | null = null;
       let start: Vector2 | null = null;
+      // Pointer-only: dragging a tile into the bag. The tile is a button, so Enter or Space fires
+      // the click listener above, which adds the quark.
       tile.addInputListener(
         new DragListener({
           start: (event) => {

@@ -48,6 +48,8 @@ export class FluxTubeNode extends Node {
     const boundLayer = new Node();
     let quarkBall = ball(quark("u"));
     let antiquarkBall = ball(quark("d", true));
+    // Pointer-only: pulling the quarks apart. The separation slider in ConfinementScreenView is the
+    // keyboard path to the same model property.
     const dragListener = new DragListener({
       drag: (event) => {
         model.pull(this.globalToLocalPoint(event.pointer.point).x / PIXELS_PER_FM);
