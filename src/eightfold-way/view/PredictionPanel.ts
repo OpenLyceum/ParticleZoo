@@ -53,6 +53,9 @@ export class PredictionPanel extends ParticleZooPanel {
         accessibleName: new PatternStringProperty(strings.cycleQuarkPatternStringProperty, { slot: slot + 1, flavor }),
       });
       flavor.link((f) => {
+        for (const child of holder.children) {
+          child.disposeSubtree();
+        }
         holder.children = [new QuarkNode(quark(f), { radius: EIGHTFOLD.PICKER_RADIUS })];
       });
       return button;

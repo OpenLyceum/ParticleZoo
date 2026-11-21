@@ -110,6 +110,9 @@ export class MassLadderNode extends Node {
         });
         children.push(real);
       }
+      for (const child of plot.children) {
+        child.disposeSubtree();
+      }
       plot.children = children;
     };
     Multilink.multilink([model.predictedMassProperty, model.revealedProperty, strings.stepPatternStringProperty], draw);

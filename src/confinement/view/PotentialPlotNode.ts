@@ -102,6 +102,9 @@ export class PotentialPlotNode extends Node {
           center: new Vector2(x(model.separationProperty.value), y(Math.max(vMin, model.energyProperty.value))),
         }),
       );
+      for (const child of plot.children) {
+        child.disposeSubtree();
+      }
       plot.children = children;
     };
     this.multilinks.push(

@@ -84,6 +84,9 @@ export class HadronResultPanel extends ParticleZooPanel {
     const update = () => {
       const verdict = model.verdictProperty.value;
       const matches = model.matchesProperty.value;
+      for (const child of content.children) {
+        child.disposeSubtree();
+      }
       if (verdict === "empty") {
         content.children = [note(strings.emptyStringProperty.value)];
       } else if (verdict === "netColor") {

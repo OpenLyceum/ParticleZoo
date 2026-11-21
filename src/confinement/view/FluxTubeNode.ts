@@ -88,6 +88,9 @@ export class FluxTubeNode extends Node {
           fill: ParticleZooColors.highlightProperty,
           top: quarkRadius + CONFINEMENT.LABEL_TOP_GAP,
         });
+      for (const child of labelLayer.children) {
+        child.disposeSubtree();
+      }
       labelLayer.children = fragments ? fragments.map((f) => label(f.meson?.symbol ?? "?")) : [];
     });
 

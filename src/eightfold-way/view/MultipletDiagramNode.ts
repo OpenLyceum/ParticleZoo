@@ -79,6 +79,9 @@ export class MultipletDiagramNode extends Node {
       for (const m of members) {
         children.push(this.memberNode(m, revealed, isDecuplet, x(m.isospin3), y(m.particle.strangeness)));
       }
+      for (const child of layer.children) {
+        child.disposeSubtree();
+      }
       layer.children = children;
     };
     this.multilinks.push(Multilink.multilink([model.multipletProperty, model.revealedProperty], draw));

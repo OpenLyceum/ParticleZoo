@@ -85,6 +85,9 @@ export class LedgerPanel extends ParticleZooPanel {
         ];
         const complete = before.length > 0 && after.length > 0;
         rows.push(...judgement.rows.map((row) => ledgerRow(row, complete)));
+        for (const child of grid.children) {
+          child.disposeSubtree();
+        }
         grid.rows = rows;
         const showEnergy = before.length > 0 && after.length > 0;
         energy.string = showEnergy

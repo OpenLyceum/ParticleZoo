@@ -27,13 +27,18 @@ export class ReactionEquationNode extends Node {
     this.children = [row, underline];
 
     const token = (p: Particle, side: Side, index: number): Node => {
+      const accessibleName = new PatternStringProperty(a11y.controls.removePatternStringProperty, {
+        particle: p.symbol,
+      });
       const text = new RichText(richSymbol(p.symbol), {
         font: FONTS.EQUATION,
         fill: ParticleZooColors.textColorProperty,
         cursor: "pointer",
         tagName: "button",
-        accessibleName: new PatternStringProperty(a11y.controls.removePatternStringProperty, { particle: p.symbol }),
+        accessibleName,
       });
+      // The token owns its name; the long-lived pattern string would otherwise keep both alive.
+      text.disposeEmitter.addListener(() => accessibleName.dispose());
       text.addInputListener({ click: () => model.remove(side, index), down: () => model.remove(side, index) });
       return text;
     };
@@ -64,8 +69,9 @@ export class ReactionEquationNode extends Node {
     };
 
     Multilink.multilink([model.beforeProperty, model.afterProperty, model.sideProperty], (before, after, active) => {
+      // disposeSubtree(): Node.dispose() would leave the tokens inside each side's HBox.
       for (const child of row.children) {
-        child.dispose();
+        child.disposeSubtree();
       }
       const beforeNode = sideNode(before, "before");
       const afterNode = sideNode(after, "after");
