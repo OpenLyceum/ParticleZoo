@@ -112,28 +112,26 @@ export class VertexDiagramNode extends Node {
       accessibleName: PatternStringProperty<{ value: StringProperty }>,
       onPress: () => void,
     ): RectangularPushButton => {
-      const content = new Text(label, { font: FONTS.DIAGRAM_LABEL, fill: LIGHT_SURFACE_TEXT_FILL });
       const button = new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
         xMargin: REACTION_COURT.DIAGRAM_BLANK_X_MARGIN,
         yMargin: REACTION_COURT.DIAGRAM_BLANK_Y_MARGIN,
-        content,
+        content: new Text(label, { font: FONTS.DIAGRAM_LABEL, fill: LIGHT_SURFACE_TEXT_FILL }),
         listener: onPress,
         accessibleName,
       });
-      // The button owns its label and accessible name; both subscribe to sim-lifetime Properties.
-      button.disposeEmitter.addListener(() => {
-        content.dispose();
-        accessibleName.dispose();
-      });
+      // accessibleName is not a scene-graph child; button chrome/content go with disposeSubtree.
+      button.disposeEmitter.addListener(() => accessibleName.dispose());
       return button;
     };
 
     const build = (diagram: DiagramTemplate | null): void => {
       // Keep keyboard focus on the same blank across the rebuild.
       const focusedIndex = this.blanks.children.findIndex((child) => child.focused);
+      // disposeSubtree(): Node.dispose() leaves RectangularPushButton chrome (and any nested
+      // Text/Path) alive, retained through long-lived color and a11y Properties.
       for (const child of [...diagramLayer.children, ...this.blanks.children, ...status.children]) {
-        child.dispose();
+        child.disposeSubtree();
       }
       diagramLayer.children = [];
       this.blanks.children = [];
