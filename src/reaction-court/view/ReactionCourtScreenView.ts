@@ -5,7 +5,7 @@
  * diagram). Right: the ledger and the verdict.
  */
 
-import { Property } from "scenerystack/axon";
+import { Property, type TReadOnlyProperty } from "scenerystack/axon";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Node, Text, VBox } from "scenerystack/scenery";
 import { ResetAllButton } from "scenerystack/scenery-phet";
@@ -39,7 +39,7 @@ export class ReactionCourtScreenView extends ScreenView {
     super(options);
     const strings = StringManager.getInstance().getReactionCourtStrings();
     const a11y = StringManager.getInstance().getReactionCourtA11yStrings();
-    const presetNames = strings.presetNames as unknown as Record<string, typeof strings.beforeStringProperty>;
+    const presetNames: Readonly<Record<string, TReadOnlyProperty<string>>> = strings.presetNames;
     const label = (s: typeof strings.beforeStringProperty) =>
       new Text(s, {
         font: FONTS.CONTROL,

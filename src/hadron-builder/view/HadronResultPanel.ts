@@ -6,7 +6,7 @@ import { HADRON_RESULT_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
  * and lifetime; or why nothing matches (net colour, or no known particle).
  */
 
-import { Multilink } from "scenerystack/axon";
+import { Multilink, type TReadOnlyProperty } from "scenerystack/axon";
 import { HBox, type Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { formatScientific } from "../../common/model/formatting.js";
 import type { Particle } from "../../common/model/particleCatalog.js";
@@ -20,7 +20,7 @@ import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 /** Localised description lines for one particle. */
 export function describeParticle(particle: Particle): { name: string; family: string; mass: string; lifetime: string } {
   const sm = StringManager.getInstance();
-  const names = sm.getParticleNames() as unknown as Record<string, { value: string } | undefined>;
+  const names: Readonly<Record<string, TReadOnlyProperty<string>>> = sm.getParticleNames();
   const common = sm.getCommonStrings();
   const name = names[`${particle.nameKey}StringProperty`]?.value ?? particle.nameKey;
   const family =
