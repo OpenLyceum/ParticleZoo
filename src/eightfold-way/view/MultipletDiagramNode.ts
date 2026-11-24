@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { MULTIPLET_DIAGRAM_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * MultipletDiagramNode.ts
@@ -108,7 +109,7 @@ export class MultipletDiagramNode extends Node {
     });
     symbol.centerX = cx;
     symbol.centerY = cy - MULTIPLET_DIAGRAM_NODE_SETTINGS.MEMBER_NODE_CENTER_Y_OFFSET;
-    const mass = new Text(hidden ? "" : `${Math.round(m.particle.mass)}`, {
+    const mass = new Text(hidden ? "" : `${roundSymmetric(m.particle.mass)}`, {
       font: FONTS.MULTIPLET_MASS,
       fill: ParticleZooColors.textColorProperty,
       opacity: MULTIPLET_DIAGRAM_NODE_SETTINGS.MASS_OPACITY,

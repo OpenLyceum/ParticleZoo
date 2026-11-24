@@ -7,7 +7,7 @@ import { CONFINEMENT_SCREEN_VIEW_SETTINGS } from "../../ParticleZooConstants.js"
  */
 
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
-import { Dimension2, toFixed } from "scenerystack/dot";
+import { Dimension2, roundSymmetric, toFixed } from "scenerystack/dot";
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import { HBox, Node, RichText, Text, VBox } from "scenerystack/scenery";
 import { ResetAllButton } from "scenerystack/scenery-phet";
@@ -85,8 +85,24 @@ export class ConfinementScreenView extends ScreenView {
       top: this.layoutBounds.minY + SCREEN_VIEW_MARGIN,
     });
 
+    const rejoinButton = new RectangularPushButton({
+      ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
+      content: new Text(strings.rejoinStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
+      listener: () => {
+        const restoreFocus = rejoinButton.focusedProperty.value;
+        model.rejoin();
+        if (restoreFocus) {
+          queueMicrotask(() => stage.antiquarkHandle.focus());
+        }
+      },
+      accessibleName: a11y.controls.rejoinStringProperty,
+    });
     // ── stage ──
-    const stage = new FluxTubeNode(model);
+    const stage = new FluxTubeNode(model, () => {
+      if (model.phaseProperty.value === "broken") {
+        rejoinButton.focus();
+      }
+    });
     stage.x = this.layoutBounds.minX + CONFINEMENT.STAGE_X;
     stage.y = this.layoutBounds.minY + CONFINEMENT.STAGE_Y;
     const hint = new Text(strings.dragHintStringProperty, {
@@ -97,7 +113,7 @@ export class ConfinementScreenView extends ScreenView {
       top: stage.y + CONFINEMENT.HINT_TOP_OFFSET,
     });
 
-    // ── separation slider (keyboard access to the drag) ──
+    // ── separation slider (precise separation control) ──
     const slider = new HSlider(model.separationProperty, SEPARATION_RANGE, {
       // Only the stretch before the break is reachable.
       enabledRangeProperty: model.separationProperty.rangeProperty,
@@ -114,7 +130,7 @@ export class ConfinementScreenView extends ScreenView {
       ),
     });
     const energyText = new PatternStringProperty(strings.energyPatternStringProperty, {
-      value: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
+      value: new DerivedProperty([model.energyProperty], (v) => `${roundSymmetric(v)}`),
     });
     const updateReadout = () => {
       readout.string = `${separationText.value}    ${energyText.value}`;
@@ -141,12 +157,6 @@ export class ConfinementScreenView extends ScreenView {
       font: FONTS.CONTROL,
       fill: ParticleZooColors.textColorProperty,
       lineWrap: CONFINEMENT.REPORT_LINE_WRAP,
-    });
-    const rejoinButton = new RectangularPushButton({
-      ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
-      content: new Text(strings.rejoinStringProperty, { font: FONTS.CONTROL, fill: LIGHT_SURFACE_TEXT_FILL }),
-      listener: () => model.rejoin(),
-      accessibleName: a11y.controls.rejoinStringProperty,
     });
     const reportBox = new VBox({
       spacing: CONFINEMENT.REPORT_BOX_SPACING,
@@ -185,6 +195,10 @@ export class ConfinementScreenView extends ScreenView {
     });
 
     this.children = [controls, stage, hint, sliderRow, plot, bar, reportBox, resetAllButton];
-    this.addChild(new Node({ pdomOrder: [presetGroup, coulombCheckbox, slider, rejoinButton, resetAllButton] }));
+    this.addChild(
+      new Node({
+        pdomOrder: [presetGroup, coulombCheckbox, stage.antiquarkHandle, slider, rejoinButton, resetAllButton],
+      }),
+    );
   }
 }

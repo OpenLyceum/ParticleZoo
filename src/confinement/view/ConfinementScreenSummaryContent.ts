@@ -1,12 +1,12 @@
 /**
  * ConfinementScreenSummaryContent.ts
  *
- * Screen summary; current details give the separation and stored energy, or
+ * Screen summary; current detailsProperty give the separation and stored energy, or
  * the break report once the string has snapped.
  */
 
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
-import { toFixed } from "scenerystack/dot";
+import { roundSymmetric, toFixed } from "scenerystack/dot";
 import { ScreenSummaryContent } from "scenerystack/sim";
 import { StringManager } from "../../i18n/StringManager.js";
 import { CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS } from "../../ParticleZooConstants.js";
@@ -20,9 +20,9 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
       r: new DerivedProperty([model.separationProperty], (r) =>
         toFixed(r, CONFINEMENT_SCREEN_SUMMARY_CONTENT_SETTINGS.BOUND_DECIMAL_PLACES),
       ),
-      energy: new DerivedProperty([model.energyProperty], (v) => `${Math.round(v)}`),
+      energy: new DerivedProperty([model.energyProperty], (v) => `${roundSymmetric(v)}`),
     });
-    const details = new DerivedProperty(
+    const detailsProperty = new DerivedProperty(
       [bound, model.phaseProperty, model.fragmentsProperty, strings.brokenPatternStringProperty],
       (boundText, phase, fragments, pattern) =>
         phase === "broken" && fragments
@@ -42,7 +42,7 @@ export class ConfinementScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: details,
+      currentDetailsContent: detailsProperty,
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

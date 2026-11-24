@@ -1,7 +1,7 @@
 /**
  * HadronBuilderScreenSummaryContent.ts
  *
- * Screen summary; the current-details paragraph lists the bag's contents and
+ * Screen summary; the current-details paragraph lists the bag's contentsProperty and
  * what they make.
  */
 import { DerivedProperty, PatternStringProperty } from "scenerystack/axon";
@@ -15,10 +15,10 @@ export class HadronBuilderScreenSummaryContent extends ScreenSummaryContent {
   public constructor(model: HadronBuilderModel) {
     const a11y = StringManager.getInstance().getHadronBuilderA11yStrings();
     const strings = StringManager.getInstance().getHadronBuilderStrings();
-    const contents = new DerivedProperty([model.bagProperty, a11y.emptyBagStringProperty], (bag, empty) =>
+    const contentsProperty = new DerivedProperty([model.bagProperty, a11y.emptyBagStringProperty], (bag, empty) =>
       bag.length === 0 ? empty : bag.map(quarkSymbol).join(" "),
     );
-    const result = new DerivedProperty(
+    const resultProperty = new DerivedProperty(
       [
         model.verdictProperty,
         model.matchesProperty,
@@ -38,7 +38,10 @@ export class HadronBuilderScreenSummaryContent extends ScreenSummaryContent {
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
-      currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, { contents, result }),
+      currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, {
+        contentsProperty,
+        resultProperty,
+      }),
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
   }

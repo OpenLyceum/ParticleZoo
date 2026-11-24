@@ -9,7 +9,7 @@ import { VERTEX_DIAGRAM_NODE_SETTINGS } from "../../ParticleZooConstants.js";
  */
 
 import { Multilink, PatternStringProperty, StringProperty } from "scenerystack/axon";
-import { Vector2 } from "scenerystack/dot";
+import { roundSymmetric, Vector2 } from "scenerystack/dot";
 import { Shape } from "scenerystack/kite";
 import { Circle, Line, Node, Path, Rectangle, RichText, Text, VBox } from "scenerystack/scenery";
 import { RectangularPushButton } from "scenerystack/sun";
@@ -40,7 +40,7 @@ function bosonShape(a: Vector2, b: Vector2, boson: Boson | null): Shape {
   const gluon = boson === "gluon";
   const amplitude = gluon ? REACTION_COURT.GLUON_AMPLITUDE : REACTION_COURT.PHOTON_AMPLITUDE;
   const wavelength = gluon ? REACTION_COURT.GLUON_WAVELENGTH : REACTION_COURT.PHOTON_WAVELENGTH;
-  const steps = Math.max(REACTION_COURT.BOSON_MIN_STEPS, Math.round(length / 2));
+  const steps = Math.max(REACTION_COURT.BOSON_MIN_STEPS, roundSymmetric(length / 2));
   for (let i = 0; i <= steps; i++) {
     const t = (i / steps) * length;
     const phase = (2 * Math.PI * t) / wavelength;
