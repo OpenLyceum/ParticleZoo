@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { ENERGY_BAR_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * EnergyBarNode.ts
@@ -29,7 +30,7 @@ export class EnergyBarNode extends Node {
       lineWidth: ENERGY_BAR_NODE_SETTINGS.THRESHOLD_LINE_WIDTH,
     });
     const thresholdLabel = new Text(
-      new PatternStringProperty(strings.thresholdPatternStringProperty, { value: Math.round(PAIR_THRESHOLD) }),
+      new PatternStringProperty(strings.thresholdPatternStringProperty, { value: roundSymmetric(PAIR_THRESHOLD) }),
       {
         font: FONTS.SMALL,
         fill: ParticleZooColors.badProperty,

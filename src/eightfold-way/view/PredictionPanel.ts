@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { PREDICTION_PANEL_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * PredictionPanel.ts
@@ -36,10 +37,10 @@ export class PredictionPanel extends ParticleZooPanel {
 
     // ── quark pickers ──
     const pickers = ([0, 1, 2] as const).map((slot) => {
-      const flavor = new DerivedProperty([model.predictedQuarksProperty], (q) => q[slot]);
+      const flavorProperty = new DerivedProperty([model.predictedQuarksProperty], (q) => q[slot]);
       // Filled before the button is built: an empty content node has no size.
       const holder = new Node({
-        children: [new QuarkNode(quark(flavor.value), { radius: EIGHTFOLD.PICKER_RADIUS })],
+        children: [new QuarkNode(quark(flavorProperty.value), { radius: EIGHTFOLD.PICKER_RADIUS })],
       });
       const button = new RectangularPushButton({
         ...FLAT_PANEL_PUSH_BUTTON_OPTIONS,
@@ -50,9 +51,12 @@ export class PredictionPanel extends ParticleZooPanel {
           const index = PREDICTION_FLAVORS.indexOf(model.predictedQuarksProperty.value[slot]);
           model.setPredictedQuark(slot, PREDICTION_FLAVORS[(index + 1) % PREDICTION_FLAVORS.length] ?? "u");
         },
-        accessibleName: new PatternStringProperty(strings.cycleQuarkPatternStringProperty, { slot: slot + 1, flavor }),
+        accessibleName: new PatternStringProperty(strings.cycleQuarkPatternStringProperty, {
+          slot: slot + 1,
+          flavor: flavorProperty,
+        }),
       });
-      flavor.link((f) => {
+      flavorProperty.link((f) => {
         for (const child of holder.children) {
           child.disposeSubtree();
         }
@@ -90,7 +94,7 @@ export class PredictionPanel extends ParticleZooPanel {
       sliderOptions: {
         ...PARTICLE_ZOO_NUMBER_CONTROL_OPTIONS.sliderOptions,
         keyboardStep: EIGHTFOLD.MASS_DELTA,
-        constrainValue: (m: number) => Math.round(m / EIGHTFOLD.MASS_DELTA) * EIGHTFOLD.MASS_DELTA,
+        constrainValue: (m: number) => roundSymmetric(m / EIGHTFOLD.MASS_DELTA) * EIGHTFOLD.MASS_DELTA,
       },
       accessibleName: a11y.controls.massStringProperty,
     });

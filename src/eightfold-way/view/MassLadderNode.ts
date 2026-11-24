@@ -8,7 +8,7 @@ import { MASS_LADDER_NODE_SETTINGS } from "../../ParticleZooConstants.js";
  */
 
 import { Multilink } from "scenerystack/axon";
-import { Vector2 } from "scenerystack/dot";
+import { roundSymmetric, Vector2 } from "scenerystack/dot";
 import { Circle, Line, Node, Rectangle, Text } from "scenerystack/scenery";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
@@ -78,12 +78,15 @@ export class MassLadderNode extends Node {
         if (next) {
           children.push(
             new Line(x(row.s), y(row.m), x(next.s), y(next.m), { stroke: ParticleZooColors.textColorProperty }),
-            new Text(strings.stepPatternStringProperty.value.replace("{{value}}", `${Math.round(next.m - row.m)}`), {
-              font: FONTS.TICK,
-              fill: ParticleZooColors.textColorProperty,
-              left: (x(row.s) + x(next.s)) / 2 + MASS_LADDER_NODE_SETTINGS.DRAW_LEFT_OFFSET,
-              bottom: (y(row.m) + y(next.m)) / 2 - 2,
-            }),
+            new Text(
+              strings.stepPatternStringProperty.value.replace("{{value}}", `${roundSymmetric(next.m - row.m)}`),
+              {
+                font: FONTS.TICK,
+                fill: ParticleZooColors.textColorProperty,
+                left: (x(row.s) + x(next.s)) / 2 + MASS_LADDER_NODE_SETTINGS.DRAW_LEFT_OFFSET,
+                bottom: (y(row.m) + y(next.m)) / 2 - 2,
+              },
+            ),
           );
         }
       });

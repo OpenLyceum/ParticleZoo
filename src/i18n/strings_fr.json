@@ -181,6 +181,9 @@
     "rAxis": "r (fm)",
     "vAxis": "V (MeV)",
     "rejoin": "Recommencer",
+    "antiquarkDragName": "Antiquark",
+    "antiquarkDragTitle": "Déplacer l’antiquark",
+    "antiquarkDragHelp": "Utilisez Gauche et Droite ou A et D pour déplacer l’antiquark. Maintenez Maj pour des pas plus petits.",
     "dragHint": "Faites glisser l’antiquark pour séparer la paire.",
     "brokenPattern": "La corde a cassé à r = {{r}} fm. Une nouvelle paire {{pair}} s’est formée : vous tenez maintenant {{left}} et {{right}}, pas un quark libre.",
     "unknownMeson": "un méson"

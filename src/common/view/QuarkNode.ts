@@ -1,3 +1,4 @@
+import { roundSymmetric } from "scenerystack/dot";
 import { QUARK_NODE_SETTINGS } from "../../ParticleZooConstants.js";
 /**
  * QuarkNode.ts
@@ -30,7 +31,7 @@ export class QuarkNode extends Node {
       lineWidth: Math.max(2, radius / QUARK_NODE_SETTINGS.RIM_LINE_WIDTH_FACTOR),
     });
     const letter = new Text(quark.flavor, {
-      font: `italic bold ${Math.round(radius * 1.1)}px serif`,
+      font: `italic bold ${roundSymmetric(radius * 1.1)}px serif`,
       fill: quark.anti ? ParticleZooColors.antiquarkLabelProperty : ParticleZooColors.quarkLabelProperty,
       center: ball.center,
     });

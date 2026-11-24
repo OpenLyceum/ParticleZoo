@@ -49,10 +49,10 @@ export class ReactionCourtScreenView extends ScreenView {
     const left = this.layoutBounds.minX + SCREEN_VIEW_MARGIN;
 
     // ── top row: presets, side, clear ──
-    const presetChoice = new Property<string>("none");
+    const presetChoiceProperty = new Property<string>("none");
     const listParent = new Node();
     const presetBox = new ComboBox(
-      presetChoice,
+      presetChoiceProperty,
       [
         {
           value: "none",
@@ -74,7 +74,7 @@ export class ReactionCourtScreenView extends ScreenView {
     );
     // The menu and the reaction update each other; this flag breaks the loop.
     let syncingMenu = false;
-    presetChoice.lazyLink((id) => {
+    presetChoiceProperty.lazyLink((id) => {
       const preset = PRESETS.find((p) => p.id === id);
       if (preset && !syncingMenu) {
         syncingMenu = true;
@@ -94,7 +94,7 @@ export class ReactionCourtScreenView extends ScreenView {
         (p) => key(p.before.map(normalize)) === before && key(p.after.map(normalize)) === after,
       );
       syncingMenu = true;
-      presetChoice.value = current?.id ?? "none";
+      presetChoiceProperty.value = current?.id ?? "none";
       syncingMenu = false;
     };
     model.beforeProperty.lazyLink(syncPreset);
@@ -200,7 +200,7 @@ export class ReactionCourtScreenView extends ScreenView {
       ...FLAT_RESET_ALL_BUTTON_OPTIONS,
       listener: () => {
         model.reset();
-        presetChoice.value = "none";
+        presetChoiceProperty.value = "none";
       },
       right: this.layoutBounds.maxX - SCREEN_VIEW_MARGIN,
       bottom: this.layoutBounds.maxY - SCREEN_VIEW_MARGIN,

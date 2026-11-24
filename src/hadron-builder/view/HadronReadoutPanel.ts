@@ -40,16 +40,16 @@ export class HadronReadoutPanel extends ParticleZooPanel {
       new Text(property, { font: FONTS.READOUT_BOLD, fill: ParticleZooColors.textColorProperty });
 
     const sums = model.sumsProperty;
-    const q = new DerivedProperty([sums], (s) => formatThirds(s.charge3));
-    const b = new DerivedProperty([sums], (s) => formatThirds(s.baryon3));
-    const st = new DerivedProperty([sums], (s) => formatSigned(s.strangeness));
-    const c = new DerivedProperty([sums], (s) => formatSigned(s.charm));
-    const bt = new DerivedProperty([sums], (s) => formatSigned(s.beauty));
+    const qProperty = new DerivedProperty([sums], (s) => formatThirds(s.charge3));
+    const bProperty = new DerivedProperty([sums], (s) => formatThirds(s.baryon3));
+    const stProperty = new DerivedProperty([sums], (s) => formatSigned(s.strangeness));
+    const cProperty = new DerivedProperty([sums], (s) => formatSigned(s.charm));
+    const btProperty = new DerivedProperty([sums], (s) => formatSigned(s.beauty));
 
     const charmLabel = text(strings.charmNumberStringProperty);
-    const charmValue = value(c);
+    const charmValue = value(cProperty);
     const beautyLabel = text(strings.beautyNumberStringProperty);
-    const beautyValue = value(bt);
+    const beautyValue = value(btProperty);
     sums.link((s) => {
       charmLabel.visible = charmValue.visible = s.charm !== 0;
       beautyLabel.visible = beautyValue.visible = s.beauty !== 0;
@@ -77,9 +77,9 @@ export class HadronReadoutPanel extends ParticleZooPanel {
       ySpacing: HADRON_BUILDER.READOUT_Y_SPACING,
       xAlign: "left",
       rows: [
-        [text(strings.chargeStringProperty), value(q)],
-        [text(strings.baryonNumberStringProperty), value(b)],
-        [text(strings.strangenessStringProperty), value(st)],
+        [text(strings.chargeStringProperty), value(qProperty)],
+        [text(strings.baryonNumberStringProperty), value(bProperty)],
+        [text(strings.strangenessStringProperty), value(stProperty)],
         [charmLabel, charmValue],
         [beautyLabel, beautyValue],
         [text(strings.colorNeutralStringProperty), neutralValue],

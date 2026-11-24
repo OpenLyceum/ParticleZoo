@@ -11,9 +11,11 @@
  */
 
 import { Multilink } from "scenerystack/axon";
-import { DragListener, Node, Rectangle, Text } from "scenerystack/scenery";
+import { Vector2 } from "scenerystack/dot";
+import { DragListener, KeyboardDragListener, Node, Rectangle, Text } from "scenerystack/scenery";
 import { type Quark, quark } from "../../common/model/quarks.js";
 import { QuarkNode } from "../../common/view/QuarkNode.js";
+import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
 import { CONFINEMENT, FONTS } from "../../ParticleZooConstants.js";
 import { type ConfinementModel, PRESET_CONTENT } from "../model/ConfinementModel.js";
@@ -22,7 +24,9 @@ import { type ConfinementModel, PRESET_CONTENT } from "../model/ConfinementModel
 const PIXELS_PER_FM = CONFINEMENT.PIXELS_PER_FM;
 
 export class FluxTubeNode extends Node {
-  public constructor(model: ConfinementModel) {
+  public readonly antiquarkHandle: Node;
+
+  public constructor(model: ConfinementModel, focusAfterBreak: () => void) {
     super();
     const tubeHeight = CONFINEMENT.TUBE_HEIGHT;
     const quarkRadius = CONFINEMENT.QUARK_RADIUS;
@@ -48,27 +52,60 @@ export class FluxTubeNode extends Node {
     const boundLayer = new Node();
     let quarkBall = ball(quark("u"));
     let antiquarkBall = ball(quark("d", true));
-    // Pointer-only: pulling the quarks apart. The separation slider in ConfinementScreenView is the
-    // keyboard path to the same model property.
+    const strings = StringManager.getInstance().getConfinementStrings();
+    const antiquarkHandle = new Node({
+      tagName: "div",
+      ariaRole: "application",
+      focusable: true,
+      accessibleName: strings.antiquarkDragNameStringProperty,
+      accessibleNameBehavior: (_node, options, name) => ({ ...options, ariaLabel: name }),
+      accessibleHelpText: strings.antiquarkDragHelpStringProperty,
+      cursor: "ew-resize",
+    });
+    this.antiquarkHandle = antiquarkHandle;
     const dragListener = new DragListener({
       drag: (event) => {
         model.pull(this.globalToLocalPoint(event.pointer.point).x / PIXELS_PER_FM);
       },
     });
+    const keyboardDrag = new KeyboardDragListener({
+      keyboardDragDirection: "leftRight",
+      dragDelta: 4 * CONFINEMENT.SLIDER_KEYBOARD_STEP,
+      shiftDragDelta: CONFINEMENT.SLIDER_KEYBOARD_STEP,
+      positionProperty: {
+        get value() {
+          return new Vector2(model.separationProperty.value, 0);
+        },
+        set value(next: Vector2) {
+          // Breaking hides the focused handle. Run after the keyboard event finishes dispatching.
+          const delta = next.x - model.separationProperty.value;
+          queueMicrotask(() => {
+            if (!antiquarkHandle.isDisposed && antiquarkHandle.focusedProperty.value) {
+              model.pull(model.separationProperty.value + delta);
+            }
+          });
+        },
+      },
+    });
+    antiquarkHandle.addInputListener(dragListener);
+    antiquarkHandle.addInputListener(keyboardDrag);
+    antiquarkHandle.addDisposable({
+      dispose: () => {
+        antiquarkHandle.removeInputListener(keyboardDrag);
+        antiquarkHandle.removeInputListener(dragListener);
+        keyboardDrag.dispose();
+        dragListener.dispose();
+      },
+    });
     model.presetProperty.link((preset) => {
       const [qFlavor, aqFlavor] = PRESET_CONTENT[preset];
       quarkBall.dispose();
-      antiquarkBall.interruptSubtreeInput();
-      if (antiquarkBall.hasInputListener(dragListener)) {
-        antiquarkBall.removeInputListener(dragListener);
-      }
       antiquarkBall.dispose();
       quarkBall = ball(quark(qFlavor));
       antiquarkBall = ball(quark(aqFlavor, true));
-      antiquarkBall.cursor = "ew-resize";
-      antiquarkBall.addInputListener(dragListener);
+      antiquarkHandle.children = [antiquarkBall];
       quarkBall.centerX = 0;
-      boundLayer.children = [quarkBall, antiquarkBall];
+      boundLayer.children = [quarkBall, antiquarkHandle];
     });
     quarkLayer.addChild(boundLayer);
 
@@ -97,6 +134,9 @@ export class FluxTubeNode extends Node {
     const draw = (): void => {
       const r = model.separationProperty.value * PIXELS_PER_FM;
       const broken = model.phaseProperty.value === "broken" && brokenBalls.length === 4;
+      if (broken && antiquarkHandle.focusedProperty.value) {
+        queueMicrotask(focusAfterBreak);
+      }
       boundLayer.visible = tube.visible = !broken;
       brokenLayer.visible = labelLayer.visible = leftTube.visible = rightTube.visible = broken;
 
@@ -104,7 +144,7 @@ export class FluxTubeNode extends Node {
         // Brighter tube as it stores more energy.
         tube.opacity = CONFINEMENT.TUBE_OPACITY_MIN + CONFINEMENT.TUBE_OPACITY_RANGE * model.fillFractionProperty.value;
         tube.setRect(0, -tubeHeight / 2, Math.max(1, r), tubeHeight);
-        antiquarkBall.centerX = r;
+        antiquarkHandle.x = r;
         return;
       }
 
