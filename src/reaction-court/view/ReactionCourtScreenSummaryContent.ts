@@ -23,15 +23,15 @@ export class ReactionCourtScreenSummaryContent extends ScreenSummaryContent {
       [model.judgementProperty, model.beforeProperty],
       (judgement, before) => {
         const s = verdictSentences(judgement, before);
-        return `${s.verdictProperty} ${s.measured}`.trim();
+        return `${s.verdict} ${s.measured}`.trim();
       },
     );
     super({
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
       currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, {
-        reactionProperty,
-        verdictProperty,
+        reaction: reactionProperty,
+        verdict: verdictProperty,
       }),
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
