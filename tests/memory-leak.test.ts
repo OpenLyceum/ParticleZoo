@@ -19,6 +19,7 @@ import { HadronBuilderModel } from "../src/hadron-builder/model/HadronBuilderMod
 import { BagNode } from "../src/hadron-builder/view/BagNode.js";
 import { StringManager } from "../src/i18n/StringManager.js";
 import ParticleZooColors from "../src/ParticleZooColors.js";
+import { ParticleZooPreferencesModel } from "../src/preferences/ParticleZooPreferencesModel.js";
 import { PRESETS, ReactionCourtModel } from "../src/reaction-court/model/ReactionCourtModel.js";
 import { VertexDiagramNode } from "../src/reaction-court/view/VertexDiagramNode.js";
 import { describeDisposalLeaks, expectNoListenerGrowth } from "./helpers/memoryLeak.js";
@@ -64,7 +65,7 @@ describe("Rebuilt nodes release their localized labels", () => {
   it("BagNode disposes each quark's accessible name when the bag rebuilds", async () => {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const model = new HadronBuilderModel();
-    new BagNode(model, 100);
+    new BagNode(model, 100, new ParticleZooPreferencesModel());
     await expectNoListenerGrowth(
       [
         strings.removeQuarkPatternStringProperty,

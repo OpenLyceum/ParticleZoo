@@ -9,18 +9,20 @@
  * icons come from createHadronBuilderIcon() in src/common/ParticleZooScreenIcons.ts
  * (see doc/multi-screen.md).
  */
+
 import { type EmptySelfOptions, optionize } from "scenerystack/phet-core";
 import type { ScreenOptions } from "scenerystack/sim";
 import { Screen } from "scenerystack/sim";
 import type { Tandem } from "scenerystack/tandem";
 import { createHadronBuilderIcon } from "../common/ParticleZooScreenIcons.js";
 import ParticleZooColors from "../ParticleZooColors.js";
+import type { ParticleZooPreferencesModel } from "../preferences/ParticleZooPreferencesModel.js";
 import { HadronBuilderModel } from "./model/HadronBuilderModel.js";
 import { HadronBuilderKeyboardHelpContent } from "./view/HadronBuilderKeyboardHelpContent.js";
 import { HadronBuilderScreenView } from "./view/HadronBuilderScreenView.js";
 
 // Require tandem to be explicit — accidental omission would break PhET-iO.
-type HadronBuilderScreenOptions = ScreenOptions & { tandem: Tandem };
+type HadronBuilderScreenOptions = ScreenOptions & { tandem: Tandem; preferences: ParticleZooPreferencesModel };
 
 export class HadronBuilderScreen extends Screen<HadronBuilderModel, HadronBuilderScreenView> {
   public constructor(options: HadronBuilderScreenOptions) {
@@ -29,7 +31,7 @@ export class HadronBuilderScreen extends Screen<HadronBuilderModel, HadronBuilde
       () => new HadronBuilderModel(),
       // View factory — receives the model instance
       (model) =>
-        new HadronBuilderScreenView(model, {
+        new HadronBuilderScreenView(model, options.preferences, {
           tandem: options.tandem.createTandem("view"),
         }),
       optionize<HadronBuilderScreenOptions, EmptySelfOptions, ScreenOptions>()(

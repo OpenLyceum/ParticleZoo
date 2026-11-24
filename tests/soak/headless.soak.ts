@@ -18,7 +18,7 @@ import { EightfoldWayScreen } from "../../src/eightfold-way/EightfoldWayScreen.j
 import { HadronBuilderScreen } from "../../src/hadron-builder/HadronBuilderScreen.js";
 import { StringManager } from "../../src/i18n/StringManager.js";
 import ParticleZooColors from "../../src/ParticleZooColors.js";
-import { particleZooPreferences } from "../../src/preferences/ParticleZooPreferencesModel.js";
+import { ParticleZooPreferencesModel } from "../../src/preferences/ParticleZooPreferencesModel.js";
 import { ReactionCourtScreen } from "../../src/reaction-court/ReactionCourtScreen.js";
 import { describeHeadlessSoak } from "../helpers/headlessSoak.js";
 
@@ -26,10 +26,11 @@ function buildSim() {
   const stringManager = StringManager.getInstance();
 
   // Simulation-specific preferences; initial values come from particleZooQueryParameters.
-  const simPreferences = particleZooPreferences;
+  const simPreferences = new ParticleZooPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
   const screens = [
     new HadronBuilderScreen({
+      preferences: simPreferences,
       name: stringManager.getScreenNames().hadronBuilderStringProperty,
       tandem: Tandem.ROOT.createTandem("hadronBuilderScreen"),
       backgroundColorProperty: ParticleZooColors.backgroundColorProperty,

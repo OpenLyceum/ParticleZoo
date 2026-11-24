@@ -16,6 +16,7 @@ import {
 } from "../../common/ParticleZooButtonOptions.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import { FONTS, HADRON_BUILDER, SCREEN_VIEW_MARGIN } from "../../ParticleZooConstants.js";
+import type { ParticleZooPreferencesModel } from "../../preferences/ParticleZooPreferencesModel.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 import { BagNode } from "./BagNode.js";
 import { HadronBuilderScreenSummaryContent } from "./HadronBuilderScreenSummaryContent.js";
@@ -26,7 +27,11 @@ import { QuarkPaletteNode } from "./QuarkPaletteNode.js";
 export type HadronBuilderScreenViewOptions = ScreenViewOptions;
 
 export class HadronBuilderScreenView extends ScreenView {
-  public constructor(model: HadronBuilderModel, providedOptions?: HadronBuilderScreenViewOptions) {
+  public constructor(
+    model: HadronBuilderModel,
+    preferences: ParticleZooPreferencesModel,
+    providedOptions?: HadronBuilderScreenViewOptions,
+  ) {
     const options = optionize<HadronBuilderScreenViewOptions, EmptySelfOptions, ScreenViewOptions>()(
       { screenSummaryContent: new HadronBuilderScreenSummaryContent(model) },
       providedOptions,
@@ -35,7 +40,7 @@ export class HadronBuilderScreenView extends ScreenView {
     const strings = StringManager.getInstance().getHadronBuilderStrings();
     const a11y = StringManager.getInstance().getHadronBuilderA11yStrings();
 
-    const bag = new BagNode(model, HADRON_BUILDER.BAG_RADIUS);
+    const bag = new BagNode(model, HADRON_BUILDER.BAG_RADIUS, preferences);
     const dragLayer = new Node();
 
     const palette = new QuarkPaletteNode(model, dragLayer, (globalPoint) => {

@@ -42,7 +42,7 @@ Physics: [`doc/model.md`](doc/model.md). Architecture and decisions:
 | `src/confinement/model/ConfinementModel.ts` | Potential, breaking separation, fragments |
 | `src/eightfold-way/model/EightfoldWayModel.ts` | Multiplets, I₃ positions, equal-spacing prediction, grading |
 | `src/common/view/QuarkNode.ts` | Quark/antiquark ball with colour-charge rim |
-| `src/preferences/ParticleZooPreferencesModel.ts` | `animateColorCharge` preference (shared singleton) |
+| `src/preferences/ParticleZooPreferencesModel.ts` | `animateColorCharge` preference |
 
 ## Common components
 

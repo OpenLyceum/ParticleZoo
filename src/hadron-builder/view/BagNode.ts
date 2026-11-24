@@ -15,7 +15,7 @@ import { QuarkNode } from "../../common/view/QuarkNode.js";
 import { StringManager } from "../../i18n/StringManager.js";
 import ParticleZooColors from "../../ParticleZooColors.js";
 import { FONTS, HADRON_BUILDER } from "../../ParticleZooConstants.js";
-import { particleZooPreferences } from "../../preferences/ParticleZooPreferencesModel.js";
+import type { ParticleZooPreferencesModel } from "../../preferences/ParticleZooPreferencesModel.js";
 import type { HadronBuilderModel } from "../model/HadronBuilderModel.js";
 
 const COLORS = [
@@ -35,8 +35,11 @@ export class BagNode extends Node {
   public readonly constituentLayer = new Node();
   private constituents: QuarkNode[] = [];
 
-  public constructor(model: HadronBuilderModel, radius: number) {
+  private readonly preferences: ParticleZooPreferencesModel;
+
+  public constructor(model: HadronBuilderModel, radius: number, preferences: ParticleZooPreferencesModel) {
     super();
+    this.preferences = preferences;
     this.radius = radius;
     const strings = StringManager.getInstance().getHadronBuilderStrings();
 
@@ -90,7 +93,7 @@ export class BagNode extends Node {
       this.updateColors(model);
     });
     model.timeProperty.link(() => this.updateColors(model));
-    particleZooPreferences.animateColorChargeProperty.lazyLink(() => this.updateColors(model));
+    this.preferences.animateColorChargeProperty.lazyLink(() => this.updateColors(model));
   }
 
   private updateColors(model: HadronBuilderModel): void {
@@ -105,7 +108,7 @@ export class BagNode extends Node {
         return;
       }
       // Animate only colour-neutral combinations (and only if the preference allows motion).
-      const shift = neutral && particleZooPreferences.animateColorChargeProperty.value ? phase : 0;
+      const shift = neutral && this.preferences.animateColorChargeProperty.value ? phase : 0;
       if (q.anti) {
         // In a meson the antiquark carries the anticolour of its partner.
         const index = bag.length === 2 ? shift : antiIndex + shift;

@@ -5,12 +5,11 @@
  * Simulation. Each preference Property takes its initial value from the
  * corresponding query parameter in particleZooQueryParameters.
  *
- * A single instance is shared by main.ts (the Preferences dialog) and the
- * screen views that read it.
+ * main.ts shares one instance with the dialog and screens.
  */
 
 import { BooleanProperty } from "scenerystack/axon";
-import { Tandem } from "scenerystack/tandem";
+import type { Tandem } from "scenerystack/tandem";
 import ParticleZooNamespace from "../ParticleZooNamespace.js";
 import particleZooQueryParameters from "./particleZooQueryParameters.js";
 
@@ -29,8 +28,5 @@ export class ParticleZooPreferencesModel {
     this.animateColorChargeProperty.reset();
   }
 }
-
-/** The sim-wide preferences. */
-export const particleZooPreferences = new ParticleZooPreferencesModel(Tandem.ROOT.createTandem("preferences"));
 
 ParticleZooNamespace.register("ParticleZooPreferencesModel", ParticleZooPreferencesModel);
