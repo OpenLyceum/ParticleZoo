@@ -53,7 +53,7 @@ export class PredictionPanel extends ParticleZooPanel {
         },
         accessibleName: new PatternStringProperty(strings.cycleQuarkPatternStringProperty, {
           slot: slot + 1,
-          flavorProperty,
+          flavor: flavorProperty,
         }),
       });
       flavorProperty.link((f) => {

@@ -39,8 +39,8 @@ export class HadronBuilderScreenSummaryContent extends ScreenSummaryContent {
       playAreaContent: a11y.screenSummary.playAreaStringProperty,
       controlAreaContent: a11y.screenSummary.controlAreaStringProperty,
       currentDetailsContent: new PatternStringProperty(a11y.currentDetailsPatternStringProperty, {
-        contentsProperty,
-        resultProperty,
+        contents: contentsProperty,
+        result: resultProperty,
       }),
       interactionHintContent: a11y.screenSummary.interactionHintStringProperty,
     });
